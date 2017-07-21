@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var validator = require('validator');
+const mongoose = require('mongoose');
+const validator = require('validator');
 
 /**
  * Settings Schema!
@@ -9,7 +9,7 @@ var validator = require('validator');
  *
  * @type {mongoose}
  */
-var schema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   status: String,
   timeOpen: {
     type: Number,
@@ -26,17 +26,17 @@ var schema = new mongoose.Schema({
   whitelistedEmails: {
     type: [String],
     select: false,
-    default: ['.edu'],
+    default: ['.edu']
   },
   waitlistText: {
     type: String
   },
   acceptanceText: {
-    type: String,
+    type: String
   },
   confirmationText: {
     type: String
-  },
+  }
 });
 
 /**
@@ -44,11 +44,11 @@ var schema = new mongoose.Schema({
  * Whitelist emails are by default not included in settings.
  * @param  {Function} callback args(err, emails)
  */
-schema.statics.getWhitelistedEmails = function(callback){
+schema.statics.getWhitelistedEmails = function(callback) {
   this
     .findOne({})
     .select('whitelistedEmails')
-    .exec(function(err, settings){
+    .exec(function(err, settings) {
       return callback(err, settings.whitelistedEmails);
     });
 };
@@ -57,11 +57,11 @@ schema.statics.getWhitelistedEmails = function(callback){
  * Get the open and close time for registration.
  * @param  {Function} callback args(err, times : {timeOpen, timeClose, timeConfirm})
  */
-schema.statics.getRegistrationTimes = function(callback){
+schema.statics.getRegistrationTimes = function(callback) {
   this
     .findOne({})
     .select('timeOpen timeClose timeConfirm')
-    .exec(function(err, settings){
+    .exec(function(err, settings) {
       callback(err, {
         timeOpen: settings.timeOpen,
         timeClose: settings.timeClose,
@@ -70,7 +70,7 @@ schema.statics.getRegistrationTimes = function(callback){
     });
 };
 
-schema.statics.getPublicSettings = function(callback){
+schema.statics.getPublicSettings = function(callback) {
   this
     .findOne({})
     .exec(callback);

@@ -1,12 +1,12 @@
-var _ = require('underscore');
-var async = require('async');
-var User = require('../models/User');
+const _ = require('underscore');
+const async = require('async');
+const User = require('../models/User');
 
 // In memory stats.
-var stats = {};
-function calculateStats(){
+let stats = {};
+function calculateStats() {
   console.log('Calculating stats...');
-  var newStats = {
+  const newStats = {
     lastUpdated: 0,
 
     total: 0,
@@ -22,7 +22,7 @@ function calculateStats(){
         '2016': 0,
         '2017': 0,
         '2018': 0,
-        '2019': 0,
+        '2019': 0
       }
     },
 
@@ -76,17 +76,16 @@ function calculateStats(){
 
   User
     .find({})
-    .exec(function(err, users){
-      if (err || !users){
+    .exec(function(err, users) {
+      if (err || !users) {
         throw err;
       }
 
       newStats.total = users.length;
 
-      async.each(users, function(user, callback){
-
+      async.each(users, function(user, callback) {
         // Grab the email extension
-        var email = user.email.split('@')[1];
+        const email = user.email.split('@')[1];
 
         // Add to the gender
         newStats.demo.gender[user.profile.gender] += 1;
@@ -104,12 +103,12 @@ function calculateStats(){
         newStats.confirmed += user.status.confirmed ? 1 : 0;
 
         // Count confirmed that are mit
-        newStats.confirmedMit += user.status.confirmed && email === "mit.edu" ? 1 : 0;
+        newStats.confirmedMit += user.status.confirmed && email === 'mit.edu' ? 1 : 0;
 
-        newStats.confirmedFemale += user.status.confirmed && user.profile.gender == "F" ? 1 : 0;
-        newStats.confirmedMale += user.status.confirmed && user.profile.gender == "M" ? 1 : 0;
-        newStats.confirmedOther += user.status.confirmed && user.profile.gender == "O" ? 1 : 0;
-        newStats.confirmedNone += user.status.confirmed && user.profile.gender == "N" ? 1 : 0;
+        newStats.confirmedFemale += user.status.confirmed && user.profile.gender === 'F' ? 1 : 0;
+        newStats.confirmedMale += user.status.confirmed && user.profile.gender === 'M' ? 1 : 0;
+        newStats.confirmedOther += user.status.confirmed && user.profile.gender === 'O' ? 1 : 0;
+        newStats.confirmedNone += user.status.confirmed && user.profile.gender === 'N' ? 1 : 0;
 
         // Count declined
         newStats.declined += user.status.declined ? 1 : 0;
@@ -125,12 +124,12 @@ function calculateStats(){
         newStats.wantsHardware += user.confirmation.wantsHardware ? 1 : 0;
 
         // Count schools
-        if (!newStats.demo.schools[email]){
+        if (!newStats.demo.schools[email]) {
           newStats.demo.schools[email] = {
             submitted: 0,
             admitted: 0,
             confirmed: 0,
-            declined: 0,
+            declined: 0
           };
         }
         newStats.demo.schools[email].submitted += user.status.completedProfile ? 1 : 0;
@@ -139,7 +138,7 @@ function calculateStats(){
         newStats.demo.schools[email].declined += user.status.declined ? 1 : 0;
 
         // Count graduation years
-        if (user.profile.graduationYear){
+        if (user.profile.graduationYear) {
           newStats.demo.year[user.profile.graduationYear] += 1;
         }
 
@@ -152,7 +151,7 @@ function calculateStats(){
         // }
 
         // Count shirt sizes
-        if (user.confirmation.shirtSize in newStats.shirtSizes){
+        if (user.confirmation.shirtSize in newStats.shirtSizes) {
           newStats.shirtSizes[user.confirmation.shirtSize] += 1;
         }
 
@@ -161,19 +160,19 @@ function calculateStats(){
         newStats.hostNeededSat += user.confirmation.hostNeededSat ? 1 : 0;
         newStats.hostNeededUnique += user.confirmation.hostNeededFri || user.confirmation.hostNeededSat ? 1 : 0;
 
-        newStats.hostNeededFemale
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "F" ? 1 : 0;
-        newStats.hostNeededMale
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "M" ? 1 : 0;
-        newStats.hostNeededOther
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "O" ? 1 : 0;
-        newStats.hostNeededNone
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "N" ? 1 : 0;
+        newStats.hostNeededFemale +=
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'F' ? 1 : 0;
+        newStats.hostNeededMale +=
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'M' ? 1 : 0;
+        newStats.hostNeededOther +=
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'O' ? 1 : 0;
+        newStats.hostNeededNone +=
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'N' ? 1 : 0;
 
         // Dietary restrictions
-        if (user.confirmation.dietaryRestrictions){
-          user.confirmation.dietaryRestrictions.forEach(function(restriction){
-            if (!newStats.dietaryRestrictions[restriction]){
+        if (user.confirmation.dietaryRestrictions) {
+          user.confirmation.dietaryRestrictions.forEach(function(restriction) {
+            if (!newStats.dietaryRestrictions[restriction]) {
               newStats.dietaryRestrictions[restriction] = 0;
             }
             newStats.dietaryRestrictions[restriction] += 1;
@@ -186,20 +185,20 @@ function calculateStats(){
         callback(); // let async know we've finished
       }, function() {
         // Transform dietary restrictions into a series of objects
-        var restrictions = [];
+        const restrictions = [];
         _.keys(newStats.dietaryRestrictions)
-          .forEach(function(key){
+          .forEach(function(key) {
             restrictions.push({
               name: key,
-              count: newStats.dietaryRestrictions[key],
+              count: newStats.dietaryRestrictions[key]
             });
           });
         newStats.dietaryRestrictions = restrictions;
 
         // Transform schools into an array of objects
-        var schools = [];
+        const schools = [];
         _.keys(newStats.demo.schools)
-          .forEach(function(key){
+          .forEach(function(key) {
             schools.push({
               email: key,
               count: newStats.demo.schools[key].submitted,
@@ -224,16 +223,15 @@ function calculateStats(){
         stats = newStats;
       });
     });
-
 }
 
 // Calculate once every five minutes.
 calculateStats();
 setInterval(calculateStats, 300000);
 
-var Stats = {};
+const Stats = {};
 
-Stats.getUserStats = function(){
+Stats.getUserStats = function() {
   return stats;
 };
 

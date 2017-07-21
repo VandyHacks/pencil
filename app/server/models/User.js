@@ -1,34 +1,34 @@
-var mongoose   = require('mongoose'),
-    bcrypt     = require('bcrypt-nodejs'),
-    validator  = require('validator'),
-    jwt        = require('jsonwebtoken');
-    JWT_SECRET = process.env.JWT_SECRET;
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
-var profile = {
+const profile = {
 
   // Basic info
   name: {
     type: String,
     min: 1,
-    max: 100,
+    max: 100
   },
 
   adult: {
     type: Boolean,
     required: true,
-    default: false,
+    default: false
   },
 
   school: {
     type: String,
     min: 1,
-    max: 150,
+    max: 150
   },
 
   graduationYear: {
     type: String,
     enum: {
-      values: '2016 2017 2018 2019'.split(' '),
+      values: '2016 2017 2018 2019'.split(' ')
     }
   },
 
@@ -47,15 +47,15 @@ var profile = {
   // Optional info for demographics
   gender: {
     type: String,
-    enum : {
+    enum: {
       values: 'M F O N'.split(' ')
     }
-  },
+  }
 
 };
 
 // Only after confirmed
-var confirmation = {
+const confirmation = {
   phoneNumber: String,
   dietaryRestrictions: [String],
   shirtSize: {
@@ -96,10 +96,10 @@ var confirmation = {
 
   signatureLiability: String,
   signaturePhotoRelease: String,
-  signatureCodeOfConduct: String,
+  signatureCodeOfConduct: String
 };
 
-var status = {
+const status = {
   /**
    * Whether or not the user's profile has been completed.
    * @type {Object}
@@ -107,38 +107,38 @@ var status = {
   completedProfile: {
     type: Boolean,
     required: true,
-    default: false,
+    default: false
   },
   admitted: {
     type: Boolean,
     required: true,
-    default: false,
+    default: false
   },
   admittedBy: {
     type: String,
     validate: [
       validator.isEmail,
-      'Invalid Email',
+      'Invalid Email'
     ],
     select: false
   },
   confirmed: {
     type: Boolean,
     required: true,
-    default: false,
+    default: false
   },
   declined: {
     type: Boolean,
     required: true,
-    default: false,
+    default: false
   },
   checkedIn: {
     type: Boolean,
     required: true,
-    default: false,
+    default: false
   },
   checkInTime: {
-    type: Number,
+    type: Number
   },
   confirmBy: {
     type: Number
@@ -150,15 +150,15 @@ var status = {
 };
 
 // define the schema for our admin model
-var schema = new mongoose.Schema({
+const schema = new mongoose.Schema({
 
   email: {
-      type: String,
-      required: true,
-      validate: [
-        validator.isEmail,
-        'Invalid Email',
-      ]
+    type: String,
+    required: true,
+    validate: [
+      validator.isEmail,
+      'Invalid Email'
+    ]
   },
 
   password: {
@@ -170,24 +170,24 @@ var schema = new mongoose.Schema({
   admin: {
     type: Boolean,
     required: true,
-    default: false,
+    default: false
   },
 
   timestamp: {
     type: Number,
     required: true,
-    default: Date.now(),
+    default: Date.now()
   },
 
   lastUpdated: {
     type: Number,
-    default: Date.now(),
+    default: Date.now()
   },
 
   teamCode: {
     type: String,
     min: 0,
-    max: 140,
+    max: 140
   },
 
   verified: {
@@ -219,7 +219,7 @@ var schema = new mongoose.Schema({
    */
   confirmation: confirmation,
 
-  status: status,
+  status: status
 
 });
 
@@ -231,9 +231,9 @@ schema.set('toObject', {
   virtuals: true
 });
 
-//=========================================
+// =========================================
 // Instance Methods
-//=========================================
+// =========================================
 
 // checking if this password matches
 schema.methods.checkPassword = function(password) {
@@ -241,11 +241,11 @@ schema.methods.checkPassword = function(password) {
 };
 
 // Token stuff
-schema.methods.generateEmailVerificationToken = function(){
+schema.methods.generateEmailVerificationToken = function() {
   return jwt.sign(this.email, JWT_SECRET);
 };
 
-schema.methods.generateAuthToken = function(){
+schema.methods.generateAuthToken = function() {
   return jwt.sign(this._id, JWT_SECRET);
 };
 
@@ -258,17 +258,17 @@ schema.methods.generateAuthToken = function(){
  *   exp: expiration ms
  * }
  */
-schema.methods.generateTempAuthToken = function(){
+schema.methods.generateTempAuthToken = function() {
   return jwt.sign({
     id: this._id
   }, JWT_SECRET, {
-    expiresInMinutes: 60,
+    expiresInMinutes: 60
   });
 };
 
-//=========================================
+// =========================================
 // Static Methods
-//=========================================
+// =========================================
 
 schema.statics.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -279,8 +279,8 @@ schema.statics.generateHash = function(password) {
  * @param  {[type]}   token token
  * @param  {Function} cb    args(err, email)
  */
-schema.statics.verifyEmailVerificationToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, email){
+schema.statics.verifyEmailVerificationToken = function(token, callback) {
+  jwt.verify(token, JWT_SECRET, function(err, email) {
     return callback(err, email);
   });
 };
@@ -290,14 +290,13 @@ schema.statics.verifyEmailVerificationToken = function(token, callback){
  * @param  {[type]}   token    temporary auth token
  * @param  {Function} callback args(err, id)
  */
-schema.statics.verifyTempAuthToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, payload){
-
-    if (err || !payload){
+schema.statics.verifyTempAuthToken = function(token, callback) {
+  jwt.verify(token, JWT_SECRET, function(err, payload) {
+    if (err || !payload) {
       return callback(err);
     }
 
-    if (!payload.exp || Date.now() >= payload.exp * 1000){
+    if (!payload.exp || Date.now() >= payload.exp * 1000) {
       return callback({
         message: 'Token has expired.'
       });
@@ -307,7 +306,7 @@ schema.statics.verifyTempAuthToken = function(token, callback){
   });
 };
 
-schema.statics.findOneByEmail = function(email){
+schema.statics.findOneByEmail = function(email) {
   return this.findOne({
     email: new RegExp('^' + email + '$', 'i')
   });
@@ -318,8 +317,8 @@ schema.statics.findOneByEmail = function(email){
  * @param  {String}   token    User's authentication token.
  * @param  {Function} callback args(err, user)
  */
-schema.statics.getByToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, id){
+schema.statics.getByToken = function(token, callback) {
+  jwt.verify(token, JWT_SECRET, function(err, id) {
     if (err) {
       return callback(err);
     }
@@ -327,7 +326,7 @@ schema.statics.getByToken = function(token, callback){
   }.bind(this));
 };
 
-schema.statics.validateProfile = function(profile, cb){
+schema.statics.validateProfile = function(profile, cb) {
   return cb(!(
     profile.name.length > 0 &&
     profile.adult &&
@@ -337,42 +336,40 @@ schema.statics.validateProfile = function(profile, cb){
     ));
 };
 
-//=========================================
+// =========================================
 // Virtuals
-//=========================================
+// =========================================
 
 /**
  * Has the user completed their profile?
  * This provides a verbose explanation of their furthest state.
  */
-schema.virtual('status.name').get(function(){
-
+schema.virtual('status.name').get(function() {
   if (this.status.checkedIn) {
     return 'checked in';
   }
 
   if (this.status.declined) {
-    return "declined";
+    return 'declined';
   }
 
   if (this.status.confirmed) {
-    return "confirmed";
+    return 'confirmed';
   }
 
   if (this.status.admitted) {
-    return "admitted";
+    return 'admitted';
   }
 
-  if (this.status.completedProfile){
-    return "submitted";
+  if (this.status.completedProfile) {
+    return 'submitted';
   }
 
-  if (!this.verified){
-    return "unverified";
+  if (!this.verified) {
+    return 'unverified';
   }
 
-  return "incomplete";
-
+  return 'incomplete';
 });
 
 module.exports = mongoose.model('User', schema);

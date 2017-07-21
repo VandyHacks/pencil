@@ -1,19 +1,18 @@
-var _ = require('underscore');
-var User = require('../models/User');
-var Settings = require('../models/Settings');
-var Mailer = require('../services/email');
-var Stats = require('../services/stats');
+const _ = require('underscore');
+const User = require('../models/User');
+const Settings = require('../models/Settings');
+const Mailer = require('../services/email');
+const Stats = require('../services/stats');
 
-var validator = require('validator');
-var moment = require('moment');
+const validator = require('validator');
+const moment = require('moment');
 
-var UserController = {};
+const UserController = {};
 
-var maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
-
+const maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
 
 // Tests a string if it ends with target s
-function endsWith(s, test){
+function endsWith(s, test) {
   return test.indexOf(s, test.length - s.length) !== -1;
 }
 
@@ -23,47 +22,45 @@ function endsWith(s, test){
  * @param  {Function} callback args(err, true, false)
  * @return {[type]}            [description]
  */
-function canRegister(email, password, callback){
-
-  if (!password || password.length < 6){
-    return callback({ message: "Password must be 6 or more characters."}, false);
+function canRegister(email, password, callback) {
+  if (!password || password.length < 6) {
+    return callback({ message: 'Password must be 6 or more characters.'}, false);
   }
 
   // Check if its within the registration window.
-  Settings.getRegistrationTimes(function(err, times){
+  Settings.getRegistrationTimes(function(err, times) {
     if (err) {
       callback(err);
     }
 
-    var now = Date.now();
+    const now = Date.now();
 
-    if (now < times.timeOpen){
+    if (now < times.timeOpen) {
       return callback({
-        message: "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+        message: 'Registration opens in ' + moment(times.timeOpen).fromNow() + '!'
       });
     }
 
-    if (now > times.timeClose){
+    if (now > times.timeClose) {
       return callback({
-        message: "Sorry, registration is closed."
+        message: 'Sorry, registration is closed.'
       });
     }
 
     // Check for emails.
-    Settings.getWhitelistedEmails(function(err, emails){
-      if (err || !emails){
+    Settings.getWhitelistedEmails(function(err, emails) {
+      if (err || !emails) {
         return callback(err);
       }
-      for (var i = 0; i < emails.length; i++) {
-        if (validator.isEmail(email) && endsWith(emails[i], email)){
+      for (let i = 0; i < emails.length; i++) {
+        if (validator.isEmail(email) && endsWith(emails[i], email)) {
           return callback(null, true);
         }
       }
       return callback({
-        message: "Not a valid educational email."
+        message: 'Not a valid educational email.'
       }, false);
     });
-
   });
 }
 
@@ -72,8 +69,8 @@ function canRegister(email, password, callback){
  * @param  {String}   token    auth token
  * @param  {Function} callback args(err, token, user)
  */
-UserController.loginWithToken = function(token, callback){
-  User.getByToken(token, function(err, user){
+UserController.loginWithToken = function(token, callback) {
+  User.getByToken(token, function(err, user) {
     return callback(err, token, user);
   });
 };
@@ -84,15 +81,14 @@ UserController.loginWithToken = function(token, callback){
  * @param  {String}   password Password
  * @param  {Function} callback args(err, token, user)
  */
-UserController.loginWithPassword = function(email, password, callback){
-
-  if (!password || password.length === 0){
+UserController.loginWithPassword = function(email, password, callback) {
+  if (!password || password.length === 0) {
     return callback({
       message: 'Please enter a password'
     });
   }
 
-  if (!validator.isEmail(email)){
+  if (!validator.isEmail(email)) {
     return callback({
       message: 'Invalid email'
     });
@@ -101,7 +97,7 @@ UserController.loginWithPassword = function(email, password, callback){
   User
     .findOneByEmail(email)
     .select('+password')
-    .exec(function(err, user){
+    .exec(function(err, user) {
       if (err) {
         return callback(err);
       }
@@ -117,14 +113,14 @@ UserController.loginWithPassword = function(email, password, callback){
       }
 
       // yo dope nice login here's a token for your troubles
-      var token = user.generateAuthToken();
+      const token = user.generateAuthToken();
 
-      var u = user.toJSON();
+      const u = user.toJSON();
 
       delete u.password;
 
       return callback(null, token, u);
-  });
+    });
 };
 
 /**
@@ -134,26 +130,23 @@ UserController.loginWithPassword = function(email, password, callback){
  * @param  {Function} callback args(err, user)
  */
 UserController.createUser = function(email, password, callback) {
-
-  if (typeof email !== "string"){
+  if (typeof email !== 'string') {
     return callback({
-      message: "Email must be a string."
+      message: 'Email must be a string.'
     });
   }
 
   email = email.toLowerCase();
 
   // Check that there isn't a user with this email already.
-  canRegister(email, password, function(err, valid){
-
-    if (err || !valid){
+  canRegister(email, password, function(err, valid) {
+    if (err || !valid) {
       return callback(err);
     }
 
     User
       .findOneByEmail(email)
-      .exec(function(err, user){
-
+      .exec(function(err, user) {
         if (err) {
           return callback(err);
         }
@@ -163,20 +156,19 @@ UserController.createUser = function(email, password, callback) {
             message: 'An account for this email already exists.'
           });
         } else {
-
           // Make a new user
-          var u = new User();
+          const u = new User();
           u.email = email;
           u.password = User.generateHash(password);
-          u.save(function(err){
-            if (err){
+          u.save(function(err) {
+            if (err) {
               return callback(err);
             } else {
               // yay! success.
-              var token = u.generateAuthToken();
+              const token = u.generateAuthToken();
 
               // Send over a verification email
-              var verificationToken = u.generateEmailVerificationToken();
+              const verificationToken = u.generateEmailVerificationToken();
               Mailer.sendVerificationEmail(email, verificationToken);
 
               return callback(
@@ -187,16 +179,13 @@ UserController.createUser = function(email, password, callback) {
                 }
               );
             }
-
           });
-
         }
-
-    });
+      });
   });
 };
 
-UserController.getByToken = function (token, callback) {
+UserController.getByToken = function(token, callback) {
   User.getByToken(token, callback);
 };
 
@@ -205,7 +194,7 @@ UserController.getByToken = function (token, callback) {
  * It's going to be a lot of data, so make sure you want to do this.
  * @param  {Function} callback args(err, user)
  */
-UserController.getAll = function (callback) {
+UserController.getAll = function(callback) {
   User.find({}, callback);
 };
 
@@ -215,15 +204,15 @@ UserController.getAll = function (callback) {
  * @param  {[type]}   size     size of the page
  * @param  {Function} callback args(err, {users, page, totalPages})
  */
-UserController.getPage = function(query, callback){
-  var page = query.page;
-  var size = parseInt(query.size);
-  var searchText = query.text;
+UserController.getPage = function(query, callback) {
+  const page = query.page;
+  const size = parseInt(query.size);
+  const searchText = query.text;
 
-  var findQuery = {};
-  if (searchText.length > 0){
-    var queries = [];
-    var re = new RegExp(searchText, 'i');
+  const findQuery = {};
+  if (searchText.length > 0) {
+    const queries = [];
+    const re = new RegExp(searchText, 'i');
     queries.push({ email: re });
     queries.push({ 'profile.name': re });
     queries.push({ 'teamCode': re });
@@ -239,14 +228,13 @@ UserController.getPage = function(query, callback){
     .select('+status.admittedBy')
     .skip(page * size)
     .limit(size)
-    .exec(function (err, users){
-      if (err || !users){
+    .exec(function(err, users) {
+      if (err || !users) {
         return callback(err);
       }
 
-      User.count(findQuery).exec(function(err, count){
-
-        if (err){
+      User.count(findQuery).exec(function(err, count) {
+        if (err) {
           return callback(err);
         }
 
@@ -257,7 +245,6 @@ UserController.getPage = function(query, callback){
           totalPages: Math.ceil(count / size)
         });
       });
-
     });
 };
 
@@ -266,7 +253,7 @@ UserController.getPage = function(query, callback){
  * @param  {String}   id       User id
  * @param  {Function} callback args(err, user)
  */
-UserController.getById = function (id, callback){
+UserController.getById = function(id, callback) {
   User.findById(id, callback);
 };
 
@@ -277,33 +264,31 @@ UserController.getById = function (id, callback){
  * @param  {Object}   profile  Profile object
  * @param  {Function} callback Callback with args (err, user)
  */
-UserController.updateProfileById = function (id, profile, callback){
-
+UserController.updateProfileById = function(id, profile, callback) {
   // Validate the user profile, and mark the user as profile completed
   // when successful.
-  User.validateProfile(profile, function(err){
-
-    if (err){
+  User.validateProfile(profile, function(err) {
+    if (err) {
       return callback({message: 'invalid profile'});
     }
 
     // Check if its within the registration window.
-    Settings.getRegistrationTimes(function(err, times){
+    Settings.getRegistrationTimes(function(err, times) {
       if (err) {
         callback(err);
       }
 
-      var now = Date.now();
+      const now = Date.now();
 
-      if (now < times.timeOpen){
+      if (now < times.timeOpen) {
         return callback({
-          message: "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+          message: 'Registration opens in ' + moment(times.timeOpen).fromNow() + '!'
         });
       }
 
-      if (now > times.timeClose){
+      if (now > times.timeClose) {
         return callback({
-          message: "Sorry, registration is closed."
+          message: 'Sorry, registration is closed.'
         });
       }
     });
@@ -323,7 +308,6 @@ UserController.updateProfileById = function (id, profile, callback){
         new: true
       },
       callback);
-
   });
 };
 
@@ -334,17 +318,15 @@ UserController.updateProfileById = function (id, profile, callback){
  * @param  {Object}   confirmation  Confirmation object
  * @param  {Function} callback      Callback with args (err, user)
  */
-UserController.updateConfirmationById = function (id, confirmation, callback){
-
-  User.findById(id, function(err, user){
-
-    if(err || !user){
+UserController.updateConfirmationById = function(id, confirmation, callback) {
+  User.findById(id, function(err, user) {
+    if (err || !user) {
       return callback(err);
     }
 
     // Make sure that the user followed the deadline, but if they're already confirmed
     // that's okay.
-    if (Date.now() >= user.status.confirmBy && !user.status.confirmed){
+    if (Date.now() >= user.status.confirmBy && !user.status.confirmed) {
       return callback({
         message: "You've missed the confirmation deadline."
       });
@@ -361,13 +343,12 @@ UserController.updateConfirmationById = function (id, confirmation, callback){
         $set: {
           'lastUpdated': Date.now(),
           'confirmation': confirmation,
-          'status.confirmed': true,
+          'status.confirmed': true
         }
       }, {
         new: true
       },
       callback);
-
   });
 };
 
@@ -377,8 +358,7 @@ UserController.updateConfirmationById = function (id, confirmation, callback){
  * @param  {String}   id            Id of the user
  * @param  {Function} callback      Callback with args (err, user)
  */
-UserController.declineById = function (id, callback){
-
+UserController.declineById = function(id, callback) {
   // You can only decline if you've been accepted.
   User.findOneAndUpdate({
     '_id': id,
@@ -403,11 +383,11 @@ UserController.declineById = function (id, callback){
  * @param  {[type]}   token    token
  * @param  {Function} callback args(err, user)
  */
-UserController.verifyByToken = function(token, callback){
-  User.verifyEmailVerificationToken(token, function(err, email){
+UserController.verifyByToken = function(token, callback) {
+  User.verifyEmailVerificationToken(token, function(err, email) {
     User.findOneAndUpdate({
       email: new RegExp('^' + email + '$', 'i')
-    },{
+    }, {
       $set: {
         'verified': true
       }
@@ -423,15 +403,15 @@ UserController.verifyByToken = function(token, callback){
  * @param  {String}   id       id of the user we're looking for.
  * @param  {Function} callback args(err, users)
  */
-UserController.getTeammates = function(id, callback){
-  User.findById(id, function(err, user){
-    if (err || !user){
+UserController.getTeammates = function(id, callback) {
+  User.findById(id, function(err, user) {
+    if (err || !user) {
       return callback(err, user);
     }
 
-    var code = user.teamCode;
+    const code = user.teamCode;
 
-    if (!code){
+    if (!code) {
       return callback({
         message: "You're not on a team."
       });
@@ -452,17 +432,16 @@ UserController.getTeammates = function(id, callback){
  * @param  {String}   code     Code of the proposed team
  * @param  {Function} callback args(err, users)
  */
-UserController.createOrJoinTeam = function(id, code, callback){
-
-  if (!code){
+UserController.createOrJoinTeam = function(id, code, callback) {
+  if (!code) {
     return callback({
-      message: "Please enter a team name."
+      message: 'Please enter a team name.'
     });
   }
 
   if (typeof code !== 'string') {
     return callback({
-      message: "Get outta here, punk!"
+      message: 'Get outta here, punk!'
     });
   }
 
@@ -470,11 +449,11 @@ UserController.createOrJoinTeam = function(id, code, callback){
     teamCode: code
   })
   .select('profile.name')
-  .exec(function(err, users){
+  .exec(function(err, users) {
     // Check to see if this team is joinable (< team max size)
-    if (users.length >= maxTeamSize){
+    if (users.length >= maxTeamSize) {
       return callback({
-        message: "Team is full."
+        message: 'Team is full.'
       });
     }
 
@@ -482,7 +461,7 @@ UserController.createOrJoinTeam = function(id, code, callback){
     User.findOneAndUpdate({
       _id: id,
       verified: true
-    },{
+    }, {
       $set: {
         teamCode: code
       }
@@ -490,7 +469,6 @@ UserController.createOrJoinTeam = function(id, code, callback){
       new: true
     },
     callback);
-
   });
 };
 
@@ -499,10 +477,10 @@ UserController.createOrJoinTeam = function(id, code, callback){
  * @param  {[type]}   id       Id of the user leaving
  * @param  {Function} callback args(err, user)
  */
-UserController.leaveTeam = function(id, callback){
+UserController.leaveTeam = function(id, callback) {
   User.findOneAndUpdate({
     _id: id
-  },{
+  }, {
     $set: {
       teamCode: null
     }
@@ -515,20 +493,20 @@ UserController.leaveTeam = function(id, callback){
 /**
  * Resend an email verification email given a user id.
  */
-UserController.sendVerificationEmailById = function(id, callback){
+UserController.sendVerificationEmailById = function(id, callback) {
   User.findOne(
     {
       _id: id,
       verified: false
     },
-    function(err, user){
-      if (err || !user){
+    function(err, user) {
+      if (err || !user) {
         return callback(err);
       }
-      var token = user.generateEmailVerificationToken();
+      const token = user.generateEmailVerificationToken();
       Mailer.sendVerificationEmail(user.email, token);
       return callback(err, user);
-  });
+    });
 };
 
 /**
@@ -537,15 +515,15 @@ UserController.sendVerificationEmailById = function(id, callback){
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-UserController.sendPasswordResetEmail = function(email, callback){
+UserController.sendPasswordResetEmail = function(email, callback) {
   User
     .findOneByEmail(email)
-    .exec(function(err, user){
-      if (err || !user){
+    .exec(function(err, user) {
+      if (err || !user) {
         return callback(err);
       }
 
-      var token = user.generateTempAuthToken();
+      const token = user.generateTempAuthToken();
       Mailer.sendPasswordResetEmail(email, token, callback);
     });
 };
@@ -559,8 +537,8 @@ UserController.sendPasswordResetEmail = function(email, callback){
  * @param  {[type]}   newPassword new password
  * @param  {Function} callback    args(err, user)
  */
-UserController.changePassword = function(id, oldPassword, newPassword, callback){
-  if (!id || !oldPassword || !newPassword){
+UserController.changePassword = function(id, oldPassword, newPassword, callback) {
+  if (!id || !oldPassword || !newPassword) {
     return callback({
       message: 'Bad arguments.'
     });
@@ -569,11 +547,11 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
   User
     .findById(id)
     .select('password')
-    .exec(function(err, user){
+    .exec(function(err, user) {
       if (user.checkPassword(oldPassword)) {
         User.findOneAndUpdate({
           _id: id
-        },{
+        }, {
           $set: {
             password: User.generateHash(newPassword)
           }
@@ -595,34 +573,33 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
  * @param  {String}   password    New Password
  * @param  {Function} callback    args(err, user)
  */
-UserController.resetPassword = function(token, password, callback){
-  if (!password || !token){
+UserController.resetPassword = function(token, password, callback) {
+  if (!password || !token) {
     return callback({
       message: 'Bad arguments'
     });
   }
 
-  if (password.length < 6){
+  if (password.length < 6) {
     return callback({
       message: 'Password must be 6 or more characters.'
     });
   }
 
-  User.verifyTempAuthToken(token, function(err, id){
-
-    if(err || !id){
+  User.verifyTempAuthToken(token, function(err, id) {
+    if (err || !id) {
       return callback(err);
     }
 
     User
       .findOneAndUpdate({
         _id: id
-      },{
+      }, {
         $set: {
           password: User.generateHash(password)
         }
-      }, function(err, user){
-        if (err || !user){
+      }, function(err, user) {
+        if (err || !user) {
           return callback(err);
         }
 
@@ -642,13 +619,13 @@ UserController.resetPassword = function(token, password, callback){
  * @param  {String}   user     User doing the admitting
  * @param  {Function} callback args(err, user)
  */
-UserController.admitUser = function(id, user, callback){
-  Settings.getRegistrationTimes(function(err, times){
+UserController.admitUser = function(id, user, callback) {
+  Settings.getRegistrationTimes(function(err, times) {
     User
       .findOneAndUpdate({
         _id: id,
         verified: true
-      },{
+      }, {
         $set: {
           'status.admitted': true,
           'status.admittedBy': user.email,
@@ -669,11 +646,11 @@ UserController.admitUser = function(id, user, callback){
  * @param  {String}   user     User checking in this person.
  * @param  {Function} callback args(err, user)
  */
-UserController.checkInById = function(id, user, callback){
+UserController.checkInById = function(id, user, callback) {
   User.findOneAndUpdate({
     _id: id,
     verified: true
-  },{
+  }, {
     $set: {
       'status.checkedIn': true,
       'status.checkInTime': Date.now()
@@ -692,11 +669,11 @@ UserController.checkInById = function(id, user, callback){
  * @param  {String}   user     User checking in this person.
  * @param  {Function} callback args(err, user)
  */
-UserController.checkOutById = function(id, user, callback){
+UserController.checkOutById = function(id, user, callback) {
   User.findOneAndUpdate({
     _id: id,
     verified: true
-  },{
+  }, {
     $set: {
       'status.checkedIn': false
     }
@@ -706,12 +683,11 @@ UserController.checkOutById = function(id, user, callback){
   callback);
 };
 
-
 /**
  * [ADMIN ONLY]
  */
 
-UserController.getStats = function(callback){
+UserController.getStats = function(callback) {
   return callback(null, Stats.getUserStats());
 };
 
