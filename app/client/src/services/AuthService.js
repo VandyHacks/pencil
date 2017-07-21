@@ -8,16 +8,16 @@ angular.module('reg')
     function($http, $rootScope, $state, $window, Session) {
       var authService = {};
 
-      function loginSuccess(data, cb){
+      function loginSuccess(data, cb) {
         // Winner winner you get a token
         Session.create(data.token, data.user);
 
-        if (cb){
+        if (cb) {
           cb(data.user);
         }
       }
 
-      function loginFailure(data, cb){
+      function loginFailure(data, cb) {
         $state.go('login');
         if (cb) {
           cb(data);
@@ -30,24 +30,24 @@ angular.module('reg')
             email: email,
             password: password
           })
-          .success(function(data){
+          .success(function(data) {
             loginSuccess(data, onSuccess);
           })
-          .error(function(data){
+          .error(function(data) {
             loginFailure(data, onFailure);
           });
       };
 
-      authService.loginWithToken = function(token, onSuccess, onFailure){
+      authService.loginWithToken = function(token, onSuccess, onFailure) {
         return $http
           .post('/auth/login', {
             token: token
           })
-          .success(function(data){
+          .success(function(data) {
             loginSuccess(data, onSuccess);
           })
-          .error(function(data, statusCode){
-            if (statusCode === 400){
+          .error(function(data, statusCode) {
+            if (statusCode === 400) {
               Session.destroy(loginFailure);
             }
           });
@@ -65,10 +65,10 @@ angular.module('reg')
             email: email,
             password: password
           })
-          .success(function(data){
+          .success(function(data) {
             loginSuccess(data, onSuccess);
           })
-          .error(function(data){
+          .error(function(data) {
             loginFailure(data, onFailure);
           });
       };
@@ -76,13 +76,13 @@ angular.module('reg')
       authService.verify = function(token, onSuccess, onFailure) {
         return $http
           .get('/auth/verify/' + token)
-          .success(function(user){
+          .success(function(user) {
             Session.setUser(user);
-            if (onSuccess){
+            if (onSuccess) {
               onSuccess(user);
             }
           })
-          .error(function(data){
+          .error(function(data) {
             if (onFailure) {
               onFailure(data);
             }
@@ -96,14 +96,14 @@ angular.module('reg')
           });
       };
 
-      authService.sendResetEmail = function(email){
+      authService.sendResetEmail = function(email) {
         return $http
           .post('/auth/reset', {
             email: email
           });
       };
 
-      authService.resetPassword = function(token, pass, onSuccess, onFailure){
+      authService.resetPassword = function(token, pass, onSuccess, onFailure) {
         return $http
           .post('/auth/reset/password', {
             token: token,

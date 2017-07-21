@@ -1,12 +1,16 @@
 {
     "env": {
+        "angular/angular": true,
         "browser": true,
-        "commonjs": true,
         "es6": true,
         "node": true
     },
     "extends": [
-        "standard"
+        "standard",
+        "plugin:angular/johnpapa"
+    ],
+    "plugins": [
+        "angular"
     ],
     "rules": {
         "prefer-const": ["error", {
