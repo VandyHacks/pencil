@@ -76,8 +76,7 @@ mongod --dbpath db
 
 Install the necessary dependencies:
 ```
-npm install
-bower install
+yarn install
 npm run config
 ```
 

@@ -1,11 +1,8 @@
 {
-  "name": "JAFRS",
-  "version": "0.0.0",
-  "homepage": "https://github.com/techx/hackmit-registration",
-  "authors": [
-    "Edwin Zhang <ehzhang@mit.edu>"
-  ],
-  "description": "just another frickin reg system",
+  "name": "vhf2017-registration",
+  "version": "0.0.1",
+  "homepage": "https://github.com/VandyHacks/VHF2017-registration",
+  "description": "VandyHacks Fall 2017 registration system",
   "license": "MIT",
   "ignore": [
     "**/.*",

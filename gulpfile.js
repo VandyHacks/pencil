@@ -1,29 +1,26 @@
 require('dotenv').load({silent: true});
 
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var minifyCss = require('gulp-minify-css');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
-var ngAnnotate = require('gulp-ng-annotate');
+const gulp = require('gulp');
+const minifyCss = require('gulp-clean-css');
+const concat = require('gulp-concat');
+const ngAnnotate = require('gulp-ng-annotate');
+const nodemon = require('gulp-nodemon');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
 
-var environment = process.env.NODE_ENV;
-
-var nodemon = require('gulp-nodemon');
-
-function swallowError (error) {
-    //If you want details of the error in the console
-    console.log(error.toString());
-    this.emit('end');
+function swallowError(error) {
+  // If you want details of the error in the console
+  console.log(error.toString());
+  this.emit('end');
 }
 
-gulp.task('default', function(){
+gulp.task('default', () => {
   console.log('yo. use gulp watch or something');
 });
 
-gulp.task('js', function () {
-  if (environment !== 'dev'){
+gulp.task('js', () => {
+  if (process.env.NODE_ENV !== 'dev') {
     // Minify for non-development
     gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
       .pipe(sourcemaps.init())
@@ -41,10 +38,9 @@ gulp.task('js', function () {
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('app/client/build'));
   }
-
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', () => {
   gulp.src('app/client/stylesheets/site.scss')
     .pipe(sass())
       .on('error', sass.logError)
@@ -52,11 +48,11 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('app/client/build'));
 });
 
-gulp.task('build', ['js', 'sass'], function(){
+gulp.task('build', ['js', 'sass'], () => {
   // Yup, build the js and sass.
 });
 
-gulp.task('watch', ['js', 'sass'], function () {
+gulp.task('watch', ['js', 'sass'], () => {
   gulp
     .watch('app/client/src/**/*.js', ['js']);
   gulp
@@ -65,7 +61,7 @@ gulp.task('watch', ['js', 'sass'], function () {
     .watch('app/client/stylesheets/**/*.scss', ['sass']);
 });
 
-gulp.task('server', ['watch'], function(){
+gulp.task('server', ['watch'], () => {
   nodemon({
     script: 'app.js',
     env: { 'NODE_ENV': process.env.NODE_ENV || 'DEV' },
