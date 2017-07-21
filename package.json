@@ -31,7 +31,8 @@
     "watch": "gulp server",
     "prod": "gulp build && node app.js",
     "config": "cp .env.config .env",
-    "postinstall": "bower install && gulp build"
+    "postinstall": "bower install && gulp build",
+    "lint": "eslint gulpfile.js app.js scripts config app/server"
   },
   "devDependencies": {
     "bower": "^1.8.0",

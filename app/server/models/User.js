@@ -280,7 +280,7 @@ schema.statics.generateHash = function(password) {
  * @param  {Function} cb    args(err, email)
  */
 schema.statics.verifyEmailVerificationToken = function(token, callback) {
-  jwt.verify(token, JWT_SECRET, function(err, email) {
+  jwt.verify(token, JWT_SECRET, (err, email) => {
     return callback(err, email);
   });
 };
@@ -291,7 +291,7 @@ schema.statics.verifyEmailVerificationToken = function(token, callback) {
  * @param  {Function} callback args(err, id)
  */
 schema.statics.verifyTempAuthToken = function(token, callback) {
-  jwt.verify(token, JWT_SECRET, function(err, payload) {
+  jwt.verify(token, JWT_SECRET, (err, payload) => {
     if (err || !payload) {
       return callback(err);
     }
@@ -318,12 +318,12 @@ schema.statics.findOneByEmail = function(email) {
  * @param  {Function} callback args(err, user)
  */
 schema.statics.getByToken = function(token, callback) {
-  jwt.verify(token, JWT_SECRET, function(err, id) {
+  jwt.verify(token, JWT_SECRET, (err, id) => {
     if (err) {
       return callback(err);
     }
     this.findOne({_id: id}, callback);
-  }.bind(this));
+  });
 };
 
 schema.statics.validateProfile = function(profile, cb) {

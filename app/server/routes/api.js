@@ -15,7 +15,7 @@ module.exports = function(router) {
   function isAdmin(req, res, next) {
     const token = getToken(req);
 
-    UserController.getByToken(token, function(err, user) {
+    UserController.getByToken(token, (err, user) => {
       if (err) {
         return res.status(500).send(err);
       }
@@ -44,7 +44,7 @@ module.exports = function(router) {
     const token = getToken(req);
     const userId = req.params.id;
 
-    UserController.getByToken(token, function(err, user) {
+    UserController.getByToken(token, (err, user) => {
       if (err || !user) {
         return res.status(500).send(err);
       }
@@ -85,7 +85,7 @@ module.exports = function(router) {
                     '``` \n'
                 })
               }
-            }, function(error, response, body) {
+            }, (error, response, body) => {
               return res.status(500).send({
                 message: "Your error has been recorded, we'll get right on it!"
               });
@@ -113,7 +113,7 @@ module.exports = function(router) {
    * GET - Get all users, or a page at a time.
    * ex. Paginate with ?page=0&size=100
    */
-  router.get('/users', isAdmin, function(req, res) {
+  router.get('/users', isAdmin, (req, res) => {
     const query = req.query;
 
     if (query.page && query.size) {
@@ -126,7 +126,7 @@ module.exports = function(router) {
   /**
    * [ADMIN ONLY]
    */
-  router.get('/users/stats', isAdmin, function(req, res) {
+  router.get('/users/stats', isAdmin, (req, res) => {
     UserController.getStats(defaultResponse(req, res));
   });
 
@@ -135,7 +135,7 @@ module.exports = function(router) {
    *
    * GET - Get a specific user.
    */
-  router.get('/users/:id', isOwnerOrAdmin, function(req, res) {
+  router.get('/users/:id', isOwnerOrAdmin, (req, res) => {
     UserController.getById(req.params.id, defaultResponse(req, res));
   });
 
@@ -144,7 +144,7 @@ module.exports = function(router) {
    *
    * PUT - Update a specific user's profile.
    */
-  router.put('/users/:id/profile', isOwnerOrAdmin, function(req, res) {
+  router.put('/users/:id/profile', isOwnerOrAdmin, (req, res) => {
     const profile = req.body.profile;
     const id = req.params.id;
 
@@ -156,7 +156,7 @@ module.exports = function(router) {
    *
    * PUT - Update a specific user's confirmation information.
    */
-  router.put('/users/:id/confirm', isOwnerOrAdmin, function(req, res) {
+  router.put('/users/:id/confirm', isOwnerOrAdmin, (req, res) => {
     const confirmation = req.body.confirmation;
     const id = req.params.id;
 
@@ -168,7 +168,7 @@ module.exports = function(router) {
    *
    * POST - Decline an acceptance.
    */
-  router.post('/users/:id/decline', isOwnerOrAdmin, function(req, res) {
+  router.post('/users/:id/decline', isOwnerOrAdmin, (req, res) => {
     const confirmation = req.body.confirmation;
     const id = req.params.id;
 
@@ -179,7 +179,7 @@ module.exports = function(router) {
    * Get a user's team member's names. Uses the code associated
    * with the user making the request.
    */
-  router.get('/users/:id/team', isOwnerOrAdmin, function(req, res) {
+  router.get('/users/:id/team', isOwnerOrAdmin, (req, res) => {
     const id = req.params.id;
     UserController.getTeammates(id, defaultResponse(req, res));
   });
@@ -190,7 +190,7 @@ module.exports = function(router) {
    *   code: STRING
    * }
    */
-  router.put('/users/:id/team', isOwnerOrAdmin, function(req, res) {
+  router.put('/users/:id/team', isOwnerOrAdmin, (req, res) => {
     const code = req.body.code;
     const id = req.params.id;
 
@@ -200,7 +200,7 @@ module.exports = function(router) {
   /**
    * Remove a user from a team.
    */
-  router.delete('/users/:id/team', isOwnerOrAdmin, function(req, res) {
+  router.delete('/users/:id/team', isOwnerOrAdmin, (req, res) => {
     const id = req.params.id;
 
     UserController.leaveTeam(id, defaultResponse(req, res));
@@ -213,7 +213,7 @@ module.exports = function(router) {
    *   newPassword: STRING
    * }
    */
-  router.put('/users/:id/password', isOwnerOrAdmin, function(req, res) {
+  router.put('/users/:id/password', isOwnerOrAdmin, (req, res) => {
     return res.status(304).send();
     // Currently disable.
     // var id = req.params.id;
@@ -233,7 +233,7 @@ module.exports = function(router) {
    *
    * Also attaches the user who did the admitting, for liabaility.
    */
-  router.post('/users/:id/admit', isAdmin, function(req, res) {
+  router.post('/users/:id/admit', isAdmin, (req, res) => {
     // Accept the hacker. Admin only
     const id = req.params.id;
     const user = req.user;
@@ -243,7 +243,7 @@ module.exports = function(router) {
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
-  router.post('/users/:id/checkin', isAdmin, function(req, res) {
+  router.post('/users/:id/checkin', isAdmin, (req, res) => {
     const id = req.params.id;
     const user = req.user;
     UserController.checkInById(id, user, defaultResponse(req, res));
@@ -252,7 +252,7 @@ module.exports = function(router) {
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
-  router.post('/users/:id/checkout', isAdmin, function(req, res) {
+  router.post('/users/:id/checkout', isAdmin, (req, res) => {
     const id = req.params.id;
     const user = req.user;
     UserController.checkOutById(id, user, defaultResponse(req, res));
@@ -272,7 +272,7 @@ module.exports = function(router) {
    *   confirmationText: String
    * }
    */
-  router.get('/settings', function(req, res) {
+  router.get('/settings', (req, res) => {
     SettingsController.getPublicSettings(defaultResponse(req, res));
   });
 
@@ -282,7 +282,7 @@ module.exports = function(router) {
    *   text: String
    * }
    */
-  router.put('/settings/waitlist', isAdmin, function(req, res) {
+  router.put('/settings/waitlist', isAdmin, (req, res) => {
     const text = req.body.text;
     SettingsController.updateField('waitlistText', text, defaultResponse(req, res));
   });
@@ -293,7 +293,7 @@ module.exports = function(router) {
    *   text: String
    * }
    */
-  router.put('/settings/acceptance', isAdmin, function(req, res) {
+  router.put('/settings/acceptance', isAdmin, (req, res) => {
     const text = req.body.text;
     SettingsController.updateField('acceptanceText', text, defaultResponse(req, res));
   });
@@ -304,7 +304,7 @@ module.exports = function(router) {
    *   text: String
    * }
    */
-  router.put('/settings/confirmation', isAdmin, function(req, res) {
+  router.put('/settings/confirmation', isAdmin, (req, res) => {
     const text = req.body.text;
     SettingsController.updateField('confirmationText', text, defaultResponse(req, res));
   });
@@ -315,7 +315,7 @@ module.exports = function(router) {
    *   time: Number
    * }
    */
-  router.put('/settings/confirm-by', isAdmin, function(req, res) {
+  router.put('/settings/confirm-by', isAdmin, (req, res) => {
     const time = req.body.time;
     SettingsController.updateField('timeConfirm', time, defaultResponse(req, res));
   });
@@ -327,7 +327,7 @@ module.exports = function(router) {
    *   timeClose: Number
    * }
    */
-  router.put('/settings/times', isAdmin, function(req, res) {
+  router.put('/settings/times', isAdmin, (req, res) => {
     const open = req.body.timeOpen;
     const close = req.body.timeClose;
     SettingsController.updateRegistrationTimes(open, close, defaultResponse(req, res));
@@ -340,7 +340,7 @@ module.exports = function(router) {
    *   emails: [String]
    * }
    */
-  router.get('/settings/whitelist', isAdmin, function(req, res) {
+  router.get('/settings/whitelist', isAdmin, (req, res) => {
     SettingsController.getWhitelistedEmails(defaultResponse(req, res));
   });
 
@@ -352,7 +352,7 @@ module.exports = function(router) {
    * res: Settings
    *
    */
-  router.put('/settings/whitelist', isAdmin, function(req, res) {
+  router.put('/settings/whitelist', isAdmin, (req, res) => {
     const emails = req.body.emails;
     SettingsController.updateWhitelistedEmails(emails, defaultResponse(req, res));
   });

@@ -7,7 +7,7 @@ module.exports = function(app) {
   });
 
   // Wildcard all other GET requests to the angular app
-  app.get('*', function(req, res) {
+  app.get('*', (req, res) => {
     res.sendfile('./app/client/index.html');
   });
 };

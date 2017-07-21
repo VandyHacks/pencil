@@ -76,14 +76,14 @@ function calculateStats() {
 
   User
     .find({})
-    .exec(function(err, users) {
+    .exec((err, users) => {
       if (err || !users) {
         throw err;
       }
 
       newStats.total = users.length;
 
-      async.each(users, function(user, callback) {
+      async.each(users, (user, callback) => {
         // Grab the email extension
         const email = user.email.split('@')[1];
 
@@ -171,7 +171,7 @@ function calculateStats() {
 
         // Dietary restrictions
         if (user.confirmation.dietaryRestrictions) {
-          user.confirmation.dietaryRestrictions.forEach(function(restriction) {
+          user.confirmation.dietaryRestrictions.forEach((restriction) => {
             if (!newStats.dietaryRestrictions[restriction]) {
               newStats.dietaryRestrictions[restriction] = 0;
             }
@@ -183,11 +183,11 @@ function calculateStats() {
         newStats.checkedIn += user.status.checkedIn ? 1 : 0;
 
         callback(); // let async know we've finished
-      }, function() {
+      }, () => {
         // Transform dietary restrictions into a series of objects
         const restrictions = [];
         _.keys(newStats.dietaryRestrictions)
-          .forEach(function(key) {
+          .forEach((key) => {
             restrictions.push({
               name: key,
               count: newStats.dietaryRestrictions[key]
@@ -198,7 +198,7 @@ function calculateStats() {
         // Transform schools into an array of objects
         const schools = [];
         _.keys(newStats.demo.schools)
-          .forEach(function(key) {
+          .forEach((key) => {
             schools.push({
               email: key,
               count: newStats.demo.schools[key].submitted,

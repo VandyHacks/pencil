@@ -24,11 +24,11 @@ function endsWith(s, test) {
  */
 function canRegister(email, password, callback) {
   if (!password || password.length < 6) {
-    return callback({ message: 'Password must be 6 or more characters.'}, false);
+    return callback({ message: 'Password must be 6 or more characters.' }, false);
   }
 
   // Check if its within the registration window.
-  Settings.getRegistrationTimes(function(err, times) {
+  Settings.getRegistrationTimes((err, times) => {
     if (err) {
       callback(err);
     }
@@ -48,7 +48,7 @@ function canRegister(email, password, callback) {
     }
 
     // Check for emails.
-    Settings.getWhitelistedEmails(function(err, emails) {
+    Settings.getWhitelistedEmails((err, emails) => {
       if (err || !emails) {
         return callback(err);
       }
@@ -70,7 +70,7 @@ function canRegister(email, password, callback) {
  * @param  {Function} callback args(err, token, user)
  */
 UserController.loginWithToken = function(token, callback) {
-  User.getByToken(token, function(err, user) {
+  User.getByToken(token, (err, user) => {
     return callback(err, token, user);
   });
 };
@@ -97,7 +97,7 @@ UserController.loginWithPassword = function(email, password, callback) {
   User
     .findOneByEmail(email)
     .select('+password')
-    .exec(function(err, user) {
+    .exec((err, user) => {
       if (err) {
         return callback(err);
       }
@@ -139,14 +139,14 @@ UserController.createUser = function(email, password, callback) {
   email = email.toLowerCase();
 
   // Check that there isn't a user with this email already.
-  canRegister(email, password, function(err, valid) {
+  canRegister(email, password, (err, valid) => {
     if (err || !valid) {
       return callback(err);
     }
 
     User
       .findOneByEmail(email)
-      .exec(function(err, user) {
+      .exec((err, user) => {
         if (err) {
           return callback(err);
         }
@@ -160,7 +160,7 @@ UserController.createUser = function(email, password, callback) {
           const u = new User();
           u.email = email;
           u.password = User.generateHash(password);
-          u.save(function(err) {
+          u.save((err) => {
             if (err) {
               return callback(err);
             } else {
@@ -228,12 +228,12 @@ UserController.getPage = function(query, callback) {
     .select('+status.admittedBy')
     .skip(page * size)
     .limit(size)
-    .exec(function(err, users) {
+    .exec((err, users) => {
       if (err || !users) {
         return callback(err);
       }
 
-      User.count(findQuery).exec(function(err, count) {
+      User.count(findQuery).exec((err, count) => {
         if (err) {
           return callback(err);
         }
@@ -267,13 +267,13 @@ UserController.getById = function(id, callback) {
 UserController.updateProfileById = function(id, profile, callback) {
   // Validate the user profile, and mark the user as profile completed
   // when successful.
-  User.validateProfile(profile, function(err) {
+  User.validateProfile(profile, (err) => {
     if (err) {
       return callback({message: 'invalid profile'});
     }
 
     // Check if its within the registration window.
-    Settings.getRegistrationTimes(function(err, times) {
+    Settings.getRegistrationTimes((err, times) => {
       if (err) {
         callback(err);
       }
@@ -319,7 +319,7 @@ UserController.updateProfileById = function(id, profile, callback) {
  * @param  {Function} callback      Callback with args (err, user)
  */
 UserController.updateConfirmationById = function(id, confirmation, callback) {
-  User.findById(id, function(err, user) {
+  User.findById(id, (err, user) => {
     if (err || !user) {
       return callback(err);
     }
@@ -384,7 +384,7 @@ UserController.declineById = function(id, callback) {
  * @param  {Function} callback args(err, user)
  */
 UserController.verifyByToken = function(token, callback) {
-  User.verifyEmailVerificationToken(token, function(err, email) {
+  User.verifyEmailVerificationToken(token, (err, email) => {
     User.findOneAndUpdate({
       email: new RegExp('^' + email + '$', 'i')
     }, {
@@ -404,7 +404,7 @@ UserController.verifyByToken = function(token, callback) {
  * @param  {Function} callback args(err, users)
  */
 UserController.getTeammates = function(id, callback) {
-  User.findById(id, function(err, user) {
+  User.findById(id, (err, user) => {
     if (err || !user) {
       return callback(err, user);
     }
@@ -449,7 +449,7 @@ UserController.createOrJoinTeam = function(id, code, callback) {
     teamCode: code
   })
   .select('profile.name')
-  .exec(function(err, users) {
+  .exec((err, users) => {
     // Check to see if this team is joinable (< team max size)
     if (users.length >= maxTeamSize) {
       return callback({
@@ -499,7 +499,7 @@ UserController.sendVerificationEmailById = function(id, callback) {
       _id: id,
       verified: false
     },
-    function(err, user) {
+    (err, user) => {
       if (err || !user) {
         return callback(err);
       }
@@ -518,7 +518,7 @@ UserController.sendVerificationEmailById = function(id, callback) {
 UserController.sendPasswordResetEmail = function(email, callback) {
   User
     .findOneByEmail(email)
-    .exec(function(err, user) {
+    .exec((err, user) => {
       if (err || !user) {
         return callback(err);
       }
@@ -547,7 +547,7 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
   User
     .findById(id)
     .select('password')
-    .exec(function(err, user) {
+    .exec((err, user) => {
       if (user.checkPassword(oldPassword)) {
         User.findOneAndUpdate({
           _id: id
@@ -586,7 +586,7 @@ UserController.resetPassword = function(token, password, callback) {
     });
   }
 
-  User.verifyTempAuthToken(token, function(err, id) {
+  User.verifyTempAuthToken(token, (err, id) => {
     if (err || !id) {
       return callback(err);
     }
@@ -598,7 +598,7 @@ UserController.resetPassword = function(token, password, callback) {
         $set: {
           password: User.generateHash(password)
         }
-      }, function(err, user) {
+      }, (err, user) => {
         if (err || !user) {
           return callback(err);
         }
@@ -620,7 +620,7 @@ UserController.resetPassword = function(token, password, callback) {
  * @param  {Function} callback args(err, user)
  */
 UserController.admitUser = function(id, user, callback) {
-  Settings.getRegistrationTimes(function(err, times) {
+  Settings.getRegistrationTimes((err, times) => {
     User
       .findOneAndUpdate({
         _id: id,

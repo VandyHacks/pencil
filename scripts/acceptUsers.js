@@ -10,8 +10,8 @@ const user = { email: process.env.ADMIN_EMAIL };
 
 const userArray = require('fs').readFileSync('accepted.txt').toString().split('\n');
 let count = 0;
-userArray.forEach(function(id) {
-  UserController.admitUser(id, user, function() {
+userArray.forEach((id) => {
+  UserController.admitUser(id, user, () => {
     count += 1;
     if (count === userArray.length) {
       console.log('Done');

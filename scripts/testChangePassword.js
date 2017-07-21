@@ -19,7 +19,7 @@ User.findOne({
     id,
     'foobar',
     'hunter123',
-    function(err, something) {
+    (err, something) => {
       console.log(!err ? 'Successfuly changed' : err);
     }
   );

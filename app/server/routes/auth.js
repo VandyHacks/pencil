@@ -24,14 +24,14 @@ module.exports = function(router) {
    *
    */
   router.post('/login',
-    function(req, res, next) {
+    (req, res, next) => {
       const email = req.body.email;
       const password = req.body.password;
       const token = req.body.token;
 
       if (token) {
         UserController.loginWithToken(token,
-          function(err, token, user) {
+          (err, token, user) => {
             if (err || !user) {
               return res.status(400).send(err);
             }
@@ -42,7 +42,7 @@ module.exports = function(router) {
           });
       } else {
         UserController.loginWithPassword(email, password,
-          function(err, token, user) {
+          (err, token, user) => {
             if (err || !user) {
               return res.status(400).send(err);
             }
@@ -65,13 +65,13 @@ module.exports = function(router) {
    *
    */
   router.post('/register',
-    function(req, res, next) {
+    (req, res, next) => {
       // Register with an email and password
       const email = req.body.email;
       const password = req.body.password;
 
       UserController.createUser(email, password,
-        function(err, user) {
+        (err, user) => {
           if (err) {
             return res.status(400).send(err);
           }
@@ -80,13 +80,13 @@ module.exports = function(router) {
     });
 
   router.post('/reset',
-    function(req, res, next) {
+    (req, res, next) => {
       const email = req.body.email;
       if (!email) {
         return res.status(400).send();
       }
 
-      UserController.sendPasswordResetEmail(email, function(err) {
+      UserController.sendPasswordResetEmail(email, (err) => {
         if (err) {
           return res.status(400).send(err);
         }
@@ -103,11 +103,11 @@ module.exports = function(router) {
    *   password: STRING,
    * }
    */
-  router.post('/reset/password', function(req, res) {
+  router.post('/reset/password', (req, res) => {
     const pass = req.body.password;
     const token = req.body.token;
 
-    UserController.resetPassword(token, pass, function(err, user) {
+    UserController.resetPassword(token, pass, (err, user) => {
       if (err || !user) {
         return res.status(400).send(err);
       }
@@ -123,10 +123,10 @@ module.exports = function(router) {
    * }
    */
   router.post('/verify/resend',
-    function(req, res, next) {
+    (req, res, next) => {
       const id = req.body.id;
       if (id) {
-        UserController.sendVerificationEmailById(id, function(err, user) {
+        UserController.sendVerificationEmailById(id, (err, user) => {
           if (err || !user) {
             return res.status(400).send();
           }
@@ -141,9 +141,9 @@ module.exports = function(router) {
    * Verify a user with a given token.
    */
   router.get('/verify/:token',
-    function(req, res, next) {
+    (req, res, next) => {
       const token = req.params.token;
-      UserController.verifyByToken(token, function(err, user) {
+      UserController.verifyByToken(token, (err, user) => {
         if (err || !user) {
           return res.status(400).send(err);
         }

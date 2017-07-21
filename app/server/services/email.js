@@ -41,13 +41,13 @@ function sendOne(templateName, options, data, callback) {
     console.log(JSON.stringify(data, '', 2));
   }
 
-  emailTemplates(templatesDir, function(err, template) {
+  emailTemplates(templatesDir, (err, template) => {
     if (err) {
       return callback(err);
     }
 
     data.emailHeaderImage = EMAIL_HEADER_IMAGE;
-    template(templateName, data, function(err, html, text) {
+    template(templateName, data, (err, html, text) => {
       if (err) {
         return callback(err);
       }
@@ -58,7 +58,7 @@ function sendOne(templateName, options, data, callback) {
         subject: options.subject,
         html: html,
         text: text
-      }, function(err, info) {
+      }, (err, info) => {
         if (callback) {
           callback(err, info);
         }
@@ -90,7 +90,7 @@ controller.sendVerificationEmail = function(email, token, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-verify', options, locals, function(err, info) {
+  sendOne('email-verify', options, locals, (err, info) => {
     if (err) {
       console.log(err);
     }
@@ -130,7 +130,7 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-link-action', options, locals, function(err, info) {
+  sendOne('email-link-action', options, locals, (err, info) => {
     if (err) {
       console.log(err);
     }
@@ -165,7 +165,7 @@ controller.sendPasswordChangedEmail = function(email, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-basic', options, locals, function(err, info) {
+  sendOne('email-basic', options, locals, (err, info) => {
     if (err) {
       console.log(err);
     }

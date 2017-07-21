@@ -48,7 +48,7 @@ schema.statics.getWhitelistedEmails = function(callback) {
   this
     .findOne({})
     .select('whitelistedEmails')
-    .exec(function(err, settings) {
+    .exec((err, settings) => {
       return callback(err, settings.whitelistedEmails);
     });
 };
@@ -61,7 +61,7 @@ schema.statics.getRegistrationTimes = function(callback) {
   this
     .findOne({})
     .select('timeOpen timeClose timeConfirm')
-    .exec(function(err, settings) {
+    .exec((err, settings) => {
       callback(err, {
         timeOpen: settings.timeOpen,
         timeClose: settings.timeClose,
