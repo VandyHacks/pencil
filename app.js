@@ -1,5 +1,5 @@
 // Load the dotfiles.
-require('dotenv').load({silent: true});
+require('dotenv/config');
 
 const express = require('express');
 
@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 const path = require('path');
 const port = process.env.PORT || 3000;
 const database = process.env.DATABASE || process.env.MONGODB_URI || 'mongodb://localhost:27017';
@@ -22,9 +23,10 @@ const app = express();
 // Connect to mongodb
 mongoose.connect(database);
 
-app.use(morgan('dev'));
-app.use(cookieParser());
+const logFormat = process.env.NODE_ENV === 'dev' ? 'dev' : 'combined';
+app.use(morgan(logFormat));
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
