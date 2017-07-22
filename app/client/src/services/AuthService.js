@@ -6,7 +6,7 @@ angular.module('reg')
     '$window',
     'Session',
     function($http, $rootScope, $state, $window, Session) {
-      var authService = {};
+      const authService = {};
 
       function loginSuccess(data, cb) {
         // Winner winner you get a token
@@ -30,10 +30,10 @@ angular.module('reg')
             email: email,
             password: password
           })
-          .success(function(data) {
+          .success((data) => {
             loginSuccess(data, onSuccess);
           })
-          .error(function(data) {
+          .error((data) => {
             loginFailure(data, onFailure);
           });
       };
@@ -43,10 +43,10 @@ angular.module('reg')
           .post('/auth/login', {
             token: token
           })
-          .success(function(data) {
+          .success((data) => {
             loginSuccess(data, onSuccess);
           })
-          .error(function(data, statusCode) {
+          .error((data, statusCode) => {
             if (statusCode === 400) {
               Session.destroy(loginFailure);
             }
@@ -65,10 +65,10 @@ angular.module('reg')
             email: email,
             password: password
           })
-          .success(function(data) {
+          .success((data) => {
             loginSuccess(data, onSuccess);
           })
-          .error(function(data) {
+          .error((data) => {
             loginFailure(data, onFailure);
           });
       };
@@ -76,20 +76,20 @@ angular.module('reg')
       authService.verify = function(token, onSuccess, onFailure) {
         return $http
           .get('/auth/verify/' + token)
-          .success(function(user) {
+          .success((user) => {
             Session.setUser(user);
             if (onSuccess) {
               onSuccess(user);
             }
           })
-          .error(function(data) {
+          .error((data) => {
             if (onFailure) {
               onFailure(data);
             }
           });
       };
 
-      authService.resendVerificationEmail = function(onSuccess, onFailure){
+      authService.resendVerificationEmail = function(onSuccess, onFailure) {
         return $http
           .post('/auth/verify/resend', {
             id: Session.getUserId()

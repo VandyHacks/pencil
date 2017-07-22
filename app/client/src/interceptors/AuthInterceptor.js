@@ -4,7 +4,7 @@ angular.module('reg')
     function(Session) {
       return {
         request: function(config) {
-          var token = Session.getToken();
+          const token = Session.getToken();
           if (token) {
             config.headers['x-access-token'] = token;
           }

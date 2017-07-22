@@ -2,7 +2,7 @@ angular.module('reg')
   .factory('SettingsService', [
     '$http',
     function($http) {
-      var base = '/api/settings/';
+      const base = '/api/settings/';
 
       return {
         getPublicSettings: function() {

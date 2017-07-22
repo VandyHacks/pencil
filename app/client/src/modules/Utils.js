@@ -10,13 +10,13 @@ angular.module('reg')
         },
         formatTime: function(time) {
           if (!time) {
-            return "Invalid Date";
+            return 'Invalid Date';
           }
 
-          date = new Date(time);
+          const date = new Date(time);
           // Hack for timezone
           return moment(date).format('dddd, MMMM Do YYYY, h:mm a') +
-            " " + date.toTimeString().split(' ')[2];
+            ' ' + date.toTimeString().split(' ')[2];
         }
       };
     }

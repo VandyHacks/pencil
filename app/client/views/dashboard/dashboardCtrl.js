@@ -10,14 +10,14 @@ angular.module('reg')
     'UserService',
     'EVENT_INFO',
     'DASHBOARD',
-    function($rootScope, $scope, $sce, currentUser, settings, Utils, AuthService, UserService, DASHBOARD){
-      var Settings = settings.data;
-      var user = currentUser.data;
+    function($rootScope, $scope, $sce, currentUser, settings, Utils, AuthService, UserService, DASHBOARD) {
+      const Settings = settings.data;
+      const user = currentUser.data;
       $scope.user = user;
 
       $scope.DASHBOARD = DASHBOARD;
-      
-      for (var msg in $scope.DASHBOARD) {
+
+      for (const msg in $scope.DASHBOARD) {
         if ($scope.DASHBOARD[msg].includes('[APP_DEADLINE]')) {
           $scope.DASHBOARD[msg] = $scope.DASHBOARD[msg].replace('[APP_DEADLINE]', Utils.formatTime(Settings.timeClose));
         }
@@ -27,13 +27,13 @@ angular.module('reg')
       }
 
       // Is registration open?
-      var regIsOpen = $scope.regIsOpen = Utils.isRegOpen(Settings);
+      const regIsOpen = $scope.regIsOpen = Utils.isRegOpen(Settings);
 
       // Is it past the user's confirmation time?
-      var pastConfirmation = $scope.pastConfirmation = Utils.isAfter(user.status.confirmBy);
+      const pastConfirmation = $scope.pastConfirmation = Utils.isAfter(user.status.confirmBy);
 
-      $scope.dashState = function(status){
-        var user = $scope.user;
+      $scope.dashState = function(status) {
+        const user = $scope.user;
         switch (status) {
           case 'unverified':
             return !user.verified;
@@ -65,43 +65,38 @@ angular.module('reg')
 
       $scope.showWaitlist = !regIsOpen && user.status.completedProfile && !user.status.admitted;
 
-      $scope.resendEmail = function(){
+      $scope.resendEmail = function() {
         AuthService
           .resendVerificationEmail()
-          .then(function(){
+          .then(() => {
             sweetAlert('Your email has been sent.');
           });
       };
 
-
       // -----------------------------------------------------
       // Text!
       // -----------------------------------------------------
-      var converter = new showdown.Converter();
+      const converter = new showdown.Converter();
       $scope.acceptanceText = $sce.trustAsHtml(converter.makeHtml(Settings.acceptanceText));
       $scope.confirmationText = $sce.trustAsHtml(converter.makeHtml(Settings.confirmationText));
       $scope.waitlistText = $sce.trustAsHtml(converter.makeHtml(Settings.waitlistText));
 
-
-      $scope.declineAdmission = function(){
-
+      $scope.declineAdmission = function() {
         swal({
-          title: "Whoa!",
+          title: 'Whoa!',
           text: "Are you sure you would like to decline your admission? \n\n You can't go back!",
-          type: "warning",
+          type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
+          confirmButtonColor: '#DD6B55',
           confirmButtonText: "Yes, I can't make it.",
           closeOnConfirm: true
-          }, function(){
-
-            UserService
+        }, () => {
+          UserService
               .declineAdmission(user._id)
-              .success(function(user){
+              .success((user) => {
                 $rootScope.currentUser = user;
                 $scope.user = user;
               });
         });
       };
-
     }]);

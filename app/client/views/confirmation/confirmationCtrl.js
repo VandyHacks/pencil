@@ -6,10 +6,9 @@ angular.module('reg')
     'currentUser',
     'Utils',
     'UserService',
-    function($scope, $rootScope, $state, currentUser, Utils, UserService){
-
+    function($scope, $rootScope, $state, currentUser, Utils, UserService) {
       // Set up the user
-      var user = currentUser.data;
+      const user = currentUser.data;
       $scope.user = user;
 
       $scope.pastConfirmation = Date.now() > user.status.confirmBy;
@@ -18,12 +17,12 @@ angular.module('reg')
 
       _setupForm();
 
-      $scope.fileName = user._id + "_" + user.profile.name.split(" ").join("_");
+      $scope.fileName = user._id + '_' + user.profile.name.split(' ').join('_');
 
       // -------------------------------
       // All this just for dietary restriction checkboxes fml
 
-      var dietaryRestrictions = {
+      const dietaryRestrictions = {
         'Vegetarian': false,
         'Vegan': false,
         'Halal': false,
@@ -31,9 +30,9 @@ angular.module('reg')
         'Nut Allergy': false
       };
 
-      if (user.confirmation.dietaryRestrictions){
-        user.confirmation.dietaryRestrictions.forEach(function(restriction){
-          if (restriction in dietaryRestrictions){
+      if (user.confirmation.dietaryRestrictions) {
+        user.confirmation.dietaryRestrictions.forEach((restriction) => {
+          if (restriction in dietaryRestrictions) {
             dietaryRestrictions[restriction] = true;
           }
         });
@@ -43,12 +42,12 @@ angular.module('reg')
 
       // -------------------------------
 
-      function _updateUser(e){
-        var confirmation = $scope.user.confirmation;
+      function _updateUser(e) {
+        const confirmation = $scope.user.confirmation;
         // Get the dietary restrictions as an array
-        var drs = [];
-        Object.keys($scope.dietaryRestrictions).forEach(function(key){
-          if ($scope.dietaryRestrictions[key]){
+        const drs = [];
+        Object.keys($scope.dietaryRestrictions).forEach((key) => {
+          if ($scope.dietaryRestrictions[key]) {
             drs.push(key);
           }
         });
@@ -56,22 +55,22 @@ angular.module('reg')
 
         UserService
           .updateConfirmation(user._id, confirmation)
-          .success(function(data){
+          .success((data) => {
             sweetAlert({
-              title: "Woo!",
+              title: 'Woo!',
               text: "You're confirmed!",
-              type: "success",
-              confirmButtonColor: "#e76482"
-            }, function(){
+              type: 'success',
+              confirmButtonColor: '#e76482'
+            }, () => {
               $state.go('app.dashboard');
             });
           })
-          .error(function(res){
-            sweetAlert("Uh oh!", "Something went wrong.", "error");
+          .error((res) => {
+            sweetAlert('Uh oh!', 'Something went wrong.', 'error');
           });
       }
 
-      function _setupForm(){
+      function _setupForm() {
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
@@ -119,15 +118,14 @@ angular.module('reg')
                   prompt: 'Please type your digital signature.'
                 }
               ]
-            },
+            }
           }
         });
       }
 
-      $scope.submitForm = function(){
-        if ($('.ui.form').form('is valid')){
+      $scope.submitForm = function() {
+        if ($('.ui.form').form('is valid')) {
           _updateUser();
         }
       };
-
     }]);

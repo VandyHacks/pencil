@@ -6,10 +6,9 @@ angular.module('reg')
     'settings',
     'Utils',
     'AuthService',
-    function($scope, $http, $state, settings, Utils, AuthService){
-
+    function($scope, $http, $state, settings, Utils, AuthService) {
       // Is registration open?
-      var Settings = settings.data;
+      const Settings = settings.data;
       $scope.regIsOpen = Utils.isRegOpen(Settings);
 
       // Start state for login
@@ -19,21 +18,21 @@ angular.module('reg')
         $state.go('app.dashboard');
       }
 
-      function onError(data){
+      function onError(data) {
         $scope.error = data.message;
       }
 
-      function resetError(){
+      function resetError() {
         $scope.error = null;
       }
 
-      $scope.login = function(){
+      $scope.login = function() {
         resetError();
         AuthService.loginWithPassword(
           $scope.email, $scope.password, onSuccess, onError);
       };
 
-      $scope.register = function(){
+      $scope.register = function() {
         resetError();
         AuthService.register(
           $scope.email, $scope.password, onSuccess, onError);
@@ -44,15 +43,14 @@ angular.module('reg')
       };
 
       $scope.sendResetEmail = function() {
-        var email = $scope.email;
+        const email = $scope.email;
         AuthService.sendResetEmail(email);
         sweetAlert({
           title: "Don't Sweat!",
-          text: "An email should be sent to you shortly.",
-          type: "success",
-          confirmButtonColor: "#e76482"
+          text: 'An email should be sent to you shortly.',
+          type: 'success',
+          confirmButtonColor: '#e76482'
         });
       };
-
     }
   ]);

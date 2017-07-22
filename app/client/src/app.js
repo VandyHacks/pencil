@@ -1,8 +1,7 @@
-var app = angular.module('reg', [
-  'ui.router'
-]);
-
-app
+angular
+  .module('reg', [
+    'ui.router'
+  ])
   .config([
     '$httpProvider',
     function($httpProvider) {
@@ -14,7 +13,7 @@ app
     'Session',
     function(AuthService, Session) {
       // Startup, login if there's  a token.
-      var token = Session.getToken();
+      const token = Session.getToken();
       if (token) {
         AuthService.loginWithToken(token);
       }

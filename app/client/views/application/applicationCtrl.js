@@ -8,16 +8,15 @@ angular.module('reg')
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService){
-
+    function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService) {
       // Set up the user
       $scope.user = currentUser.data;
 
       // Is the student from MIT?
-      $scope.isMitStudent = $scope.user.email.split('@')[1] == 'mit.edu';
+      $scope.isMitStudent = $scope.user.email.split('@')[1] === 'mit.edu';
 
       // If so, default them to adult: true
-      if ($scope.isMitStudent){
+      if ($scope.isMitStudent) {
         $scope.user.profile.adult = true;
       }
 
@@ -30,40 +29,39 @@ angular.module('reg')
       /**
        * TODO: JANK WARNING
        */
-      function populateSchools(){
-
+      function populateSchools() {
         $http
           .get('/assets/schools.json')
-          .then(function(res){
-            var schools = res.data;
-            var email = $scope.user.email.split('@')[1];
+          .then((res) => {
+            const schools = res.data;
+            const email = $scope.user.email.split('@')[1];
 
-            if (schools[email]){
+            if (schools[email]) {
               $scope.user.profile.school = schools[email].school;
               $scope.autoFilledSchool = true;
             }
           });
       }
 
-      function _updateUser(e){
+      function _updateUser(e) {
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
-          .success(function(data){
+          .success((data) => {
             sweetAlert({
-              title: "Awesome!",
-              text: "Your application has been saved.",
-              type: "success",
-              confirmButtonColor: "#e76482"
-            }, function(){
+              title: 'Awesome!',
+              text: 'Your application has been saved.',
+              type: 'success',
+              confirmButtonColor: '#e76482'
+            }, () => {
               $state.go('app.dashboard');
             });
           })
-          .error(function(res){
-            sweetAlert("Uh oh!", "Something went wrong.", "error");
+          .error((res) => {
+            sweetAlert('Uh oh!', 'Something went wrong.', 'error');
           });
       }
 
-      function _setupForm(){
+      function _setupForm() {
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
@@ -116,12 +114,9 @@ angular.module('reg')
         });
       }
 
-
-
-      $scope.submitForm = function(){
-        if ($('.ui.form').form('is valid')){
+      $scope.submitForm = function() {
+        if ($('.ui.form').form('is valid')) {
           _updateUser();
         }
       };
-
     }]);

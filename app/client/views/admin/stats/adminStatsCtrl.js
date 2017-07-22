@@ -1,18 +1,16 @@
 angular.module('reg')
-  .controller('AdminStatsCtrl',[
+  .controller('AdminStatsCtrl', [
     '$scope',
     'UserService',
-    function($scope, UserService){
-
+    function($scope, UserService) {
       UserService
         .getStats()
-        .success(function(stats){
+        .success((stats) => {
           $scope.stats = stats;
           $scope.loading = false;
         });
 
-      $scope.fromNow = function(date){
+      $scope.fromNow = function(date) {
         return moment(date).fromNow();
       };
-
     }]);

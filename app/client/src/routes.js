@@ -8,13 +8,13 @@ angular.module('reg')
       $urlRouterProvider,
       $locationProvider) {
       // For any unmatched url, redirect to /state1
-      $urlRouterProvider.otherwise("/404");
+      $urlRouterProvider.otherwise('/404');
 
       // Set up de states
       $stateProvider
         .state('login', {
-          url: "/login",
-          templateUrl: "views/login/login.html",
+          url: '/login',
+          templateUrl: 'views/login/login.html',
           controller: 'LoginCtrl',
           data: {
             requireLogin: false
@@ -28,10 +28,10 @@ angular.module('reg')
         .state('app', {
           views: {
             '': {
-              templateUrl: "views/base.html"
+              templateUrl: 'views/base.html'
             },
             'sidebar@app': {
-              templateUrl: "views/sidebar/sidebar.html",
+              templateUrl: 'views/sidebar/sidebar.html',
               controller: 'SidebarCtrl',
               resolve: {
                 'settings': function(SettingsService) {
@@ -46,8 +46,8 @@ angular.module('reg')
           }
         })
         .state('app.dashboard', {
-          url: "/",
-          templateUrl: "views/dashboard/dashboard.html",
+          url: '/',
+          templateUrl: 'views/dashboard/dashboard.html',
           controller: 'DashboardCtrl',
           resolve: {
             currentUser: function(UserService) {
@@ -59,8 +59,8 @@ angular.module('reg')
           }
         })
         .state('app.application', {
-          url: "/application",
-          templateUrl: "views/application/application.html",
+          url: '/application',
+          templateUrl: 'views/application/application.html',
           controller: 'ApplicationCtrl',
           resolve: {
             currentUser: function(UserService) {
@@ -72,8 +72,8 @@ angular.module('reg')
           }
         })
         .state('app.confirmation', {
-          url: "/confirmation",
-          templateUrl: "views/confirmation/confirmation.html",
+          url: '/confirmation',
+          templateUrl: 'views/confirmation/confirmation.html',
           controller: 'ConfirmationCtrl',
           resolve: {
             currentUser: function(UserService) {
@@ -82,8 +82,8 @@ angular.module('reg')
           }
         })
         .state('app.team', {
-          url: "/team",
-          templateUrl: "views/team/team.html",
+          url: '/team',
+          templateUrl: 'views/team/team.html',
           controller: 'TeamCtrl',
           data: {
             requireVerified: true
@@ -100,7 +100,7 @@ angular.module('reg')
         .state('app.admin', {
           views: {
             '': {
-              templateUrl: "views/admin/admin.html",
+              templateUrl: 'views/admin/admin.html',
               controller: 'AdminCtrl'
             }
           },
@@ -109,21 +109,21 @@ angular.module('reg')
           }
         })
         .state('app.admin.stats', {
-          url: "/admin",
-          templateUrl: "views/admin/stats/stats.html",
+          url: '/admin',
+          templateUrl: 'views/admin/stats/stats.html',
           controller: 'AdminStatsCtrl'
         })
         .state('app.admin.users', {
-          url: "/admin/users?" +
+          url: '/admin/users?' +
             '&page' +
             '&size' +
             '&query',
-          templateUrl: "views/admin/users/users.html",
+          templateUrl: 'views/admin/users/users.html',
           controller: 'AdminUsersCtrl'
         })
         .state('app.admin.user', {
-          url: "/admin/users/:id",
-          templateUrl: "views/admin/user/user.html",
+          url: '/admin/users/:id',
+          templateUrl: 'views/admin/user/user.html',
           controller: 'AdminUserCtrl',
           resolve: {
             'user': function($stateParams, UserService) {
@@ -132,29 +132,29 @@ angular.module('reg')
           }
         })
         .state('app.admin.settings', {
-          url: "/admin/settings",
-          templateUrl: "views/admin/settings/settings.html",
+          url: '/admin/settings',
+          templateUrl: 'views/admin/settings/settings.html',
           controller: 'AdminSettingsCtrl'
         })
         .state('reset', {
-          url: "/reset/:token",
-          templateUrl: "views/reset/reset.html",
+          url: '/reset/:token',
+          templateUrl: 'views/reset/reset.html',
           controller: 'ResetCtrl',
           data: {
             requireLogin: false
           }
         })
         .state('verify', {
-          url: "/verify/:token",
-          templateUrl: "views/verify/verify.html",
+          url: '/verify/:token',
+          templateUrl: 'views/verify/verify.html',
           controller: 'VerifyCtrl',
           data: {
             requireLogin: false
           }
         })
         .state('404', {
-          url: "/404",
-          templateUrl: "views/404.html",
+          url: '/404',
+          templateUrl: 'views/404.html',
           data: {
             requireLogin: false
           }
@@ -172,14 +172,14 @@ angular.module('reg')
       $rootScope,
       $state,
       Session) {
-      $rootScope.$on('$stateChangeSuccess', function() {
-         document.body.scrollTop = document.documentElement.scrollTop = 0;
+      $rootScope.$on('$stateChangeSuccess', () => {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
       });
-      
-      $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
-        var requireLogin = toState.data.requireLogin;
-        var requireAdmin = toState.data.requireAdmin;
-        var requireVerified = toState.data.requireVerified;
+
+      $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
+        const requireLogin = toState.data.requireLogin;
+        const requireAdmin = toState.data.requireAdmin;
+        const requireVerified = toState.data.requireVerified;
 
         if (requireLogin && !Session.getToken()) {
           event.preventDefault();

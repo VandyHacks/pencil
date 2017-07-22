@@ -3,22 +3,21 @@ angular.module('reg')
     '$scope',
     '$stateParams',
     'AuthService',
-    function($scope, $stateParams, AuthService){
-      var token = $stateParams.token;
+    function($scope, $stateParams, AuthService) {
+      const token = $stateParams.token;
 
       $scope.loading = true;
 
-      if (token){
+      if (token) {
         AuthService.verify(token,
-          function(user){
+          (user) => {
             $scope.success = true;
 
             $scope.loading = false;
           },
-          function(err){
-
+          (err) => {
+            console.log(err);
             $scope.loading = false;
           });
       }
-
     }]);

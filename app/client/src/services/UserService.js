@@ -3,8 +3,8 @@ angular.module('reg')
     '$http',
     'Session',
     function($http, Session) {
-      var users = '/api/users';
-      var base = users + '/';
+      const users = '/api/users';
+      const base = users + '/';
 
       return {
 
@@ -27,8 +27,8 @@ angular.module('reg')
           return $http.get(users + '?' + $.param(
             {
               text: text,
-              page: page ? page : 0,
-              size: size ? size : 50
+              page: page || 0,
+              size: size || 50
             })
           );
         },
