@@ -15,8 +15,8 @@ const path = require('path');
 const port = process.env.PORT || 3000;
 const database = process.env.DATABASE || process.env.MONGODB_URI || 'mongodb://localhost:27017';
 
-const settingsConfig = require('./config/settings');
-const adminConfig = require('./config/admin');
+require('./config/settings');
+require('./config/admin');
 
 const app = express();
 
@@ -48,6 +48,5 @@ app.use('/auth', authRouter);
 
 require('./app/server/routes')(app);
 
-// listen (start app with node server.js) ======================================
 app.listen(port);
 console.log('App listening on port ' + port);
