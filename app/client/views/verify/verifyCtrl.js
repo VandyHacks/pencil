@@ -1,4 +1,4 @@
-angular.module('reg')
+angular.module('app')
   .controller('VerifyCtrl', [
     '$scope',
     '$stateParams',

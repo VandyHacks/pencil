@@ -1,4 +1,4 @@
-angular.module('reg')
+angular.module('app')
   .constant('EVENT_INFO', {
     NAME: 'VandyHacks 2017'
   })

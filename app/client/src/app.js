@@ -1,5 +1,7 @@
+const angular = require('angular');
+
 angular
-  .module('reg', [
+  .module('app', [
     'ui.router'
   ])
   .config([
