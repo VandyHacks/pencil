@@ -1,4 +1,4 @@
-require('dotenv').load({silent: true});
+require('dotenv/config');
 
 const gulp = require('gulp');
 const minifyCss = require('gulp-clean-css');
