@@ -31,7 +31,7 @@ angular.module('app')
         UserService
           .updateProfile($scope.selectedUser._id, $scope.selectedUser.profile)
           .success((data) => {
-            $selectedUser = data;
+            $scope.$selectedUser = data;
             swal('Updated!', 'Profile updated.', 'success');
           })
           .error(() => {

@@ -17,7 +17,7 @@
     "jquery": "~2.1.4",
     "animate.css": "~3.3.0",
     "angular": "~1.4.1",
-    "angular-ui-router": "~0.2.15",
+    "angular-ui-router": "~0.4.2",
     "angular-animate": "~1.4.1",
     "sweetalert": "~1.0.1",
     "moment": "~2.10.3",

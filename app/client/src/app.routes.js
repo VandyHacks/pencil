@@ -165,15 +165,17 @@ angular.module('app')
       });
     }
   ]).run([
+    '$document',
     '$rootScope',
     '$state',
     'Session',
     function(
+      $document,
       $rootScope,
       $state,
       Session) {
       $rootScope.$on('$stateChangeSuccess', () => {
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        $document[0].body.scrollTop = $document[0].documentElement.scrollTop = 0;
       });
 
       $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {

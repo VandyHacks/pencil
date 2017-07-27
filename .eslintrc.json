@@ -27,6 +27,9 @@
         "prefer-arrow-callback": "error",
         "no-var": "error",
         "semi": ["error", "always"],
-        "space-before-function-paren": ["error", "never"]
+        "space-before-function-paren": ["error", "never"],
+        "angular/controller-as-vm": "off",
+        "angular/controller-name": ["error", "/[A-Z].*Ctrl/"],
+        "angular/file-name": "off"
     }
 }
