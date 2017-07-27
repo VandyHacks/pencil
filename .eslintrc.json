@@ -9,6 +9,13 @@
         "standard",
         "plugin:angular/johnpapa"
     ],
+    "globals": {
+        "$": false,
+        "moment": false,
+        "showdown": false,
+        "swal": false,
+        "sweetAlert": false
+    },
     "plugins": [
         "angular"
     ],
