@@ -1,24 +1,20 @@
 {
     "env": {
-        "angular/angular": true,
         "browser": true,
         "es6": true,
         "node": true
     },
     "extends": [
-        "standard",
-        "plugin:angular/johnpapa"
+        "standard"
     ],
     "globals": {
         "$": false,
+        "angular": false,
         "moment": false,
         "showdown": false,
         "swal": false,
         "sweetAlert": false
     },
-    "plugins": [
-        "angular"
-    ],
     "rules": {
         "prefer-const": ["error", {
             "destructuring": "all",
@@ -27,9 +23,6 @@
         "prefer-arrow-callback": "error",
         "no-var": "error",
         "semi": ["error", "always"],
-        "space-before-function-paren": ["error", "never"],
-        "angular/controller-as-vm": "off",
-        "angular/controller-name": ["error", "/[A-Z].*Ctrl/"],
-        "angular/file-name": "off"
+        "space-before-function-paren": ["error", "never"]
     }
 }
