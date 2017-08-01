@@ -6,6 +6,10 @@
             "description": "dev or production",
             "value": "dev"
         },
+        "NPM_CONFIG_PRODUCTION": {
+            "description": "Heroku prod packages only install setting",
+            "value": "false"
+        },
         "JWT_SECRET": {
             "description": "Long random string used to verify JWT tokens for user authentication",
             "generator": "secret"
