@@ -48,11 +48,19 @@
             name="year"
             ng-model="user.profile.graduationYear">
             <option value="">Graduation Year</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
             <option value="2018">2018</option>
             <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
           </select>
+        </div>
+
+        <div class="field">
+          <label>Is this your first hackathon?</label>
+          <div class="ui checkbox">
+            <input type="checkbox" id="firstHackathon" ng-model="user.profile.firstHackathon">
+            <label for="firstHackathon">This is my first hackathon.</label>
+          </div>
         </div>
 
         <div class="field">
@@ -69,29 +77,28 @@
         </div>
 
         <div class="field">
-          <label>I would describe myself as a...</label>
-          <input type="text"
-                 placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
-                 ng-model="user.profile.description">
-        </div>
-
-        <div class="field">
           <label>
-              What would you like to learn or get out of HackMIT? (optional)
+              Please respond to at most one of the following optional prompts:
           </label>
+          <p>
+            1) Tell us about a cool project you've worked on.
+          </p>
+          <p>
+            2) What are you excited to learn at VandyHacks IV this October?
+          </p>
           <textarea ng-model="user.profile.essay">
           </textarea>
         </div>
 
         <div class="field"
-             ng-hide="isMitStudent">
+             ng-hide="isVandyStudent">
           <p>
-            Because of limitations imposed by MIT, we are not legally allowed to host
-            non-MIT minors (those under 18) for HackMIT 2015. Checking the box below affirms that you are or will be 18 years or older by September 19th, 2015.
+            Because of limitations imposed by Vanderbilt, we are not legally allowed to host
+            non-Vandy minors (those under 18) for VandyHacks IV. Checking the box below affirms that you are or will be 18 years or older by October 20th, 2017.
           </p>
           <p>
             <strong>
-            We will be checking ID. If you are a non-MIT minor, you will be turned away at the door.
+            We will be checking ID. If you are a non-Vandy minor, you will be turned away at the door.
             </strong>
           </p>
           <div class="ui checkbox">

@@ -12,11 +12,11 @@ angular.module('app')
       // Set up the user
       $scope.user = currentUser.data;
 
-      // Is the student from MIT?
-      $scope.isMitStudent = $scope.user.email.split('@')[1] === 'mit.edu';
+      // Is the student from Vanderbilt?
+      $scope.isVandyStudent = $scope.user.email.split('@')[1] === 'vanderbilt.edu';
 
       // If so, default them to adult: true
-      if ($scope.isMitStudent) {
+      if ($scope.isVandyStudent) {
         $scope.user.profile.adult = true;
       }
 

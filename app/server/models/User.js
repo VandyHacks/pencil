@@ -28,15 +28,11 @@ const profile = {
   graduationYear: {
     type: String,
     enum: {
-      values: '2016 2017 2018 2019'.split(' ')
+      values: '2018 2019 2020 2021'.split(' ')
     }
   },
 
-  description: {
-    type: String,
-    min: 0,
-    max: 300
-  },
+  firstHackathon: Boolean,
 
   essay: {
     type: String,
@@ -331,7 +327,7 @@ schema.statics.validateProfile = function(profile, cb) {
     profile.name.length > 0 &&
     profile.adult &&
     profile.school.length > 0 &&
-    ['2016', '2017', '2018', '2019'].indexOf(profile.graduationYear) > -1 &&
+    ['2018', '2019', '2020', '2021'].indexOf(profile.graduationYear) > -1 &&
     ['M', 'F', 'O', 'N'].indexOf(profile.gender) > -1
     ));
 };
