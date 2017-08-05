@@ -7,7 +7,7 @@ const ngAnnotate = require('gulp-ng-annotate');
 const nodemon = require('gulp-nodemon');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify-es').default;
 
 function swallowError(error) {
   // If you want details of the error in the console

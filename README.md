@@ -78,13 +78,17 @@ npm run mongo -- --bind_ip 127.0.0.1
 >>>>>>> fix mongo run command in README
 ```
 
-Install the necessary dependencies:
+Create a configuration file:
 ```
-yarn install
 npm run config
 ```
 
-Edit the configuration file in `.env` for your setup, and then run the application:
+Edit the configuration file in `.env` for your setup, and install the necessary dependencies:
+```
+yarn install
+```
+
+Run the application:
 ```
 npm start
 ```
