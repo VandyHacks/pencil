@@ -67,15 +67,7 @@ Getting a local instance of Quill up and running takes less than 5 minutes! Star
 Getting a local instance of Quill up and running takes less than 5 minutes! Start by setting up the database:
 ```
 mkdir db
-<<<<<<< HEAD
-<<<<<<< HEAD
-mongod --dbpath db
-=======
-npm run mongo --bind_ip 127.0.0.1 --nohttpinterface
->>>>>>> fix start script
-=======
 npm run mongo -- --bind_ip 127.0.0.1
->>>>>>> fix mongo run command in README
 ```
 
 Create a configuration file:
