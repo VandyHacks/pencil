@@ -77,7 +77,7 @@ function sendOne(templateName, options, data, callback) {
 controller.sendVerificationEmail = function(email, token, callback) {
   const options = {
     to: email,
-    subject: '[HACKMIT] - Verify your email'
+    subject: '[VandyHacks] - Verify your email'
   };
 
   const locals = {
@@ -112,7 +112,7 @@ controller.sendVerificationEmail = function(email, token, callback) {
 controller.sendPasswordResetEmail = function(email, token, callback) {
   const options = {
     to: email,
-    subject: '[HACKMIT] - Password reset requested!'
+    subject: '[VandyHacks] - Password reset requested!'
   };
 
   const locals = {
@@ -151,7 +151,7 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
 controller.sendPasswordChangedEmail = function(email, callback) {
   const options = {
     to: email,
-    subject: '[HACKMIT] - Your password has been changed!'
+    subject: '[VandyHacks] - Your password has been changed!'
   };
 
   const locals = {
