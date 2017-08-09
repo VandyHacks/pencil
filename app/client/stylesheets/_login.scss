@@ -1,16 +1,19 @@
+$login-sidebar-width: 400px;
+
 #login {
   height: 100%;
   width: 100%;
   background-color: $login-bg-color;
   background: $login-bg; 
   background-size: cover;
+  background-position: $login-sidebar-width;
 
   > .container {
     position: relative;
     height: inherit;
 
     .login-sidebar {
-      max-width: 400px;
+      max-width: $login-sidebar-width;
       height: inherit;
       background: white;
       padding: 0 2em;
