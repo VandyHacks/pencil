@@ -4,7 +4,6 @@ $login-sidebar-width: 450px;
   height: 100%;
   width: 100%;
   background-color: $login-bg-color;
-  background-size: cover;
 
   > .container {
     position: relative;
@@ -43,5 +42,6 @@ $login-sidebar-width: 450px;
   @media only screen and (min-width: 769px) {
       background: $login-bg; 
       background-position: $login-sidebar-width;
+      background-size: cover;
   }
 }
