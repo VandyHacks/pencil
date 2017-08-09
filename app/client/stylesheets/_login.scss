@@ -1,10 +1,9 @@
 $login-sidebar-width: 450px;
 
 #login {
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
   background-color: $login-bg-color;
-  background-size: cover;
 
   > .container {
     position: relative;
@@ -17,13 +16,23 @@ $login-sidebar-width: 450px;
       padding: 0 2em;
       display: -webkit-box;
       display: -ms-flexbox;
-      display: flex
+      display: flex;
+
+      @media only screen and (min-width: 769px) {
+          max-width: $login-sidebar-width;
+          padding: 0 3em;
+      }
     }
 
     .content {
-      width: 100%;
-      margin: auto 0;
+      margin: auto auto;
       padding: 2em 0;
+      width: 100%;
+      max-width: $login-sidebar-width - 50px;
+
+      @media only screen and (min-width: 769px) {
+        max-width: none;
+      }
     }
 
     .forgot {
@@ -34,16 +43,11 @@ $login-sidebar-width: 450px;
       margin-top: 1em;
     }
   }
-}
 
-@media only screen and (min-width: 769px) {
-  #login {
+  @media only screen and (min-width: 769px) {
       background: $login-bg; 
       background-position: $login-sidebar-width;
-
-      .login-sidebar {
-        max-width: $login-sidebar-width;
-        padding: 0 3em;
-      }
+      background-size: cover;
+      background-repeat: no-repeat;
   }
 }
