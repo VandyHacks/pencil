@@ -93,21 +93,21 @@ input, textarea, select {
   padding: 1.05em 1.6em;
   transition: background 0.25s;
   &.primary {
-    background: $primary;
+    background: $secondary;
     &:hover, &:focus {
       background: #394574;
     }
     &:active {
-      background: darken($primary, 10%);
+      background: darken($secondary, 10%);
     }
   }
   &.secondary {
-    background: $secondary;
+    background: $tertiary;
     &:hover, &:focus {
-      background: lighten($secondary, 10%);
+      background: lighten($tertiary, 10%);
     }
     &:active {
-      background: darken($secondary, 10%);
+      background: darken($tertiary, 10%);
     }
   }
 }
