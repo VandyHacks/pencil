@@ -1,78 +1,80 @@
 <div id="login">
   <div class="container">
-    <div class="ui content login-sidebar">
-
-      <div ng-show="loginState === 'login'">
-        <div class="divided title">
-          Registration
-        </div>
-      </div>
-      <div ng-show="loginState === 'forgot'">
-        <div class="divided title">
-          Password Reset
-        </div>
-      </div>
-
-      <div class="ui small error message" ng-show="error">
-        {{error}}
-      </div>
-
-      <div ng-show="loginState === 'login'">
-        <div class="ui login-password form">
-          <form ng-submit="login()">
-            <div class="field">
-              <label> Email</label>
-              <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email">
-            </div>
-            <div class="field">
-              <label> Password</label>
-              <input type="password" id='password' placeholder="Password (at least 6 characters)" ng-model="password" required>
-            </div>
-            <div class="field">
-              <button id="login-password" type="submit" class="fluid ui login primary button">
-                        Login
-                </button>
-            </div>
-          </form>
-        </div>
-
-        <div class="ui form" ng-show="regIsOpen">
-          <div class="field">
-            <button id="register" type="submit" class="fluid ui register secondary button" ng-click="register()">
-                      Sign up
-              </button>
+    <div class="ui login-sidebar">
+      <div class="content">
+        <div ng-show="loginState === 'login'">
+          <div class="divided title">
+            Registration
           </div>
         </div>
-      </div>
+        <div ng-show="loginState === 'forgot'">
+          <div class="divided title">
+            Password Reset
+          </div>
+        </div>
 
-      <div ng-show="loginState === 'forgot'">
-        <div class="ui forgot-password form">
-          <form ng-submit="sendResetEmail()">
+        <div class="ui small error message" ng-show="error">
+          {{error}}
+        </div>
+
+        <div ng-show="loginState === 'login'">
+          <div class="ui login-password form">
+            <form ng-submit="login()">
+              <div class="field">
+                <label> Email</label>
+                <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email">
+              </div>
+              <div class="field">
+                <label> Password</label>
+                <input type="password" id='password' placeholder="Password (at least 6 characters)" ng-model="password" required>
+              </div>
+              <div class="field">
+                <button id="login-password" type="submit" class="fluid ui login primary button">
+                        Login
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="ui form" ng-show="regIsOpen">
             <div class="field">
-              <label> Email</label>
-              <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email">
+              <button id="register" type="submit" class="fluid ui register secondary button" ng-click="register()">
+                      Sign up
+              </button>
             </div>
-            <div class="field">
-              <button id="forgot-password" type="submit" class="fluid ui login primary button">
+          </div>
+        </div>
+
+        <div ng-show="loginState === 'forgot'">
+          <div class="ui forgot-password form">
+            <form ng-submit="sendResetEmail()">
+              <div class="field">
+                <label> Email</label>
+                <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email">
+              </div>
+              <div class="field">
+                <button id="forgot-password" type="submit" class="fluid ui login primary button">
                         Send Reset Email
                 </button>
-            </div>
-          </form>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
 
-      <div class="ui divider"></div>
+        <div class="ui divider"></div>
 
-      <div ng-show="loginState === 'login'" class="forgot">
-        <a href="#" ng-click="setLoginState('forgot')">
+        <div ng-show="loginState === 'login'" class="forgot">
+          <a href="#" ng-click="setLoginState('forgot')">
             Forgot Password?
           </a>
-      </div>
+        </div>
 
-      <div ng-show="loginState === 'forgot'" class="forgot">
-        <a href="#" ng-click="setLoginState('login')">
+        <div ng-show="loginState === 'forgot'" class="forgot">
+          <a href="#" ng-click="setLoginState('login')">
             {{regIsOpen ? 'Login or Sign up' : 'Login'}}
           </a>
+        </div>
+
       </div>
 
 

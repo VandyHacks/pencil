@@ -7,10 +7,11 @@
 
   > .container {
     position: relative;
+    height: inherit;
 
     .login-sidebar {
       max-width: 400px;
-      height: 100%;
+      height: inherit;
       background: white;
       padding: 0 2em;
     }
