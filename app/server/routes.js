@@ -2,7 +2,7 @@ const User = require('./models/User');
 
 module.exports = function(app) {
   // Application ------------------------------------------
-  app.get('/', function(req, res){
+  app.get('/', (req, res) => {
     res.sendfile('./app/client/index.html');
   });
 

@@ -36,12 +36,14 @@ angular.module('app')
         resetError();
         AuthService.register(
           $scope.email, $scope.password, onSuccess, onError);
-        sweetAlert({
-          title: 'Registration complete!',
-          text: 'An email should be sent to you shortly.',
-          type: 'success',
-          confirmButtonColor: '#e76482'
-        });
+        if ($scope.error !== null) {
+          sweetAlert({
+            title: 'Registration complete!',
+            text: 'An email should be sent to you shortly.',
+            type: 'success',
+            confirmButtonColor: '#e76482'
+          });
+        }
       };
 
       $scope.setLoginState = function(state) {
