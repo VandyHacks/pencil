@@ -77,6 +77,19 @@
           </select>
         </div>
 
+        <div class="grouped fields">
+          <label> Ethnicity (Choose as many as you like) </label>
+          <div class="field"
+            ng-repeat="(key, value) in ethnicities">
+
+            <div class="ui checkbox">
+              <input type="checkbox" ng-model="ethnicities[key]" />
+              <label>{{key}}</label>
+            </div>
+
+          </div>
+        </div>
+
         <div class="field">
           <label>
               (Optional) Respond to one of the following prompts:

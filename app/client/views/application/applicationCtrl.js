@@ -26,24 +26,41 @@ angular.module('app')
 
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
-      /**
-       * TODO: JANK WARNING
-       */
-      function populateSchools() {
-        $http
-          .get('/assets/schools.json')
-          .then((res) => {
-            const schools = res.data;
-            const email = $scope.user.email.split('@')[1];
+      // -------------------------------
+      // All this just for ethnicity checkboxes fml
 
-            if (schools[email]) {
-              $scope.user.profile.school = schools[email].school;
-              $scope.autoFilledSchool = true;
-            }
-          });
+      const ethnicities = {
+        'Asian or Asian-American': false,
+        'Black, Afro-Caribbean, or African-American': false,
+        'Hispanic, Latino, or Spanish origin': false,
+        'Middle Eastern or North African': false,
+        'Native American or Alaska Native': false,
+        'Native Hawaiian or Pacific Islander': false,
+        'Non-Hispanic White or Euro-American': false,
+        'None of the above': false,
+        'Prefer not to disclose': false
+      };
+
+      if ($scope.user.profile.ethnicities) {
+        $scope.user.profile.ethnicities.forEach((ethnicity) => {
+          if (ethnicity in ethnicities) {
+            ethnicities[ethnicity] = true;
+          }
+        });
       }
 
+      $scope.ethnicities = ethnicities;
+
       function _updateUser(e) {
+        // Get the ethnicities as an array
+        const ethnicities = [];
+        Object.keys($scope.ethnicities).forEach((key) => {
+          if ($scope.ethnicities[key]) {
+            ethnicities.push(key);
+          }
+        });
+        $scope.user.profile.ethnicities = ethnicities;
+
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .success((data) => {
@@ -58,6 +75,23 @@ angular.module('app')
           })
           .error((res) => {
             sweetAlert('Uh oh!', 'Something went wrong.', 'error');
+          });
+      }
+
+      /**
+       * TODO: JANK WARNING
+       */
+      function populateSchools() {
+        $http
+          .get('/assets/schools.json')
+          .then((res) => {
+            const schools = res.data;
+            const email = $scope.user.email.split('@')[1];
+
+            if (schools[email]) {
+              $scope.user.profile.school = schools[email].school;
+              $scope.autoFilledSchool = true;
+            }
           });
       }
 

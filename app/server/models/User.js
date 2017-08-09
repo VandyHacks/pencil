@@ -35,6 +35,8 @@ const profile = {
     }
   },
 
+  ethnicities: [String],
+
   essay: {
     type: String,
     min: 0,
