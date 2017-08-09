@@ -9,6 +9,7 @@
             ng-class="{'loading': loading}">
 
         <div class="divided title">Basic Information</div>
+        <br>
 
         <fieldset ng-disabled="regIsClosed">
 
@@ -76,6 +77,19 @@
           </select>
         </div>
 
+        <div class="grouped fields">
+          <label> Ethnicity (Choose as many as you like) </label>
+          <div class="field"
+            ng-repeat="(key, value) in ethnicities">
+
+            <div class="ui checkbox">
+              <input type="checkbox" ng-model="ethnicities[key]" />
+              <label>{{key}}</label>
+            </div>
+
+          </div>
+        </div>
+
         <div class="field">
           <label>
               (Optional) Respond to one of the following prompts:
@@ -90,8 +104,86 @@
           </textarea>
         </div>
 
+        <br>
+        <div class="divided title"> Skills & Accomplishments </div>
+        <br>
+
+        <div class="field">
+          <label> What's your major? </label>
+          <input type="text"
+                  name="major"
+                  placeholder="Computer Science, History, Underwater Basket Weaving, etc."
+                  ng-model="user.profile.major">
+        </div>
+
+        <div class="field">
+          <label> Resume (PDF preferred) </label>
+          <input type="text"
+                  name="resume"
+                  placeholder="https://drive.google.com/open?id=foobar"
+                  ng-model="user.profile.resume">
+        </div>
+
+        <div class="field">
+          <label> Github (Optional) </label>
+          <input type="text"
+                  name="github"
+                  placeholder="https://github.com/foobar"
+                  ng-model="user.profile.github">
+        </div>
+
+        <div class="field">
+          <label> Devpost (Optional) </label>
+          <input type="text"
+                  name="devpost"
+                  placeholder="https://devpost.com/foobar"
+                  ng-model="user.profile.devpost">
+        </div>
+
+        <div class="field">
+          <label> LinkedIn (Optional) </label>
+          <input type="text"
+                  name="linkedin"
+                  placeholder="https://linkedin.com/in/foobar"
+                  ng-model="user.profile.linkedin">
+        </div>
+
+        <div class="field">
+          <label> Personal Website / Portfolio (Optional) </label>
+          <input type="text"
+                  name="website"
+                  placeholder="https://foobar.me"
+                  ng-model="user.profile.website">
+        </div>
+
+        <br>
+        <div class="divided title">Legal</div>
+        <br>
+
+        <div class="field">
+          <label> Code of Conduct </label>
+          <p>
+            <a
+              target="_blank"
+              href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">
+              MLH Code of Conduct
+            </a>
+          </p>
+          <p>
+            It is extremely important to us that attendees follow a set of guidelines to make the event fun for everyone involved. Please read through the MLH Code of Conduct and make sure you understand what we will be expecting of you.
+          </p>
+          <p>
+            By writing my name below, I affirm that I have read and will abide by the MLH Code of Conduct.
+          </p>
+          <input type="text"
+                  name="signatureCodeOfConduct"
+                  placeholder="Your Full Legal Name"
+                  ng-model="user.profile.signatureCodeOfConduct">
+        </div>
+
         <div class="field"
              ng-hide="isVandyStudent">
+          <label> Age </label>
           <p>
             Because of limitations imposed by Vanderbilt, we are not legally allowed to host
             non-Vandy minors (those under 18) for VandyHacks IV. Checking the box below affirms that you are or will be 18 years or older by October 20th, 2017.
@@ -116,6 +208,9 @@
             Submit
           </button>
         </div>
+        <footer>
+          We participate in Major League Hacking (MLH) as a MLH Member Event. By submitting your application to VandyHacks, you authorize us to share certain application/registration information for event administration, ranking, MLH administration, pre and post-event informational e-mails, and occasional messages about hackathons in line with the MLH Privacy Policy.
+        </footer>
 
         </fieldset>
       </div>
