@@ -48,13 +48,15 @@ angular.module('app')
       };
 
       $scope.setLoginState = function(state) {
-        $scope.loginState = state;
-        resetError();
+        if ($scope.loginState !== state) {
+          $scope.loginState = state;
+          resetError();
+        }
       };
 
       $scope.sendResetEmail = function() {
         const email = $scope.email;
-        if (!email || email.length === 0) {
+        if (!email) {
             onError({ message: 'Email must be a string.' });
             return;
         }
