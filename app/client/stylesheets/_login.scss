@@ -1,8 +1,8 @@
 $login-sidebar-width: 450px;
 
 #login {
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
   background-color: $login-bg-color;
 
   > .container {
