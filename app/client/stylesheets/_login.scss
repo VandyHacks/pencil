@@ -1,4 +1,4 @@
-$login-sidebar-width: 500px;
+$login-sidebar-width: 450px;
 
 #login {
   height: 100%;
@@ -16,7 +16,7 @@ $login-sidebar-width: 500px;
       max-width: $login-sidebar-width;
       height: inherit;
       background: white;
-      padding: 0 4em;
+      padding: 0 3em;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex
