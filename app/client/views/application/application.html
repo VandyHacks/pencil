@@ -92,6 +92,58 @@
         </div>
 
         <br>
+        <div class="divided title"> Skills & Accomplishments </div>
+        <br>
+
+        <div class="field">
+          <label> What's your major? </label>
+          <input type="text"
+                  name="major"
+                  placeholder="Computer Science, History, Underwater Basket Weaving, etc."
+                  ng-model="user.profile.major">
+        </div>
+
+        <div class="field">
+          <label> Resume (PDF preferred) </label>
+          <input type="text"
+                  name="resume"
+                  placeholder="https://drive.google.com/open?id=foobar"
+                  ng-model="user.profile.resume">
+        </div>
+
+        <div class="field">
+          <label> Github (Optional) </label>
+          <input type="text"
+                  name="github"
+                  placeholder="https://github.com/foobar"
+                  ng-model="user.profile.github">
+        </div>
+
+        <div class="field">
+          <label> Devpost (Optional) </label>
+          <input type="text"
+                  name="devpost"
+                  placeholder="https://devpost.com/foobar"
+                  ng-model="user.profile.devpost">
+        </div>
+
+        <div class="field">
+          <label> LinkedIn (Optional) </label>
+          <input type="text"
+                  name="linkedin"
+                  placeholder="https://linkedin.com/in/foobar"
+                  ng-model="user.profile.linkedin">
+        </div>
+
+        <div class="field">
+          <label> Personal Website / Portfolio (Optional) </label>
+          <input type="text"
+                  name="website"
+                  placeholder="https://foobar.me"
+                  ng-model="user.profile.website">
+        </div>
+
+        <br>
         <div class="divided title">Legal</div>
         <br>
 
@@ -113,7 +165,7 @@
           <input type="text"
                   name="signatureCodeOfConduct"
                   placeholder="Your Full Legal Name"
-                  ng-model="user.confirmation.signatureCodeOfConduct">
+                  ng-model="user.profile.signatureCodeOfConduct">
         </div>
 
         <div class="field"

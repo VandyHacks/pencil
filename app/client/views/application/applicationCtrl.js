@@ -101,6 +101,15 @@ angular.module('app')
                 }
               ]
             },
+            major: {
+              identifier: 'major',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your major.'
+                }
+              ]
+            },
             signatureCodeOfConduct: {
               identifier: 'signatureCodeOfConduct',
               rules: [

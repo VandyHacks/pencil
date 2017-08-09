@@ -41,6 +41,13 @@ const profile = {
     max: 1500
   },
 
+  major: String,
+  resume: String,
+  github: String,
+  devpost: String,
+  linkedin: String,
+  website: String,
+
   adult: {
     type: Boolean,
     required: true,
@@ -63,12 +70,6 @@ const confirmation = {
   },
   wantsHardware: Boolean,
   hardware: String,
-
-  major: String,
-  github: String,
-  twitter: String,
-  website: String,
-  resume: String,
 
   needsReimbursement: Boolean,
   address: {
