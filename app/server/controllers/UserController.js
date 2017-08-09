@@ -28,7 +28,7 @@ function canRegister(email, password, callback) {
   if (!password || password.length < minPasswordLength) {
     return callback({ message: `Password must be ${minPasswordLength} or more characters.` }, false);
   } else if (password.length > maxPasswordLength) {
-    return callback({ message: `Password cannot be more than ${maxPasswordLength} characters.` }, false);
+    return callback({ message: `Password cannot be longer than ${maxPasswordLength} characters.` }, false);
   }
 
   // Check if its within the registration window.
@@ -590,7 +590,7 @@ UserController.resetPassword = function (token, password, callback) {
     });
   } else if (password.length > maxPasswordLength) {
     return callback({
-      message: `Password cannot be more than ${maxPasswordLength} characters.`
+      message: `Password cannot be longer than ${maxPasswordLength} characters.`
     });
   }
 
