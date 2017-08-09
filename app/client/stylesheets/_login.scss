@@ -8,6 +8,13 @@
   > .container {
     position: relative;
 
+    .login-sidebar {
+      max-width: 400px;
+      height: 100%;
+      background: white;
+      padding: 0 2em;
+    }
+
       .forgot {
         text-align: center;
       }
