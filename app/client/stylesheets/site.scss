@@ -104,7 +104,7 @@ input, textarea, select {
   &.secondary {
     background: $tertiary;
     &:hover, &:focus {
-      background: lighten($tertiary, 10%);
+      background: lighten($tertiary, 5%);
     }
     &:active {
       background: darken($tertiary, 10%);
