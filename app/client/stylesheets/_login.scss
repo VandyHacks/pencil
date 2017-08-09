@@ -1,5 +1,4 @@
 $login-sidebar-width: 450px;
-$sui-mobile-break: 768px;
 
 #login {
   height: 100%;
@@ -37,7 +36,7 @@ $sui-mobile-break: 768px;
   }
 }
 
-@media (min-width: $sui-mobile-break) {
+@media only screen and (min-width: 769px) {
   #login {
       background: $login-bg; 
       background-position: $login-sidebar-width;
