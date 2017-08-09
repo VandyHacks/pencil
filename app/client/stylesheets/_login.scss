@@ -1,9 +1,6 @@
 #login {
   height: 100%;
   width: 100%;
-  background-color: $login-bg-color;
-  background: $login-bg; 
-  background-size: cover;
 
   > .container {
     position: relative;
@@ -16,6 +13,10 @@
     > .content {
       max-width: 320px;
       margin: 0 auto;
+      
+      .ui.segment {
+        background: none;
+      }
 
       .logo {
         max-width: 100px;
