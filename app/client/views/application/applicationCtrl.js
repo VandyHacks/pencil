@@ -101,6 +101,15 @@ angular.module('app')
                 }
               ]
             },
+            signatureCodeOfConduct: {
+              identifier: 'signatureCodeOfConduct',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your digital signature.'
+                }
+              ]
+            },
             adult: {
               identifier: 'adult',
               rules: [

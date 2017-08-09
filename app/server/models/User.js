@@ -13,12 +13,6 @@ const profile = {
     max: 100
   },
 
-  adult: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-
   school: {
     type: String,
     min: 1,
@@ -34,19 +28,26 @@ const profile = {
 
   firstHackathon: Boolean,
 
+  gender: {
+    type: String,
+    enum: {
+      values: 'M F O N'.split(' ')
+    }
+  },
+
   essay: {
     type: String,
     min: 0,
     max: 1500
   },
 
-  // Optional info for demographics
-  gender: {
-    type: String,
-    enum: {
-      values: 'M F O N'.split(' ')
-    }
-  }
+  adult: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
+  signatureCodeOfConduct: String
 
 };
 
@@ -81,11 +82,10 @@ const confirmation = {
   },
   receipt: String,
 
-  notes: String,
-
   signatureLiability: String,
   signaturePhotoRelease: String,
-  signatureCodeOfConduct: String
+
+  notes: String
 };
 
 const status = {
