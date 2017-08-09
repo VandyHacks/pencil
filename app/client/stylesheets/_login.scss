@@ -17,7 +17,12 @@ $login-sidebar-width: 450px;
       padding: 0 2em;
       display: -webkit-box;
       display: -ms-flexbox;
-      display: flex
+      display: flex;
+
+      @media only screen and (min-width: 769px) {
+          max-width: $login-sidebar-width;
+          padding: 0 3em;
+      }
     }
 
     .content {
@@ -34,16 +39,9 @@ $login-sidebar-width: 450px;
       margin-top: 1em;
     }
   }
-}
 
-@media only screen and (min-width: 769px) {
-  #login {
+  @media only screen and (min-width: 769px) {
       background: $login-bg; 
       background-position: $login-sidebar-width;
-
-      .login-sidebar {
-        max-width: $login-sidebar-width;
-        padding: 0 3em;
-      }
   }
 }

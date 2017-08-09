@@ -41,7 +41,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .page {
+  .page, .login-sidebar .content {
     .title {
       font-size: 1.25em;
     }
