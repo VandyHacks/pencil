@@ -90,6 +90,7 @@ input {
 .ui.button {
   font-family: $font-body;
   border-radius: 2px;
+  padding: 1em 1.5em;
   &.primary {
     background: $primary;
     &:hover {
