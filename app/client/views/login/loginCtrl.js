@@ -9,6 +9,7 @@ angular.module('app')
     function($scope, $http, $state, settings, Utils, AuthService) {
       // Is registration open?
       const Settings = settings.data;
+      const sweetAlertButtonColor = '#222a53';
       $scope.regIsOpen = Utils.isRegOpen(Settings);
 
       // Start state for login
@@ -41,23 +42,30 @@ angular.module('app')
             title: 'Registration complete!',
             text: 'An email should be sent to you shortly.',
             type: 'success',
-            confirmButtonColor: '#e76482'
+            confirmButtonColor: sweetAlertButtonColor
           });
         }
       };
 
       $scope.setLoginState = function(state) {
-        $scope.loginState = state;
+        if ($scope.loginState !== state) {
+          $scope.loginState = state;
+          resetError();
+        }
       };
 
       $scope.sendResetEmail = function() {
         const email = $scope.email;
+        if (!email) {
+            onError({ message: 'Email must be a string.' });
+            return;
+        }
         AuthService.sendResetEmail(email);
         sweetAlert({
           title: "Don't Sweat!",
           text: 'An email should be sent to you shortly.',
           type: 'success',
-          confirmButtonColor: '#e76482'
+          confirmButtonColor: sweetAlertButtonColor
         });
       };
     }

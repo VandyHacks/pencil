@@ -21,6 +21,7 @@ $login-sidebar-width: 450px;
       @media only screen and (min-width: 769px) {
           max-width: $login-sidebar-width;
           padding: 0 3em;
+          box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
       }
     }
 
