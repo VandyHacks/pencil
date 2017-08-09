@@ -13,19 +13,6 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 
-    > .content {
-      max-width: 320px;
-      margin: 0 auto;
-
-      .logo {
-        max-width: 100px;
-        margin: .5rem auto 1rem auto;
-        img {
-          width: 100px;
-          height: 100px;
-        }
-      }
-
       .forgot {
         text-align: center;
       }
@@ -33,8 +20,5 @@
       #register {
         margin-top: 1em;
       }
-
-    }
   }
-
 }
