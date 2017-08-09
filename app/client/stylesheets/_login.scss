@@ -26,16 +26,6 @@
         }
       }
 
-      .button {
-        color: white;
-        &.login {
-          background: $login-color;
-        }
-        &.register {
-          background: $register-color
-        }
-      }
-
       .forgot {
         text-align: center;
       }
