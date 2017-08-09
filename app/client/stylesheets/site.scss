@@ -71,6 +71,9 @@ body {
 
 a {
   color: $brand-tertiary;
+  &:hover {
+    color: lighten($brand-primary, 10%);
+  }
 }
 
 /**
@@ -97,21 +100,21 @@ input, textarea, select {
   padding: 11.75px 35px;
   transition: background 0.25s;
   &.primary {
-    background: $secondary;
+    background: $login-color;
     &:hover, &:focus {
       background: #394574;
     }
     &:active {
-      background: darken($secondary, 10%);
+      background: darken($login-color, 10%);
     }
   }
   &.secondary {
-    background: $tertiary;
+    background: $register-color;
     &:hover, &:focus {
-      background: lighten($tertiary, 5%);
+      background: lighten($register-color, 5%);
     }
     &:active {
-      background: darken($tertiary, 10%);
+      background: darken($register-color, 10%);
     }
   }
 }
