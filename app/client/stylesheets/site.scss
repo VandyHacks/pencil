@@ -55,7 +55,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  font-size: 1.02em;
+  font-size: 16px;
 }
 
 body {
@@ -89,7 +89,6 @@ input, textarea, select {
 }
 .ui.button {
   font-family: $font-body;
-  font-size: 16px;
   border-radius: 2px;
   padding: 11.75px 35px;
   transition: background 0.25s;
