@@ -84,10 +84,10 @@ body {
   box-shadow: none;
 }
 input {
-  border-radius: 0 !important;
+  border-radius: 2px !important;
 }
 .ui.button {
-  border-radius: 3px;
+  border-radius: 2px;
   &.primary {
     background: $primary;
     &:hover {
