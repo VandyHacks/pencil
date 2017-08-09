@@ -3,8 +3,15 @@
     <div class="content">
       <div class="ui segment">
 
-        <div class="divided title">
-          Registration
+        <div ng-show="loginState === 'login'">
+          <div class="divided title">
+            Registration
+          </div>
+        </div>
+        <div ng-show="loginState === 'forgot'">
+          <div class="divided title">
+            Password Reset
+          </div>
         </div>
 
         <div class="ui small error message" ng-show="error">
