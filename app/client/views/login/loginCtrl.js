@@ -48,10 +48,15 @@ angular.module('app')
 
       $scope.setLoginState = function(state) {
         $scope.loginState = state;
+        resetError();
       };
 
       $scope.sendResetEmail = function() {
         const email = $scope.email;
+        if (email.length === 0) {
+            onError({ message: 'Email must be a string.' });
+            return;
+        }
         AuthService.sendResetEmail(email);
         sweetAlert({
           title: "Don't Sweat!",
