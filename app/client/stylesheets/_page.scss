@@ -27,7 +27,7 @@
     .title {
       font-size: 1em;
       &:after {
-        border-width: 2px;
+        display: none;
       }
     }
   }
