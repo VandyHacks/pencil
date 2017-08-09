@@ -87,7 +87,7 @@ input {
   border-radius: 0 !important;
 }
 .ui.button {
-  border-radius: 0;
+  border-radius: 3px;
   &.primary {
     background: $primary;
     &:hover {
