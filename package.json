@@ -50,6 +50,6 @@
     "gulp-uglify-es": "^0.1.3"
   },
   "engines": {
-    "node": "7.4.0"
+    "node": "7.10.1"
   }
 }
