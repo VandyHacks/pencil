@@ -53,7 +53,7 @@ angular.module('app')
 
       $scope.sendResetEmail = function() {
         const email = $scope.email;
-        if (email.length === 0) {
+        if (!email || email.length === 0) {
             onError({ message: 'Email must be a string.' });
             return;
         }
