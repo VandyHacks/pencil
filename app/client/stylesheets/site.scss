@@ -84,9 +84,11 @@ body {
   box-shadow: none;
 }
 input {
+  font-family: $font-body !important;
   border-radius: 2px !important;
 }
 .ui.button {
+  font-family: $font-body;
   border-radius: 2px;
   &.primary {
     background: $primary;
