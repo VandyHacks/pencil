@@ -5,10 +5,11 @@ angular.module('app')
     '$state',
     '$http',
     'currentUser',
+    'MAJORS',
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService) {
+    function($scope, $rootScope, $state, $http, currentUser, majors, Settings, Session, UserService) {
       const sweetAlertButtonColor = '';
 
       // Set up the user
@@ -98,6 +99,14 @@ angular.module('app')
       }
 
       function _setupForm() {
+        // Initialize majors dropdown
+        $('.ui.dropdown').dropdown({
+          values: majors.map((major) => ({
+            name: major,
+            value: major
+          })),
+          maxSelections: 3
+        });
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
@@ -123,7 +132,7 @@ angular.module('app')
               identifier: 'year',
               rules: [
                 {
-                  type: 'empty',
+                  type: 'integer[2018..2021]',
                   prompt: 'Please select your graduation year.'
                 }
               ]
@@ -137,12 +146,31 @@ angular.module('app')
                 }
               ]
             },
+            ethnicity: {
+              identifier: 'ethnicity',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select an ethnicity.'
+                }
+              ]
+            },
             major: {
               identifier: 'major',
               rules: [
                 {
-                  type: 'empty',
-                  prompt: 'Please enter your major.'
+                  type: 'minCount',
+                  value: 1,
+                  prompt: 'Please select a major.'
+                }
+              ]
+            },
+            resume: {
+              identifier: 'resume',
+              rules: [
+                {
+                  type: 'url',
+                  prompt: 'Please enter the URL of your resume.'
                 }
               ]
             },
@@ -150,8 +178,9 @@ angular.module('app')
               identifier: 'signatureCodeOfConduct',
               rules: [
                 {
-                  type: 'empty',
-                  prompt: 'Please type your digital signature.'
+                  type: 'match',
+                  value: 'name',
+                  prompt: 'Your digital signature must match your full name.'
                 }
               ]
             },
@@ -160,7 +189,7 @@ angular.module('app')
               rules: [
                 {
                   type: 'checked',
-                  prompt: 'You must be an adult, or an MIT student.'
+                  prompt: 'You must be an adult.'
                 }
               ]
             }
@@ -169,7 +198,9 @@ angular.module('app')
       }
 
       $scope.submitForm = function() {
+        $('.ui.form').form('validate form');
         if ($('.ui.form').form('is valid')) {
+          console.log($scope.user.profile);
           _updateUser();
         } else {
           document.body.scrollTop = 0;

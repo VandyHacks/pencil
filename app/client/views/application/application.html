@@ -60,7 +60,7 @@
           <label>Is this your first hackathon?</label>
           <div class="ui checkbox">
             <input type="checkbox" id="firstHackathon" ng-model="user.profile.firstHackathon">
-            <label for="firstHackathon">Yes.</label>
+            <label for="firstHackathon">Yes</label>
           </div>
         </div>
 
@@ -109,11 +109,12 @@
         <br>
 
         <div class="field">
-          <label> What's your major? </label>
-          <input type="text"
-                  name="major"
-                  placeholder="Computer Science, History, Underwater Basket Weaving, etc."
-                  ng-model="user.profile.major">
+          <label> Major(s) </label>
+          <div class="ui multiple search selection dropdown">
+            <input type="hidden" name="major" ng-model="user.profile.major">
+            <div class="default text">Major(s)</div>
+            <i class="dropdown icon"></i>
+          </div>
         </div>
 
         <div class="field">
@@ -203,7 +204,7 @@
 
         <div class="field" ng-hide="regIsClosed">
           <button type="submit"
-                  class="fluid ui primary button"
+                  class="fluid ui primary submit button"
                   ng-click="submitForm()">
             Submit
           </button>
@@ -211,6 +212,7 @@
         <footer>
           We participate in Major League Hacking (MLH) as a MLH Member Event. By submitting your application to VandyHacks, you authorize us to share certain application/registration information for event administration, ranking, MLH administration, pre and post-event informational e-mails, and occasional messages about hackathons in line with the MLH Privacy Policy.
         </footer>
+        <div class="ui error message"></div>
 
         </fieldset>
       </div>
