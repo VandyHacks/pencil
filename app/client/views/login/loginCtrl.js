@@ -58,7 +58,7 @@ angular.module('app')
         AuthService.sendResetEmail($scope.email, function() {
           sweetAlert({
             title: "Don't sweat!",
-            text: 'An email should be sent to you shortly.',
+            text: 'If the email you submitted matches our records, you\'ll receive a reset link shortly.',
             type: 'success',
             confirmButtonColor: sweetAlertButtonColor
           });
