@@ -171,6 +171,8 @@ angular.module('app')
       $scope.submitForm = function() {
         if ($('.ui.form').form('is valid')) {
           _updateUser();
+        } else {
+          document.body.scrollTop = 0;
         }
       };
     }]);
