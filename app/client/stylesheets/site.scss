@@ -85,6 +85,7 @@ a {
  */
 .sweet-alert {
   font-family: $font-body;
+  border-radius: 2px;
 }
 
 /**
@@ -103,6 +104,9 @@ input, textarea, select {
   border-radius: 2px;
   padding: 15px 35px;
   transition: background 0.25s;
+  font-size: 1em;
+  font-weight: bold;
+  line-height: 1em;
   &.primary, &.confirm {
     background: $login-color;
     &:hover, &:focus {
