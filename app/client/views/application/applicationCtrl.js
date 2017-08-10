@@ -118,6 +118,9 @@ angular.module('app')
           $('.ui.dropdown').dropdown('set selected', majors);
         }
 
+        // Shitty file uploads
+        $("div#resume-upload").dropzone({ url: '/file/upload' });
+        
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
