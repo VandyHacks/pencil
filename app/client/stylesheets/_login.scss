@@ -4,6 +4,7 @@ $login-sidebar-width: 450px;
   height: inherit;
   width: inherit;
   background-color: $login-bg-color;
+  overflow-y: hidden;
 
   > .container {
     position: relative;
@@ -17,6 +18,7 @@ $login-sidebar-width: 450px;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
+      overflow-y: auto;
 
       @media only screen and (min-width: 769px) {
           max-width: $login-sidebar-width;
