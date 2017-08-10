@@ -58,7 +58,7 @@ function canRegister(email, password, callback) {
         }
       }
       return callback({
-        message: 'Please enter an institutional email address.'
+        message: 'Please enter an educational email address.'
       }, false);
     });
   });
