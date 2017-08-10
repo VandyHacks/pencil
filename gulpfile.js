@@ -7,7 +7,8 @@ const ngAnnotate = require('gulp-ng-annotate');
 const nodemon = require('gulp-nodemon');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify-es').default;
+const uglify = require('gulp-uglify');
+const babel = require('gulp-babel');
 
 function swallowError(error) {
   // If you want details of the error in the console
@@ -27,7 +28,9 @@ gulp.task('js', () => {
         .pipe(concat('app.js'))
         .pipe(ngAnnotate())
         .on('error', swallowError)
-        .pipe(uglify())
+        .pipe(babel())
+	    .pipe(uglify())
+	  .pipe(sourcemaps.write())
       .pipe(gulp.dest('app/client/build'));
   } else {
     gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
@@ -35,6 +38,7 @@ gulp.task('js', () => {
         .pipe(concat('app.js'))
         .pipe(ngAnnotate())
         .on('error', swallowError)
+        .pipe(babel())
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('app/client/build'));
   }
