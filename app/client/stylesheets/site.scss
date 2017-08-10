@@ -99,6 +99,9 @@ input, textarea, select {
   font-family: $font-body !important;
   border-radius: 2px !important;
 }
+
+$btn-primary-hover-color: #394574;
+
 .ui.button, .sweet-alert button {
   font-family: $font-body;
   border-radius: 2px;
@@ -107,14 +110,17 @@ input, textarea, select {
   font-size: 1em;
   font-weight: bold;
   line-height: 1em;
-  &.primary, &.confirm {
+  &.primary, .sweet-alert button.confirm {
     background: $login-color;
-    &:hover, &:focus {
-      background: #394574;
+    &:hover {
+      background: $btn-primary-hover-color;
     }
     &:active {
       background: darken($login-color, 10%);
     }
+  }
+  &.primary:focus {
+    background: $btn-primary-hover-color;
   }
   &.secondary {
     background: $register-color;
