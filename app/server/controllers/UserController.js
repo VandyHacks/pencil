@@ -13,11 +13,6 @@ const maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
 const minPasswordLength = 6;
 const maxPasswordLength = 4096;
 
-// Tests a string if it ends with target s
-function endsWith(s, test) {
-  return test.indexOf(s, test.length - s.length) !== -1;
-}
-
 /**
  * Determine whether or not a user can register.
  * @param  {String}   email    Email of the user
@@ -56,13 +51,14 @@ function canRegister(email, password, callback) {
       if (err || !emails) {
         return callback(err);
       }
-      for (let i = 0; i < emails.length; i++) {
-        if (validator.isEmail(email) && endsWith(emails[i], email)) {
+      const isEmailValid = validator.isEmail(email);
+      for (let whitelistedSuffix of emails) {
+        if (isEmailValid && email.endsWith(whitelistedSuffix)) {
           return callback(null, true);
         }
       }
       return callback({
-        message: 'Not a valid educational email.'
+        message: 'Not a valid educational email, permitted ' + emails.join(', ')
       }, false);
     });
   });
