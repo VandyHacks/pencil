@@ -1,5 +1,6 @@
 angular
   .module('app', [
+    'ngRaven',
     'ui.router'
   ])
   .config([
