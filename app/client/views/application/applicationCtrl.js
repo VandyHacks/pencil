@@ -65,7 +65,7 @@ angular.module('app')
         $scope.user.profile.ethnicities = ethnicities;
 
         // Jank way to do data binding for semantic ui dropdown
-        $scope.user.profile.majors = document.getElementById('majors').value;
+        $scope.user.profile.majors = $('.ui.dropdown').dropdown('get value');
 
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
