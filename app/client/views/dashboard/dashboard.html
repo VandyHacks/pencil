@@ -25,9 +25,9 @@
         </div>
 
         <div class="ui divider"></div>
-        <br>
 
         <div ng-if="user.profile.name.length > 0">
+          <br>
           <div class="small title">
             Welcome back, {{user.profile.name}}!
           </div>
@@ -35,6 +35,7 @@
         </div>
 
         <div ng-if="dashState('unverified')" class="description">
+          <br>
           <div class="small title">
             Your email address ({{user.email}}) hasn't been verified.
           </div>
@@ -51,14 +52,6 @@
         </div>
 
         <div ng-if="dashState('openAndSubmitted')" class="description">
-          <p>
-            <strong>
-                {{ DASHBOARD.SUBMITTED_TITLE }}
-            </strong>
-          </p>
-          <p>
-            {{ DASHBOARD.SUBMITTED }}
-          </p>
           <div class="ui primary button" ui-sref="app.application">
             Edit your application
           </div>
