@@ -84,11 +84,11 @@ angular.module('app')
       $scope.declineAdmission = function() {
         swal({
           title: 'Whoa!',
-          text: "Are you sure you would like to decline your admission? \n\n You can't go back!",
+          text: "Are you sure you would like to decline your admission? \n You can't go back!",
           type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#DD6B55',
-          confirmButtonText: "Yes, I can't make it.",
+          confirmButtonColor: '#db2828',
+          confirmButtonText: "Yes, .",
           closeOnConfirm: true
         }, () => {
           UserService
