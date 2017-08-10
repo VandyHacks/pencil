@@ -49,7 +49,7 @@ schema.statics.getWhitelistedEmails = function(callback) {
     .findOne({})
     .select('whitelistedEmails')
     .exec((err, settings) => {
-      return callback(err, settings.whitelistedEmails);
+      return callback(err, settings.whitelistedEmails.map(suffix => suffix.trim()));
     });
 };
 
