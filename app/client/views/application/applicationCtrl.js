@@ -104,6 +104,8 @@ angular.module('app')
       function _setupForm() {
         // Initialize majors dropdown
         $('.ui.dropdown').dropdown({
+          fullTextSearch: 'exact',
+          match: 'text',
           values: possibleMajors.map((major) => ({
             name: major,
             value: major
