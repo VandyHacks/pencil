@@ -54,5 +54,6 @@
   },
   "engines": {
     "node": "7.10.1"
-  }
+  },
+  "cacheDirectories": ["node_modules", "app/client/plugins"]
 }
