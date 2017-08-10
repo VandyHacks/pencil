@@ -64,6 +64,9 @@ angular.module('app')
         });
         $scope.user.profile.ethnicities = ethnicities;
 
+        // Jank way to do data binding for semantic ui dropdown
+        $scope.user.profile.majors = document.getElementById('majors').value;
+
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .success((data) => {
@@ -107,6 +110,12 @@ angular.module('app')
           })),
           maxSelections: 3
         });
+        // Jank way to do data binding for semantic ui dropdown
+        if ($scope.user.profile.majors) {
+          const majors = $scope.user.profile.majors.split(',');
+          $('.ui.dropdown').dropdown('set selected', majors);
+        }
+
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
@@ -155,8 +164,8 @@ angular.module('app')
                 }
               ]
             },
-            major: {
-              identifier: 'major',
+            majors: {
+              identifier: 'majors',
               rules: [
                 {
                   type: 'minCount',
@@ -200,7 +209,6 @@ angular.module('app')
       $scope.submitForm = function() {
         $('.ui.form').form('validate form');
         if ($('.ui.form').form('is valid')) {
-          console.log($scope.user.profile);
           _updateUser();
         }
       };
