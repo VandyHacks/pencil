@@ -58,7 +58,7 @@ function canRegister(email, password, callback) {
         }
       }
       return callback({
-        message: 'Please enter your school email address.'
+        message: 'Please enter an institutional email address.'
       }, false);
     });
   });
@@ -103,7 +103,7 @@ UserController.loginWithPassword = function(email, password, callback) {
       }
       if (!user) {
         return callback({
-          message: "We couldn't find you!"
+          message: "We couldn't find that account!"
         });
       }
       if (!user.checkPassword(password)) {
