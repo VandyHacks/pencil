@@ -268,11 +268,16 @@ h4{
   max-width:560px;
 }
 
-.pink.button {
-  background: #222a53;
-  padding: 12px 24px;
-  color: white;
+.btn-wrapper {
+  /*@editable*/ font-family:'Sofia Pro', sans-serif;
+  /*@editable*/ font-size:14px;
   border-radius: 2px;  
+  padding: 12px 24px;
+  background: #222a53;  
+}
+
+.pink.button {
+  color: white;
   text-decoration: none;
 }
 
