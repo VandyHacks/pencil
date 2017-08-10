@@ -36,7 +36,7 @@ angular.module('app')
       $scope.register = function() {
         resetError();
         AuthService.register(
-          $scope.email, $scope.password, function() {
+          $scope.email, $scope.password, () => {
             sweetAlert({
               title: 'Registration complete!',
               text: 'An email should be sent to you shortly.',
@@ -55,7 +55,7 @@ angular.module('app')
 
       $scope.sendResetEmail = function() {
         resetError();
-        AuthService.sendResetEmail($scope.email, function() {
+        AuthService.sendResetEmail($scope.email, () => {
           sweetAlert({
             title: "Don't sweat!",
             text: 'If the email you submitted matches our records, you\'ll receive a reset link shortly.',
