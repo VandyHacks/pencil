@@ -16,12 +16,12 @@
           <div class="field">
             <label> What's your phone number? (required) </label>
             <p>
-              We need this in case we need to get ahold of you!
+              We are required to collect phone numbers of attendees in case of an emergency.
             </p>
             <input type="tel"
                    name="phone"
                    ng-model="user.confirmation.phoneNumber"
-                   placeholder="(123) - 555 - 1234"
+                   placeholder="(123) 555-1234"
                    required>
           </div>
 
@@ -102,15 +102,15 @@
 
           <div class="field">
             <p>
-              As a reminder, our reimbursement policy is as follows:
+              Our reimbursement policy is as follows:
             </p>
             <ul>
-              <li> Up to $100 from within Massachusetts </li>
-              <li> Up to $200 from anywhere else in North America </li>
-              <li> Up to $500 from outside North America </li>
+              <li> Placeholder </li>
+              <li> Placeholder </li>
+              <li> Placeholder </li>
             </ul>
             <p>
-              We’ll also be sending buses free of charge to Princeton, NJ; New York, NY; New Haven, CT; and Providence, RI. Again, we only reimburse the minimum-cost travel path. Head back to the dashboard to read our full travel policy.
+              We only reimburse the minimum-cost travel path. Additionally, we’ll be sending buses free of charge to certain schools. 
             </p>
           </div>
 
@@ -130,7 +130,7 @@
             </div>
 
             <p>
-              Travel reimbursement is processed and sent by check after the event. To expedite the reimbursement process and ensure that you receive your reimbursement as quickly as possible, make sure that your mailing address is accurate and you upload your receipts.
+              Travel reimbursement is processed and sent by check after the event. To expedite the reimbursement process and ensure that you receive your reimbursement as quickly as possible, make sure that your mailing address is accurate.
             </p>
 
             <div class="field">
@@ -187,19 +187,6 @@
               </div>
             </div>
 
-            <div class="field">
-              <label> Travel Receipt </label>
-              <p>
-                So that we can process your reimbursement faster, please name your receipt: <strong>{{fileName}}</strong>
-              </p>
-              <a
-                target="_blank"
-                href="https://go.hackmit.org/travel-receipts"
-                class="ui pink button">
-                Upload Receipt
-              </a>
-            </div>
-
           </div>
 
           <br>
@@ -216,36 +203,15 @@
               </a>
             </p>
             <p>
-              For legal reasons, our university asks that you read and accept the terms of our liability waiver. Again, as we mentioned in the original lottery application - you <strong> must </strong> be 18 years or older or an MIT undergraduate by the day of the event, or <strong> we will refuse you admission at the door. We will be checking ID. </strong>
+              For legal reasons, our university asks that you read and accept the terms of our liability waiver. Again, as we mentioned in the original application - you <strong> must </strong> be 18 years or older or a Vanderbilt undergraduate by the day of the event, or <strong> we will refuse you admission at the door. We will be checking ID. </strong>
             </p>
             <p>
-              By writing my name below, I affirm that I have read and accepted the terms of the liability waiver above, and will be either an MIT undergraduate or 18 years or older at the time of the event.
+              By writing my name below, I affirm that I have read and accepted the terms of the liability waiver above, am enrolled in university, and will be either a Vanderbilt undergraduate or 18 years or older at the time of the event.
             </p>
             <input type="text"
                    name="signatureLiabilityWaiver"
                    placeholder="Your Full Legal Name"
                    ng-model="user.confirmation.signatureLiability">
-          </div>
-
-          <div class="field">
-            <label> Photo Release </label>
-            <p>
-              <a
-                target="_blank"
-                href="https://go.hackmit.org/photo-release">
-                Photo Release
-              </a>
-            </p>
-            <p>
-              Signing this photo release means if we take photos or photos of you, we can share it with the world.
-            </p>
-            <p>
-              By writing my name below, I affirm that I have read and accepted the terms of the photo release above.
-            </p>
-            <input type="text"
-                   name="signaturePhotoRelease"
-                   placeholder="Your Full Legal Name"
-                   ng-model="user.confirmation.signaturePhotoRelease">
           </div>
 
           <br>

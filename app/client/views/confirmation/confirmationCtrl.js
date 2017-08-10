@@ -27,6 +27,7 @@ angular.module('app')
         'Vegan': false,
         'Halal': false,
         'Kosher': false,
+        'Gluten-free': false,
         'Nut Allergy': false
       };
 
@@ -74,15 +75,6 @@ angular.module('app')
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
-            shirt: {
-              identifier: 'shirt',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please give us a shirt size!'
-                }
-              ]
-            },
             phone: {
               identifier: 'phone',
               rules: [
@@ -92,17 +84,17 @@ angular.module('app')
                 }
               ]
             },
-            signatureLiability: {
-              identifier: 'signatureLiabilityWaiver',
+            shirt: {
+              identifier: 'shirt',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please type your digital signature.'
+                  prompt: 'Please give us a shirt size!'
                 }
               ]
             },
-            signaturePhotoRelease: {
-              identifier: 'signaturePhotoRelease',
+            signatureLiability: {
+              identifier: 'signatureLiabilityWaiver',
               rules: [
                 {
                   type: 'empty',

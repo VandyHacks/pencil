@@ -83,10 +83,8 @@ const confirmation = {
     zip: String,
     country: String
   },
-  receipt: String,
 
   signatureLiability: String,
-  signaturePhotoRelease: String,
 
   notes: String
 };
