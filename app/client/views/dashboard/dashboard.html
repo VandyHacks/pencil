@@ -33,22 +33,17 @@
 
         <div class="ui divider"></div>
 
+        <br>
         <div class="small title" ng-if="user.profile.name.length > 0">
               Welcome back, {{user.profile.name}}!
         </div>
-        <br>
 
         <div
           ng-if="dashState('unverified')"
           class="description">
-          <p>
-            <strong>
+          <div class="small title">
             Your email address ({{user.email}}) is not yet verified.
-            </strong>
-          </p>
-          <p>
-            {{ DASHBOARD.UNVERIFIED }}
-          </p>
+          </div>
           <div class="ui primary button" ng-click="resendEmail()">
             Resend verification email
           </div>
