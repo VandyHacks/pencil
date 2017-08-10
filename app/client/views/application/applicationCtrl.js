@@ -125,6 +125,9 @@ angular.module('app')
           createImageThumbnails: false,
           maxFilesize: 2,
           uploadMultiple: false,
+          sending: function (file, xhr, formData) {
+            formData.append("x-access-token", window.localStorage.jwt);            
+          }            
         });
 
         // Semantic-UI form validation
