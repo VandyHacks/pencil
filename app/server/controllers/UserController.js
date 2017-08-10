@@ -58,7 +58,7 @@ function canRegister(email, password, callback) {
         }
       }
       return callback({
-        message: 'Not a valid educational email, permitted ' + emails.join(', ')
+        message: 'Please enter your school email address.'
       }, false);
     });
   });
