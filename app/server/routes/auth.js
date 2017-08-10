@@ -82,9 +82,6 @@ module.exports = function(router) {
   router.post('/reset',
     (req, res, next) => {
       const email = req.body.email;
-      if (!email) {
-        return res.status(400).send();
-      }
 
       UserController.sendPasswordResetEmail(email, (err) => {
         if (err) {

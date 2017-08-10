@@ -55,18 +55,16 @@ angular.module('app')
       };
 
       $scope.sendResetEmail = function() {
-        const email = $scope.email;
-        if (!email) {
-            onError({ message: 'Email must be a string.' });
-            return;
+        resetError();
+        AuthService.sendResetEmail($scope.email, onError);
+        if ($scope.error !== null) {
+          sweetAlert({
+            title: "Don't sweat!",
+            text: 'An email should be sent to you shortly.',
+            type: 'success',
+            confirmButtonColor: sweetAlertButtonColor
+          });
         }
-        AuthService.sendResetEmail(email);
-        sweetAlert({
-          title: "Don't Sweat!",
-          text: 'An email should be sent to you shortly.',
-          type: 'success',
-          confirmButtonColor: sweetAlertButtonColor
-        });
       };
     }
   ]);

@@ -96,11 +96,12 @@ angular.module('app')
           });
       };
 
-      authService.sendResetEmail = function(email) {
+      authService.sendResetEmail = function(email, onFailure) {
         return $http
           .post('/auth/reset', {
             email: email
-          });
+          })
+          .error(onFailure);
       };
 
       authService.resetPassword = function(token, pass, onSuccess, onFailure) {
