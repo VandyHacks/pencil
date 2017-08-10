@@ -9,7 +9,7 @@ angular.module('app')
     function($scope, $http, $state, settings, Utils, AuthService) {
       // Is registration open?
       const Settings = settings.data;
-      const sweetAlertButtonColor = '#222a53';
+      const sweetAlertButtonColor = '';
       $scope.regIsOpen = Utils.isRegOpen(Settings);
 
       // Start state for login
