@@ -64,6 +64,8 @@ angular.module('app')
             type: 'success',
             confirmButtonColor: sweetAlertButtonColor
           });
+        } else {
+            console.log(`Succeeded: ${$scope.error === null}`);
         }
       };
     }
