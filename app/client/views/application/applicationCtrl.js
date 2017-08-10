@@ -9,7 +9,7 @@ angular.module('app')
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, majors, Settings, Session, UserService) {
+    function($scope, $rootScope, $state, $http, currentUser, possibleMajors, Settings, Session, UserService) {
       const sweetAlertButtonColor = '';
 
       // Set up the user
@@ -104,7 +104,7 @@ angular.module('app')
       function _setupForm() {
         // Initialize majors dropdown
         $('.ui.dropdown').dropdown({
-          values: majors.map((major) => ({
+          values: possibleMajors.map((major) => ({
             name: major,
             value: major
           })),
