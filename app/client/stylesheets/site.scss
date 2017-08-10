@@ -83,7 +83,7 @@ a {
 /**
  * SweetAlert Overrides
  */
-.sweet-alert {
+.sweet-alert, .ui.message {
   font-family: $font-body;
   border-radius: 2px;
 }
@@ -110,17 +110,14 @@ $btn-primary-hover-color: #394574;
   font-size: 1em;
   font-weight: bold;
   line-height: 1em;
-  &.primary, .sweet-alert button.confirm {
+  &.primary, &.confirm {
     background: $login-color;
-    &:hover {
+    &:hover, &:focus {
       background: $btn-primary-hover-color;
     }
     &:active {
       background: darken($login-color, 10%);
     }
-  }
-  &.primary:focus {
-    background: $btn-primary-hover-color;
   }
   &.secondary {
     background: $register-color;
