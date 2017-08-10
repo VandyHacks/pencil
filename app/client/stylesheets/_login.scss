@@ -14,9 +14,6 @@ $login-sidebar-width: 450px;
       height: inherit;
       background: $login-bg-color;
       padding: 0 2em;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
 
       @media only screen and (min-width: 769px) {
           max-width: $login-sidebar-width;
@@ -26,10 +23,13 @@ $login-sidebar-width: 450px;
     }
 
     .content {
-      margin: auto auto;
+      margin: 0 auto;
       padding: 2em 0;
       width: 100%;
       max-width: $login-sidebar-width - 50px;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
 
       @media only screen and (min-width: 769px) {
         max-width: none;
