@@ -88,7 +88,7 @@ angular.module('app')
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#db2828',
-          confirmButtonText: "Yes, .",
+          confirmButtonText: "Yes, I can't make it.",
           closeOnConfirm: true
         }, () => {
           UserService
