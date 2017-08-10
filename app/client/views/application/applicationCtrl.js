@@ -63,6 +63,7 @@ angular.module('app')
           }
         });
         $scope.user.profile.ethnicities = ethnicities;
+        console.log($scope.user.profile);
 
         // Jank way to do data binding for semantic ui dropdown
         $scope.user.profile.majors = document.getElementById('majors').value;
