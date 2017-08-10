@@ -5,6 +5,7 @@ angular.module('app')
     '$state',
     'AuthService',
     function($scope, $stateParams, $state, AuthService) {
+      const sweetAlertButtonColor = '';
       const token = $stateParams.token;
 
       $scope.loading = true;
@@ -27,7 +28,7 @@ angular.module('app')
               title: 'Neato!',
               text: 'Your password has been changed!',
               type: 'success',
-              confirmButtonColor: '#e76482'
+              confirmButtonColor: sweetAlertButtonColor
             }, () => {
               $state.go('login');
             });

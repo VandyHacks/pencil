@@ -9,6 +9,8 @@ angular.module('app')
     'Session',
     'UserService',
     function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService) {
+      const sweetAlertButtonColor = '';
+
       // Set up the user
       $scope.user = currentUser.data;
 
@@ -68,7 +70,7 @@ angular.module('app')
               title: 'Awesome!',
               text: 'Your application has been saved.',
               type: 'success',
-              confirmButtonColor: '#e76482'
+              confirmButtonColor: sweetAlertButtonColor
             }, () => {
               $state.go('app.dashboard');
             });
