@@ -65,12 +65,8 @@ angular.module('app')
             email: email,
             password: password
           })
-          .success((data) => {
-            loginSuccess(data, onSuccess);
-          })
-          .error((data) => {
-            loginFailure(data, onFailure);
-          });
+          .success(onSuccess)
+          .error(onFailure);
       };
 
       authService.verify = function(token, onSuccess, onFailure) {
@@ -96,11 +92,12 @@ angular.module('app')
           });
       };
 
-      authService.sendResetEmail = function(email, onFailure) {
+      authService.sendResetEmail = function(email, onSuccess, onFailure) {
         return $http
           .post('/auth/reset', {
             email: email
           })
+          .success(onSuccess)
           .error(onFailure);
       };
 

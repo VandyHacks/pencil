@@ -36,15 +36,14 @@ angular.module('app')
       $scope.register = function() {
         resetError();
         AuthService.register(
-          $scope.email, $scope.password, onSuccess, onError);
-        if ($scope.error !== null) {
-          sweetAlert({
-            title: 'Registration complete!',
-            text: 'An email should be sent to you shortly.',
-            type: 'success',
-            confirmButtonColor: sweetAlertButtonColor
-          });
-        }
+          $scope.email, $scope.password, function() {
+            sweetAlert({
+              title: 'Registration complete!',
+              text: 'An email should be sent to you shortly.',
+              type: 'success',
+              confirmButtonColor: sweetAlertButtonColor
+            });
+          }, onError);
       };
 
       $scope.setLoginState = function(state) {
@@ -56,17 +55,14 @@ angular.module('app')
 
       $scope.sendResetEmail = function() {
         resetError();
-        AuthService.sendResetEmail($scope.email, onError);
-        if ($scope.error !== null) {
+        AuthService.sendResetEmail($scope.email, function() {
           sweetAlert({
             title: "Don't sweat!",
             text: 'An email should be sent to you shortly.',
             type: 'success',
             confirmButtonColor: sweetAlertButtonColor
           });
-        } else {
-            console.log(`Succeeded: ${$scope.error === null}`);
-        }
+        }, onError);
       };
     }
   ]);
