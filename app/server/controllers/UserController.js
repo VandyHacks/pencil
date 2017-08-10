@@ -136,7 +136,7 @@ UserController.loginWithPassword = function(email, password, callback) {
 UserController.createUser = function(email, password, callback) {
   if (typeof email !== 'string') {
     return callback({
-      message: 'You must provide an email.'
+      message: 'You must provide a valid email.'
     });
   }
 
@@ -522,7 +522,7 @@ UserController.sendVerificationEmailById = function(id, callback) {
 UserController.sendPasswordResetEmail = function(email, callback) {
   if (!email) {
     return callback({ 
-      message: 'You must provide an email.'
+      message: 'You must provide a valid email.'
     });
   }
   User
