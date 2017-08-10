@@ -277,7 +277,12 @@ h4{
 }
 
 .pink.button {
-  color: white;
+  font-weight: bold;
+  letter-spacing: normal;
+  line-height: 100.0%;
+  text-align: center;
+  text-decoration: none;
+  color: rgb(255,255,255);
 }
 
 /* ========== Footer Styles ========== */
