@@ -9,7 +9,7 @@ angular.module('app')
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, possibleMajors, Settings, Session, UserService) {
+    function ($scope, $rootScope, $state, $http, currentUser, possibleMajors, Settings, Session, UserService) {
       const sweetAlertButtonColor = '';
 
       // Set up the user
@@ -118,9 +118,15 @@ angular.module('app')
           $('.ui.dropdown').dropdown('set selected', majors);
         }
 
+        console.log('init dropzone')
         // Shitty file uploads
-        $("div#resume-upload").dropzone({ url: '/file/upload' });
-        
+        $("div#resume-upload").dropzone({
+          url: '/file/upload', 
+          createImageThumbnails: false,
+          maxFilesize: 2,
+          uploadMultiple: false,
+        });
+
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
@@ -211,7 +217,7 @@ angular.module('app')
         });
       }
 
-      $scope.submitForm = function() {
+      $scope.submitForm = function () {
         $('.ui.form').form('validate form');
         if ($('.ui.form').form('is valid')) {
           _updateUser();
