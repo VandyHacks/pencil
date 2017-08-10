@@ -6,7 +6,7 @@ module.exports = function (app) {
     res.sendfile('./app/client/index.html');
   });
 
-  app.get('/ping', (req, res) => res.sendStatus(200));
+  app.get('/wakemydyno.txt', (req, res) => res.sendStatus(200));
 
   // Wildcard all other GET requests to the angular app
   app.get('*', (req, res) => {
