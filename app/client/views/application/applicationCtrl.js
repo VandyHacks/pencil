@@ -202,8 +202,6 @@ angular.module('app')
         if ($('.ui.form').form('is valid')) {
           console.log($scope.user.profile);
           _updateUser();
-        } else {
-          document.body.scrollTop = 0;
         }
       };
     }]);
