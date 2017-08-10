@@ -43,7 +43,7 @@ const profile = {
     max: 1500
   },
 
-  major: String,
+  majors: String,
   resume: String,
   github: String,
   devpost: String,
