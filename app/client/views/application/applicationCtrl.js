@@ -63,6 +63,7 @@ angular.module('app')
           }
         });
         $scope.user.profile.ethnicities = ethnicities;
+        console.log($scope.user.profile);
 
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
