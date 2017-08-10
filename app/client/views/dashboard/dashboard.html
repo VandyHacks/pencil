@@ -33,15 +33,10 @@
 
         <div class="ui divider"></div>
 
-        <div ng-if="user.profile.name.length > 0">
-          <p>
-            <strong>
+        <div class="small title" ng-if="user.profile.name.length > 0">
               Welcome back, {{user.profile.name}}!
-            </strong>
-          </p>
-          <p>
-          </p>
         </div>
+        <br>
 
         <div
           ng-if="dashState('unverified')"
