@@ -352,8 +352,7 @@ UserController.updateLastResumeNameById = function(id, lastResumeName, callback)
     {
       $set: {
         'lastUpdated': Date.now(),
-        'profile.lastResumeName': lastResumeName,
-        'status.completedProfile': true
+        'profile.lastResumeName': lastResumeName
       }
     },
     {
