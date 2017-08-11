@@ -86,7 +86,8 @@ module.exports = function(router) {
                     '``` \n'
                 })
               }
-            }, (error, response, body) => {
+            }, (err, response, body) => {
+              if (err) console.log('Failed to send error to Slack');
               return res.status(500).send({
                 message: "Your error has been recorded, we'll get right on it!"
               });

@@ -1,7 +1,6 @@
 require('dotenv').load();
 const mongoose = require('mongoose');
 const database = process.env.DATABASE || 'mongodb://localhost:27017';
-const jwt = require('jsonwebtoken');
 mongoose.connect(database);
 
 const UserController = require('../app/server/controllers/UserController');

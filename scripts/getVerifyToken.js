@@ -11,6 +11,10 @@ const email = 'hacker@school.edu';
 User.findOne({
   email: email
 }, (err, user) => {
+  if (err || !user) {
+    throw new Error('Error while finding user with email ' + email);
+  }
+
   console.log(user.generateEmailVerificationToken());
   console.log(user.generateAuthToken());
 
