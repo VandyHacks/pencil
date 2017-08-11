@@ -6,7 +6,18 @@ const request = require('request');
 const multer = require('multer');
 const upload = multer({
   fileFilter: (req, file, cb) => {
-    cb(null, true);
+    const allowedMimeTypes = [
+      'application/msword', // doc
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+      'application/vnd.oasis.opendocument.text', // odt
+      'application/x-iwork-pages-sffpages', // pages
+      'application/pdf' // pdf
+    ];
+
+    if (allowedMimeTypes.includes(file.mimetype)) cb(null, true); // Accept file
+    else cb(null, false); // Reject file
+
+    cb(new Error('wtf this shouldn\'t happen'));
   },
   limits: {
     fileSize: 2 * 1000 * 1000 // 2 MB
