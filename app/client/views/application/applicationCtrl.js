@@ -160,6 +160,7 @@ angular.module('app')
           uploadMultiple: false,
           addedfile: () => {},
           sending: function(file, xhr, formData) {
+            $('#resume-upload-wrapper').removeClass('error');            
             xhr.setRequestHeader('x-access-token', Session.getToken());
           },
           uploadprogress: function(file, progress, bytes) {
