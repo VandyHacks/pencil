@@ -120,8 +120,10 @@
         <div class="field">
           <label> Resume (PDF preferred) </label>
           <div class="file-upload-wrapper">
-            <div id="resume-upload"></div>
-            <div id="curr-file">{{user.profile.lastResumeName || 'No file uploaded'}}</div>
+            <div id="resume-upload">
+              <div class="upload-status"></div>
+            </div>
+            <div class="curr-file">{{user.profile.lastResumeName || 'No file uploaded'}}</div>
           </div>
         </div>
 

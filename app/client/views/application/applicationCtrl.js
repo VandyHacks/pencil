@@ -119,8 +119,17 @@ angular.module('app')
         }
 
         console.log('init dropzone - lastResumeName: ' + $scope.user.profile.lastResumeName);
+        
         // Shitty file uploads
-        window.resumeDropzone = $('div#resume-upload').dropzone({
+        const dropzoneEl = $('div#resume-upload');
+        const updateDropzoneText = text => dropzoneEl.find(".upload-status").text(text);
+        
+        const defaultMsg = 'Drag files here or click to upload';
+        const progressMsg = progress => `Uploading (${Math.floor(progress)}%)...`;
+        const successMsg = 'Upload successful!';
+        const failureMsg = 'Upload failed, please retry.';
+
+        dropzoneEl.dropzone({
           url: `/api/users/${Session.getUserId()}/resume`,
           acceptedFiles: [
             'application/msword', // doc
@@ -132,13 +141,24 @@ angular.module('app')
           createImageThumbnails: false,
           maxFilesize: 2,
           uploadMultiple: false,
+          addedfile: () => {},
           sending: function(file, xhr, formData) {
             xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
           },
-          success: function (file, successMsg) {
+          uploadprogress: function (file, progress, bytes) {
+            updateDropzoneText(progressMsg(progress));
+          },
+          success: function (file, msg) {
             $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
+            updateDropzoneText(successMsg);
+            setTimeout(() => updateDropzoneText(defaultMsg), 2000);            
+          },
+          error: function (file, msg) {
+            updateDropzoneText(failureMsg);
+            setTimeout(() => updateDropzoneText(defaultMsg), 2000);            
           }
         });
+        updateDropzoneText(defaultMsg);
 
         // Semantic-UI form validation
         $('.ui.form').form({
