@@ -32,18 +32,18 @@
       }
     }
 
-    $dropzone-width: 270px;
+    $dropzone-width: 320px;
 
     .file-upload-wrapper {
       border: 1px solid rgba(34,36,38,.15);
       border-radius: 2px;
       padding: 0;
       margin: .5em 0;
-      width: $dropzone-width;
+      max-width: $dropzone-width;
     }
 
     #resume-upload {
-      width: $dropzone-width - 2px;
+      max-width: $dropzone-width - 2px;
       height: 120px;      
       background-color: #fff;
       background-image: linear-gradient(transparent, #fff);
@@ -83,6 +83,7 @@
       -moz-hyphens: auto;
       hyphens: auto;   
       margin: .5em;
+      margin-top: 0;
       border-radius: 2px;      
     }
   }
