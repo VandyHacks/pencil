@@ -1,6 +1,5 @@
 angular.module('app')
 .constant('MAJORS', [
-  "Women's Studies",
   'Accounting Technician and Bookkeeping',
   'Accounting',
   'Acting',
@@ -756,6 +755,7 @@ angular.module('app')
   'Welding Engineering Technician',
   'Welding',
   'Wildlife and Fisheries Management',
+  'Women\'s Studies',
   'Woodworking',
   'Yoga and Movement Therapy',
   'Zoology and Entomology',
