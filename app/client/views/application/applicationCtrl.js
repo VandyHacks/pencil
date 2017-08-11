@@ -122,11 +122,19 @@ angular.module('app')
         // Shitty file uploads
         window.resumeDropzone = $('div#resume-upload').dropzone({
           url: `/api/users/${Session.getUserId()}/resume`,
+          acceptedFiles: [
+            'application/msword', // doc
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+            'application/vnd.oasis.opendocument.text', // odt
+            'application/x-iwork-pages-sffpages', // pages
+            'application/pdf' // pdf
+          ],
           createImageThumbnails: false,
           maxFilesize: 2,
           uploadMultiple: false,
           sending: function(file, xhr, formData) {
             xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
+            xhr.setRequestHeader('client-file-name')
           },
           success: function (file, successMsg) {
             console.log(file.name);
