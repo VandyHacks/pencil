@@ -180,7 +180,7 @@ module.exports = function(router) {
    * POST - Upload a resume for the specified user.
    */
   router.post('/users/:id/resume', isOwnerOrAdmin, (req, res) => {
-    defaultResponse(req, res)();
+    defaultResponse(req, res)(null, { message: 'Success' });
   });
 
   /**
