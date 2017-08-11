@@ -118,7 +118,7 @@ angular.module('app')
           $('.ui.dropdown').dropdown('set selected', majors);
         }
 
-        console.log('init dropzone');
+        console.log('init dropzone - lastResumeName: ' + $scope.user.profile.lastResumeName);
         // Shitty file uploads
         $('div#resume-upload').dropzone({
           url: '/file/upload',

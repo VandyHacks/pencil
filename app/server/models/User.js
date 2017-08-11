@@ -45,7 +45,11 @@ const profile = {
 
   majors: String,
   resume: String,
-  lastResumeName: String,
+  lastResumeName: {
+    type: String,
+    required: true,
+    default: ''
+  },
   github: String,
   devpost: String,
   linkedin: String,
