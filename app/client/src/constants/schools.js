@@ -270,7 +270,7 @@ angular.module('app')
   },
   'tjhsst.edu': {
     'school': 'Thomas Jefferson High School for Science and Technology',
-    'state': 'Thomas Jefferson High School for Science and Technology'
+    'state': 'Virginia'
   },
   'wheatoncollege.edu': {
     'school': 'Wheaton College',
@@ -381,8 +381,8 @@ angular.module('app')
     'state': 'District of Columbia'
   },
   'bths.edu': {
-    'school': 'bte',
-    'state': 'btec'
+    'school': 'Brooklyn Technical High School',
+    'state': 'New York'
   },
   'drexel.edu': {
     'school': 'Drexel University',
