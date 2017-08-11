@@ -141,6 +141,7 @@ angular.module('app')
           createImageThumbnails: false,
           maxFilesize: 2,
           uploadMultiple: false,
+          addedfile: () => {},
           sending: function(file, xhr, formData) {
             xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
           },
