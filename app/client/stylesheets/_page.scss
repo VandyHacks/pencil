@@ -44,7 +44,7 @@
     #resume-upload {
       width: 100%;
       height: 120px;      
-      background: #fff;
+      background: transparent;
       box-shadow: inset 0 -50px 50px -40px #fff, inset 0 2px 4px rgba(0,0,0,0);    
       padding: 1em;
       cursor: pointer;
@@ -83,6 +83,29 @@
       margin: .5em;
       margin-top: 0;
       border-radius: 2px;      
+    }
+
+    .field.error {
+      $err-border: #e0b4b4;
+      $err-bg: #fff6f6;
+
+      .file-upload-wrapper {
+        border-color:$err-border !important;
+        background: $err-bg;
+      }
+
+      #resume-upload {
+        box-shadow: inset 0 -50px 50px -40px $err-bg, inset 0 2px 4px rgba(0,0,0,0);    
+        
+        &:hover {
+          background: darken($err-bg, 4%);
+          box-shadow: inset 0 -50px 50px -40px $err-bg, inset 0 2px 4px rgba(0,0,0,0.07);                      
+        }
+      }
+
+      .upload-status {
+        color: darken($err-border, 10%);
+      }
     }
   }
 
