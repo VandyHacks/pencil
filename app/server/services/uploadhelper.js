@@ -1,30 +1,37 @@
 const crypto = require('crypto');
-const path = require('path');
+const mime = require('mime');
+
+const secret = process.env.STOREHOUSE_SECRET;
 
 function sha1sum(content) {
     return crypto.createHash('sha1').update(content).digest('hex');
 }
 
-function getSignature(opts, secretKey) {
+function getSignature(opts) {
 	let verification = '';
 	for (let key of Object.keys(opts).sort()) {
 		verification += key + '=' + opts[key] + '&';
 	}
-	verification += ('secret=' + secretKey);
+	verification += ('secret=' + secret);
 	return crypto.createHash('sha1').update(verification).digest('hex');
+}
+
+function getFilePath(id, contentType) {
+    return `resumes/${sha1sum(id + secret)}.${mime.extension(contentType)}`;
 }
 
 module.exports = {
     getUploadUrl() {
         return process.env.STOREHOUSE_URL;
     },
-    generateOpts(id, filename, fileStream) {
-        const secret = process.env.STOREHOUSE_SECRET
+    getFilePath(id, contentType) {
+        return getFilePath(id, contentType);
+    },
+    generateOpts(id, contentType) {
         const opts = {
-            path: `resumes/${sha1sum(id + secret)}.${path.extname(originalName)}`
+            path: getFilePath(id, contentType)
         };
         opts.signature = getSignature(opts, secret);
-        opts.file = fileStream;
         return opts;
     }
 }

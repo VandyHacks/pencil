@@ -200,6 +200,9 @@ module.exports = function(router) {
    *
    * POST - Upload a resume for the specified user.
    */
+
+  const uploadHelper = require('../services/uploadhelper');
+
   router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
     const id = req.params.id;
@@ -209,17 +212,15 @@ module.exports = function(router) {
       if (err) {
         defaultResponse(req, res)(err);
       } else {
-        const formData = {
-          file: {
-            value: file.buffer,
-            options: {
-              filename: lastResumeName,
-              contentType: file.mimetype,
-              knownLength: file.size
-            }
+        const formData = uploadHelper.generateOpts(id, file.mimetype);
+        formData.file = {
+          value: file.buffer,
+          options: {
+            filename: lastResumeName,
+            contentType: file.mimetype
           }
         };
-        request.post('https://vandyhacks.org', { formData }, (err, httpResponse, body) => {
+        const req = request.post({url: uploadHelper.getUploadUrl(), formData: formData}, (err, httpResponse, body) => {
           if (err) {
             defaultResponse(req, res)(err);
           } else {

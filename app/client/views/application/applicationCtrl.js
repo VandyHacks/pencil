@@ -162,7 +162,7 @@ angular.module('app')
           uploadMultiple: false,
           addedfile: () => {},
           sending: function(file, xhr, formData) {
-            xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
+            xhr.setRequestHeader('x-access-token', Session.getToken());
           },
           uploadprogress: function(file, progress, bytes) {
             updateDropzoneText(progressMsg(progress));
