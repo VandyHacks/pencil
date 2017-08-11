@@ -32,10 +32,10 @@
       }
     }
 
-    $dropzone-width: 180px;
+    $dropzone-width: 240px;
 
     .file-upload-wrapper {
-      border: 1px solid #cacacb;
+      border: 1px solid rgba(34,36,38,.15);
       border-radius: 2px;
       padding: 0;
       margin: .5em 0;
@@ -43,16 +43,15 @@
     }
 
     #resume-upload {
-      height: $dropzone-width - 36px - 2px;
       width: $dropzone-width - 2px;
-      background-color: #fdfdfd;
-      box-shadow: inset 0px 2px 4px rgba(0,0,0,0.05);
+      height: 180px;      
+      background-color: #fff;
       padding: 1em;
       cursor: pointer;
       transition: background-color 0.25s;
 
       &:hover {
-        background-color: #fafafa;
+        background-color: #fcfcfc;
       }
     }
 
@@ -62,7 +61,7 @@
       transform: translateY(-50%);
       text-align: center;
       font-size: 1.15em;
-      color: rgba(0,0,0,0.33);
+      color: #cac7c7;
       pointer-events: none;
     }
 
