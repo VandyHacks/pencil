@@ -121,7 +121,7 @@ angular.module('app')
         console.log('init dropzone - lastResumeName: ' + $scope.user.profile.lastResumeName);
         // Shitty file uploads
         $('div#resume-upload').dropzone({
-          url: '/file/upload',
+          url: `/users/${Session.getUserId()}/resume`,
           createImageThumbnails: false,
           maxFilesize: 2,
           uploadMultiple: false,
