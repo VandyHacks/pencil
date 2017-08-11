@@ -3,6 +3,17 @@ const SettingsController = require('../controllers/SettingsController');
 
 const request = require('request');
 
+const multer = require('multer');
+const upload = multer({
+  fileFilter: (req, file, cb) => {
+    cb(null, true);
+  },
+  limits: {
+    fileSize: 2 * 1000 * 1000 // 2 MB
+  },
+  storage: multer.memoryStorage()
+});
+
 module.exports = function(router) {
   function getToken(req) {
     return req.headers['x-access-token'];
@@ -179,8 +190,11 @@ module.exports = function(router) {
    *
    * POST - Upload a resume for the specified user.
    */
-  router.post('/users/:id/resume', isOwnerOrAdmin, (req, res) => {
-    defaultResponse(req, res)(null, { message: 'Success' });
+  router.post('/users/:id/resume', isOwnerOrAdmin, upload.single('file'), (req, res) => {
+    const file = req.file;
+    defaultResponse(req, res)(null, {
+      message: `File ${file.originalname} of size ${file.size} bytes with mime type ${file.mimetype} and encoding ${file.encoding} uploaded successfully!`
+    });
   });
 
   /**

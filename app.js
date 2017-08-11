@@ -5,9 +5,9 @@ const express = require('express');
 
 // Middleware!
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
