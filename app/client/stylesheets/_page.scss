@@ -45,10 +45,15 @@
     #resume-upload {
       height: $dropzone-width - 36px - 2px;
       width: $dropzone-width - 2px;
-      background: #fdfdfd;
+      background-color: #fdfdfd;
       box-shadow: inset 0px 2px 4px rgba(0,0,0,0.05);
       padding: 1em;
       cursor: pointer;
+      transition: background-color 0.25s;
+
+      &:hover {
+        background-color: #fafafa;
+      }
     }
 
     .upload-status {
