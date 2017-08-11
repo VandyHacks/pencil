@@ -177,9 +177,9 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
-   * PUT - Update a specific user's profile.
+   * POST - Upload a resume for the specified user.
    */
-  router.put('/users/:id/resume', isOwnerOrAdmin, (req, res) => {
+  router.post('/users/:id/resume', isOwnerOrAdmin, (req, res) => {
     defaultResponse(req, res)();
   });
 
