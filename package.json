@@ -32,7 +32,8 @@
     "prod": "gulp build && node app.js",
     "config": "cp .env.config .env",
     "postinstall": "bower install && gulp build",
-    "lint": "eslint gulpfile.js app.js scripts config app/client/src app/client/views app/server"
+    "lint": "eslint gulpfile.js app.js scripts config app/client/src app/client/views app/server",
+    "precommit": "npm run lint"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -52,7 +53,8 @@
     "gulp-nodemon": "^2.2.1",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
-    "gulp-uglify": "^3.0.0"
+    "gulp-uglify": "^3.0.0",
+    "husky": "^0.14.3"
   },
   "engines": {
     "node": "7.10.1"
