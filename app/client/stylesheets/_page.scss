@@ -45,14 +45,15 @@
     #resume-upload {
       width: $dropzone-width - 2px;
       height: 180px;      
-      background: linear-gradient(#fff, #fff);
+      background: #fff;
+      background-image: linear-gradient(transparent, #fff);
       box-shadow: inset 0 2px 4px rgba(0,0,0,0);    
       padding: 1em;
       cursor: pointer;
       transition: all 0.25s;
 
       &:hover {
-        background: linear-gradient(#fbfbfb, #fff);
+        background: #fbfbfb;
         box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);            
       }
     }
