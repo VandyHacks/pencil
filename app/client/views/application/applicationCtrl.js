@@ -249,12 +249,12 @@ angular.module('app')
                 }
               ]
             },
-            resume: {
-              identifier: 'resume',
+            lastResumeName: {
+              identifier: 'lastResumeName',
               rules: [
                 {
-                  type: 'url',
-                  prompt: 'Please enter the URL of your resume.'
+                  type: 'empty',
+                  prompt: 'Please upload a resume.'
                 }
               ]
             },
