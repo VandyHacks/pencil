@@ -17,11 +17,11 @@ function getSignature(opts) {
 }
 
 function getFilePathByExt(id, extname) {
-    return 'resumes/' + sha1sum(id + secret) + extname.toLowerCase();
+  return 'resumes/' + sha1sum(id + secret) + extname.toLowerCase();
 }
 
 function getFilePathByMime(id, contentType) {
-    return getFilePathByExt(id, '.' + mime.extension(contentType));
+  return getFilePathByExt(id, '.' + mime.extension(contentType));
 }
 
 module.exports = {
