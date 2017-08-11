@@ -16,20 +16,23 @@ function getSignature(opts) {
   return crypto.createHash('sha1').update(verification).digest('hex');
 }
 
-function getFilePath(id, contentType) {
-  return `resumes/${sha1sum(id + secret)}.${mime.extension(contentType)}`;
+function getFilePathByExt(id, extname) {
+    return 'resumes/' + sha1sum(id + secret) + extname.toLowerCase();
+}
+
+function getFilePathByMime(id, contentType) {
+    return getFilePathByExt(id, '.' + mime.extension(contentType));
 }
 
 module.exports = {
   getUploadUrl() {
     return process.env.STOREHOUSE_URL;
   },
-  getFilePath(id, contentType) {
-    return getFilePath(id, contentType);
-  },
+  getFilePathByExt: getFilePathByExt,
+  getFilePathByMime: getFilePathByMime,
   generateOpts(id, contentType) {
     const opts = {
-      path: getFilePath(id, contentType)
+      path: getFilePathByMime(id, contentType)
     };
     opts.signature = getSignature(opts, secret);
     return opts;
