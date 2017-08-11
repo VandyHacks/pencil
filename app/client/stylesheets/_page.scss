@@ -32,10 +32,18 @@
       }
     }
 
+    .file-upload-wrapper {
+      border: 1px solid rgba(34,36,38,.15);
+      border-radius: 2px;
+      box-shadow: inset 0px 2px 8px rgba(0,0,0,0.05);
+      padding: 0;
+      margin: .5em 0;
+    }
+
     #resume-upload {
-      height: 100px;
-      width: 100px;
-      background: yellow;
+      height: 180px;
+      width: 180px;
+      background: #f8f8f8;
     }
   }
 
