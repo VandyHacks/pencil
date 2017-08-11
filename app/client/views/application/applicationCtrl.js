@@ -148,12 +148,12 @@ angular.module('app')
           uploadprogress: function (file, progress, bytes) {
             updateDropzoneText(progressMsg(progress));
           },
-          success: function (file, successMsg) {
+          success: function (file, msg) {
             $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
             updateDropzoneText(successMsg);
             setTimeout(() => updateDropzoneText(defaultMsg), 2000);            
           },
-          error: function (file, errorMsg) {
+          error: function (file, msg) {
             updateDropzoneText(failureMsg);
             setTimeout(() => updateDropzoneText(defaultMsg), 2000);            
           }
