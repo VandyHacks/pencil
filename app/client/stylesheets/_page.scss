@@ -44,16 +44,15 @@
     #resume-upload {
       width: 100%;
       height: 120px;      
-      background-color: #fff;
-      background-image: linear-gradient(transparent, #fff);
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0);    
+      background: #fff;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0), inset 0 -30px 30px -20px #fff;    
       padding: 1em;
       cursor: pointer;
       transition: all 0.25s;
 
       &:hover {
-        background-color: #fbfbfb;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);            
+        background: #fbfbfb;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.03), inset 0 -30px 30px -20px #fff;            
       }
     }
 
