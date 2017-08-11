@@ -115,11 +115,11 @@ angular.module('app')
         }
 
         console.log('init dropzone - lastResumeName: ' + $scope.user.profile.lastResumeName);
-        
+
         // Shitty file uploads
         const dropzoneEl = $('div#resume-upload');
-        const updateDropzoneText = text => dropzoneEl.find(".upload-status").text(text);
-        
+        const updateDropzoneText = text => dropzoneEl.find('.upload-status').text(text);
+
         const defaultMsg = 'Drag file here or click to upload';
         const progressMsg = progress => `Uploading (${Math.floor(progress)}%)...`;
         const successMsg = 'Upload successful!';
@@ -141,17 +141,17 @@ angular.module('app')
           sending: function(file, xhr, formData) {
             xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
           },
-          uploadprogress: function (file, progress, bytes) {
+          uploadprogress: function(file, progress, bytes) {
             updateDropzoneText(progressMsg(progress));
           },
-          success: function (file, msg) {
+          success: function(file, msg) {
             $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
             updateDropzoneText(successMsg);
-            setTimeout(() => updateDropzoneText(defaultMsg), 2000);            
+            setTimeout(() => updateDropzoneText(defaultMsg), 2000);
           },
-          error: function (file, msg) {
+          error: function(file, msg) {
             updateDropzoneText(failureMsg);
-            setTimeout(() => updateDropzoneText(defaultMsg), 2000);            
+            setTimeout(() => updateDropzoneText(defaultMsg), 2000);
           }
         });
         updateDropzoneText(defaultMsg);
