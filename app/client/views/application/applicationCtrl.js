@@ -160,7 +160,6 @@ angular.module('app')
           uploadMultiple: false,
           addedfile: () => {},
           sending: function(file, xhr, formData) {
-            $('#resume-upload-wrapper').removeClass('error');            
             xhr.setRequestHeader('x-access-token', Session.getToken());
           },
           uploadprogress: function(file, progress, bytes) {
@@ -169,6 +168,7 @@ angular.module('app')
           success: function(file, msg) {
             $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
             updateDropzoneText(successMsg);
+            $('#resume-upload-wrapper').removeClass('error');            
             setTimeout(() => updateDropzoneText(defaultMsg), 2000);
           },
           error: function(file, msg) {
