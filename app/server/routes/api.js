@@ -203,6 +203,17 @@ module.exports = function (router) {
 
   const uploadHelper = require('../services/uploadhelper');
 
+  router.get('/users/:id/resume', isAdmin, (req, res) => {
+    UserController.getById(req.params.id, (err, user) => {
+      if (err) {
+        defaultResponse(req, res)(err);
+        return;
+      }
+      const profile = user.profile;
+      console.log(profile);
+    });
+  });
+
   router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
     const id = req.params.id;
