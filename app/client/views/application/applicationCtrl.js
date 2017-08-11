@@ -6,10 +6,11 @@ angular.module('app')
     '$http',
     'currentUser',
     'MAJORS',
+    'SCHOOLS',
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, possibleMajors, Settings, Session, UserService) {
+    function($scope, $rootScope, $state, $http, currentUser, possibleMajors, possibleSchools, Settings, Session, UserService) {
       const sweetAlertButtonColor = '';
 
       // Set up the user
@@ -88,17 +89,12 @@ angular.module('app')
        * TODO: JANK WARNING
        */
       function populateSchools() {
-        $http
-          .get('/assets/schools.json')
-          .then((res) => {
-            const schools = res.data;
-            const email = $scope.user.email.split('@')[1];
+        const email = $scope.user.email.split('@')[1];
 
-            if (schools[email]) {
-              $scope.user.profile.school = schools[email].school;
-              $scope.autoFilledSchool = true;
-            }
-          });
+        if (possibleSchools[email]) {
+          $scope.user.profile.school = possibleSchools[email].school;
+          $scope.autoFilledSchool = true;
+        }
       }
 
       function _setupForm() {
