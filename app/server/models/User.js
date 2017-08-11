@@ -47,7 +47,6 @@ const profile = {
   resume: String,
   lastResumeName: {
     type: String,
-    required: true,
     default: ''
   },
   github: String,
