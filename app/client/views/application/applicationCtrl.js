@@ -118,8 +118,17 @@ angular.module('app')
           $('.ui.dropdown').dropdown('set selected', majors);
         }
 
+        console.log('init dropzone');
         // Shitty file uploads
-        $('div#resume-upload').dropzone({ url: '/file/upload' });
+        $('div#resume-upload').dropzone({
+          url: '/file/upload',
+          createImageThumbnails: false,
+          maxFilesize: 2,
+          uploadMultiple: false,
+          sending: function(file, xhr, formData) {
+            xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
+          }
+        });
 
         // Semantic-UI form validation
         $('.ui.form').form({
