@@ -21,7 +21,7 @@ function getFilePathByExt(id, extname) {
 }
 
 function getFilePathByMime(id, contentType) {
-    return getFilePathByExt('.' + mime.extension(contentType));
+    return getFilePathByExt(id, '.' + mime.extension(contentType));
 }
 
 module.exports = {
