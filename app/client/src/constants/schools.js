@@ -269,8 +269,8 @@ angular.module('app')
     'state': 'Massachusetts'
   },
   'tjhsst.edu': {
-    'school': 'Thomas Jefferson High School for Science and Technolo',
-    'state': 'Thomas Jefferson High School for Science and Technolog'
+    'school': 'Thomas Jefferson High School for Science and Technology',
+    'state': 'Thomas Jefferson High School for Science and Technology'
   },
   'wheatoncollege.edu': {
     'school': 'Wheaton College',

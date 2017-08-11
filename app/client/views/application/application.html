@@ -36,11 +36,13 @@
                  ng-model="user.profile.school">
         </div>
 
-        <div class="field" ng-show="!autoFilledSchool">
+        <div class="field">
           <label> School </label>
-          <input class="ui input"
-                 name="school"
-                 ng-model="user.profile.school">
+          <div class="ui search selection dropdown" id="schoolDropdown">
+            <input type="hidden" name="school" id="school">
+            <div class="default text">School</div>
+            <i class="dropdown icon"></i>
+          </div>
         </div>
 
         <div class="field">
@@ -110,7 +112,7 @@
 
         <div class="field">
           <label> Major(s) </label>
-          <div class="ui multiple search selection dropdown">
+          <div class="ui multiple search selection dropdown" id="majorsDropdown">
             <input type="hidden" name="majors" id="majors">
             <div class="default text">Major(s)</div>
             <i class="dropdown icon"></i>

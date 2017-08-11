@@ -66,7 +66,8 @@ angular.module('app')
         $scope.user.profile.ethnicities = ethnicities;
 
         // Jank way to do data binding for semantic ui dropdown
-        $scope.user.profile.majors = $('.ui.dropdown').dropdown('get value');
+        $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
+        if (!$scope.autoFilledSchool) $scope.user.profile.school = $('#schoolDropdown').dropdown('get value');
 
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
@@ -98,8 +99,8 @@ angular.module('app')
       }
 
       function _setupForm() {
-        // Initialize majors dropdown
-        $('.ui.dropdown').dropdown({
+        // Initialize dropdowns
+        $('#majorsDropdown').dropdown({
           fullTextSearch: 'exact',
           match: 'text',
           values: possibleMajors.map((major) => ({
@@ -108,10 +109,32 @@ angular.module('app')
           })),
           maxSelections: 3
         });
+        $('#schoolDropdown').dropdown({
+          allowAdditions: true,
+          fullTextSearch: 'exact',
+          hideAdditions: false,
+          match: 'text',
+          values: Object.values(possibleSchools).sort((a, b) => {
+            const schoolA = a.school.toUpperCase();
+            const schoolB = b.school.toUpperCase();
+
+            if (schoolA < schoolB) return -1;
+            if (schoolA > schoolB) return 1;
+            return 0;
+          }).filter((item, index, self) => {
+            return index === 0 || item.school !== self[index - 1].school;
+          }).map((school) => ({
+            name: school.school,
+            value: school.school
+          })) // Extract school names and dedupe
+        });
         // Jank way to do data binding for semantic ui dropdown
         if ($scope.user.profile.majors) {
           const majors = $scope.user.profile.majors.split(',');
-          $('.ui.dropdown').dropdown('set selected', majors);
+          $('#majorsDropdown').dropdown('set exactly', majors);
+        }
+        if (!$scope.autoFilledSchool && $scope.user.profile.school) {
+          $('#schoolDropdown').dropdown('set selected', $scope.user.profile.school);
         }
 
         console.log('init dropzone - lastResumeName: ' + $scope.user.profile.lastResumeName);
