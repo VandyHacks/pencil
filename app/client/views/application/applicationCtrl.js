@@ -166,6 +166,7 @@ angular.module('app')
             updateDropzoneText(progressMsg(progress));
           },
           success: function(file, msg) {
+            // eslint-disable-next-line no-return-assign
             $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
             updateDropzoneText(successMsg);
             $('#resume-upload-wrapper').removeClass('error');
