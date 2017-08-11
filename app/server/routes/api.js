@@ -208,8 +208,24 @@ module.exports = function(router) {
       if (err) {
         defaultResponse(req, res)(err);
       } else {
-        defaultResponse(req, res)(null, {
-          message: `File of size ${file.size} bytes with mime type ${file.mimetype} uploaded successfully!`
+        const formData = {
+          file: {
+            value: file.buffer,
+            options: {
+              filename: lastResumeName,
+              contentType: file.mimetype,
+              knownLength: file.size
+            }
+          }
+        };
+        request.post('https://vandyhacks.org', { formData }, (err, httpResponse, body) => {
+          if (err) {
+            defaultResponse(req, res)(err);
+          } else {
+            defaultResponse(req, res)(null, {
+              message: 'Upload successful!  Server responded with:\n' + body
+            });
+          }
         });
       }
     });
