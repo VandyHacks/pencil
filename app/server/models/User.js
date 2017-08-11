@@ -230,16 +230,16 @@ schema.set('toObject', {
 // =========================================
 
 // checking if this password matches
-schema.methods.checkPassword = function(password) {
+schema.methods.checkPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
 // Token stuff
-schema.methods.generateEmailVerificationToken = function() {
+schema.methods.generateEmailVerificationToken = function () {
   return jwt.sign(this.email, JWT_SECRET);
 };
 
-schema.methods.generateAuthToken = function() {
+schema.methods.generateAuthToken = function () {
   return jwt.sign(this._id, JWT_SECRET);
 };
 
@@ -252,7 +252,7 @@ schema.methods.generateAuthToken = function() {
  *   exp: expiration ms
  * }
  */
-schema.methods.generateTempAuthToken = function() {
+schema.methods.generateTempAuthToken = function () {
   return jwt.sign({
     id: this._id
   }, JWT_SECRET, {
@@ -264,7 +264,7 @@ schema.methods.generateTempAuthToken = function() {
 // Static Methods
 // =========================================
 
-schema.statics.generateHash = function(password) {
+schema.statics.generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
@@ -273,7 +273,7 @@ schema.statics.generateHash = function(password) {
  * @param  {[type]}   token token
  * @param  {Function} cb    args(err, email)
  */
-schema.statics.verifyEmailVerificationToken = function(token, callback) {
+schema.statics.verifyEmailVerificationToken = function (token, callback) {
   jwt.verify(token, JWT_SECRET, (err, email) => {
     return callback(err, email);
   });
@@ -284,7 +284,7 @@ schema.statics.verifyEmailVerificationToken = function(token, callback) {
  * @param  {[type]}   token    temporary auth token
  * @param  {Function} callback args(err, id)
  */
-schema.statics.verifyTempAuthToken = function(token, callback) {
+schema.statics.verifyTempAuthToken = function (token, callback) {
   jwt.verify(token, JWT_SECRET, (err, payload) => {
     if (err || !payload) {
       return callback(err);
@@ -300,7 +300,7 @@ schema.statics.verifyTempAuthToken = function(token, callback) {
   });
 };
 
-schema.statics.findOneByEmail = function(email) {
+schema.statics.findOneByEmail = function (email) {
   return this.findOne({
     email: new RegExp('^' + email + '$', 'i')
   });
@@ -311,7 +311,7 @@ schema.statics.findOneByEmail = function(email) {
  * @param  {String}   token    User's authentication token.
  * @param  {Function} callback args(err, user)
  */
-schema.statics.getByToken = function(token, callback) {
+schema.statics.getByToken = function (token, callback) {
   jwt.verify(token, JWT_SECRET, (err, id) => {
     if (err) {
       return callback(err);
@@ -320,7 +320,7 @@ schema.statics.getByToken = function(token, callback) {
   });
 };
 
-schema.statics.validateProfile = function(profile, cb) {
+schema.statics.validateProfile = function (profile, cb) {
   return cb(!(
     profile.name.length > 0 &&
     profile.adult &&
@@ -338,7 +338,7 @@ schema.statics.validateProfile = function(profile, cb) {
  * Has the user completed their profile?
  * This provides a verbose explanation of their furthest state.
  */
-schema.virtual('status.name').get(function() {
+schema.virtual('status.name').get(function () {
   if (this.status.checkedIn) {
     return 'checked in';
   }

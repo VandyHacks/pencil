@@ -3,7 +3,7 @@ angular.module('app')
     '$stateProvider',
     '$urlRouterProvider',
     '$locationProvider',
-    function(
+    function (
       $stateProvider,
       $urlRouterProvider,
       $locationProvider) {
@@ -20,7 +20,7 @@ angular.module('app')
             requireLogin: false
           },
           resolve: {
-            'settings': function(SettingsService) {
+            'settings': function (SettingsService) {
               return SettingsService.getPublicSettings();
             }
           }
@@ -34,7 +34,7 @@ angular.module('app')
               templateUrl: 'views/sidebar/sidebar.html',
               controller: 'SidebarCtrl',
               resolve: {
-                'settings': function(SettingsService) {
+                'settings': function (SettingsService) {
                   return SettingsService.getPublicSettings();
                 }
               }
@@ -50,10 +50,10 @@ angular.module('app')
           templateUrl: 'views/dashboard/dashboard.html',
           controller: 'DashboardCtrl',
           resolve: {
-            currentUser: function(UserService) {
+            currentUser: function (UserService) {
               return UserService.getCurrentUser();
             },
-            settings: function(SettingsService) {
+            settings: function (SettingsService) {
               return SettingsService.getPublicSettings();
             }
           }
@@ -63,10 +63,10 @@ angular.module('app')
           templateUrl: 'views/application/application.html',
           controller: 'ApplicationCtrl',
           resolve: {
-            currentUser: function(UserService) {
+            currentUser: function (UserService) {
               return UserService.getCurrentUser();
             },
-            settings: function(SettingsService) {
+            settings: function (SettingsService) {
               return SettingsService.getPublicSettings();
             }
           }
@@ -76,7 +76,7 @@ angular.module('app')
           templateUrl: 'views/confirmation/confirmation.html',
           controller: 'ConfirmationCtrl',
           resolve: {
-            currentUser: function(UserService) {
+            currentUser: function (UserService) {
               return UserService.getCurrentUser();
             }
           }
@@ -89,10 +89,10 @@ angular.module('app')
             requireVerified: true
           },
           resolve: {
-            currentUser: function(UserService) {
+            currentUser: function (UserService) {
               return UserService.getCurrentUser();
             },
-            settings: function(SettingsService) {
+            settings: function (SettingsService) {
               return SettingsService.getPublicSettings();
             }
           }
@@ -126,7 +126,7 @@ angular.module('app')
           templateUrl: 'views/admin/user/user.html',
           controller: 'AdminUserCtrl',
           resolve: {
-            'user': function($stateParams, UserService) {
+            'user': function ($stateParams, UserService) {
               return UserService.get($stateParams.id);
             }
           }
@@ -169,7 +169,7 @@ angular.module('app')
     '$rootScope',
     '$state',
     'Session',
-    function(
+    function (
       $document,
       $rootScope,
       $state,

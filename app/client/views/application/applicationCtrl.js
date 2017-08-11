@@ -10,7 +10,7 @@ angular.module('app')
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, possibleMajors, possibleSchools, Settings, Session, UserService) {
+    function ($scope, $rootScope, $state, $http, currentUser, possibleMajors, possibleSchools, Settings, Session, UserService) {
       const sweetAlertButtonColor = '';
 
       // Set up the user
@@ -159,20 +159,20 @@ angular.module('app')
           maxFilesize: 2,
           uploadMultiple: false,
           addedfile: () => {},
-          sending: function(file, xhr, formData) {
+          sending: function (file, xhr, formData) {
             xhr.setRequestHeader('x-access-token', Session.getToken());
           },
-          uploadprogress: function(file, progress, bytes) {
+          uploadprogress: function (file, progress, bytes) {
             updateDropzoneText(progressMsg(progress));
           },
-          success: function(file, msg) {
+          success: function (file, msg) {
             // eslint-disable-next-line no-return-assign
             $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
             updateDropzoneText(successMsg);
             $('#resume-upload-wrapper').removeClass('error');
             setTimeout(() => updateDropzoneText(defaultMsg), 2000);
           },
-          error: function(file, msg) {
+          error: function (file, msg) {
             updateDropzoneText(failureMsg);
             setTimeout(() => updateDropzoneText(defaultMsg), 2000);
           }
@@ -321,7 +321,7 @@ angular.module('app')
         });
       }
 
-      $scope.submitForm = function() {
+      $scope.submitForm = function () {
         $('.ui.form').form('validate form');
         if ($('.ui.form').form('is valid')) {
           _updateUser();

@@ -2,7 +2,7 @@ angular.module('app')
   .controller('AdminStatsCtrl', [
     '$scope',
     'UserService',
-    function($scope, UserService) {
+    function ($scope, UserService) {
       UserService
         .getStats()
         .success((stats) => {
@@ -10,7 +10,7 @@ angular.module('app')
           $scope.loading = false;
         });
 
-      $scope.fromNow = function(date) {
+      $scope.fromNow = function (date) {
         return moment(date).fromNow();
       };
     }]);

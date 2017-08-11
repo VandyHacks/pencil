@@ -10,7 +10,7 @@ angular.module('app')
     'UserService',
     'EVENT_INFO',
     'DASHBOARD',
-    function($rootScope, $scope, $sce, currentUser, settings, Utils, AuthService, UserService, DASHBOARD) {
+    function ($rootScope, $scope, $sce, currentUser, settings, Utils, AuthService, UserService, DASHBOARD) {
       const Settings = settings.data;
       const user = currentUser.data;
       $scope.user = user;
@@ -32,7 +32,7 @@ angular.module('app')
       // Is it past the user's confirmation time?
       const pastConfirmation = $scope.pastConfirmation = Utils.isAfter(user.status.confirmBy);
 
-      $scope.dashState = function(status) {
+      $scope.dashState = function (status) {
         const user = $scope.user;
         switch (status) {
           case 'unverified':
@@ -65,7 +65,7 @@ angular.module('app')
 
       $scope.showWaitlist = !regIsOpen && user.status.completedProfile && !user.status.admitted;
 
-      $scope.resendEmail = function() {
+      $scope.resendEmail = function () {
         AuthService
           .resendVerificationEmail()
           .then(() => {
@@ -81,7 +81,7 @@ angular.module('app')
       $scope.confirmationText = $sce.trustAsHtml(converter.makeHtml(Settings.confirmationText));
       $scope.waitlistText = $sce.trustAsHtml(converter.makeHtml(Settings.waitlistText));
 
-      $scope.declineAdmission = function() {
+      $scope.declineAdmission = function () {
         swal({
           title: 'Whoa!',
           text: "Are you sure you would like to decline your admission? \n You can't go back!",

@@ -4,7 +4,7 @@ const SettingsController = require('../controllers/SettingsController');
 const multer = require('multer');
 const request = require('request');
 
-module.exports = function(router) {
+module.exports = function (router) {
   function getToken(req) {
     return req.headers['x-access-token'];
   }
@@ -65,7 +65,7 @@ module.exports = function(router) {
    * @return {[type]}     [description]
    */
   function defaultResponse(req, res) {
-    return function(err, data) {
+    return function (err, data) {
       if (err) {
         // SLACK ALERT!
         if (process.env.NODE_ENV === 'production') {
@@ -74,16 +74,16 @@ module.exports = function(router) {
               form: {
                 payload: JSON.stringify({
                   'text':
-                    '``` \n' +
-                    'Request: \n ' +
-                    req.method + ' ' + req.url +
-                    '\n ------------------------------------ \n' +
-                    'Body: \n ' +
-                    JSON.stringify(req.body, null, 2) +
-                    '\n ------------------------------------ \n' +
-                    '\nError:\n' +
-                    JSON.stringify(err, null, 2) +
-                    '``` \n'
+                  '``` \n' +
+                  'Request: \n ' +
+                  req.method + ' ' + req.url +
+                  '\n ------------------------------------ \n' +
+                  'Body: \n ' +
+                  JSON.stringify(req.body, null, 2) +
+                  '\n ------------------------------------ \n' +
+                  '\nError:\n' +
+                  JSON.stringify(err, null, 2) +
+                  '``` \n'
                 })
               }
             }, (err, response, body) => {

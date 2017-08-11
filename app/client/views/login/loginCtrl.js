@@ -6,7 +6,7 @@ angular.module('app')
     'settings',
     'Utils',
     'AuthService',
-    function($scope, $http, $state, settings, Utils, AuthService) {
+    function ($scope, $http, $state, settings, Utils, AuthService) {
       // Is registration open?
       const Settings = settings.data;
       const sweetAlertButtonColor = '';
@@ -27,13 +27,13 @@ angular.module('app')
         $scope.error = null;
       }
 
-      $scope.login = function() {
+      $scope.login = function () {
         resetError();
         AuthService.loginWithPassword(
           $scope.email, $scope.password, onSuccess, onError);
       };
 
-      $scope.register = function() {
+      $scope.register = function () {
         resetError();
         AuthService.register(
           $scope.email, $scope.password, () => {
@@ -46,14 +46,14 @@ angular.module('app')
           }, onError);
       };
 
-      $scope.setLoginState = function(state) {
+      $scope.setLoginState = function (state) {
         if ($scope.loginState !== state) {
           $scope.loginState = state;
           resetError();
         }
       };
 
-      $scope.sendResetEmail = function() {
+      $scope.sendResetEmail = function () {
         resetError();
         AuthService.sendResetEmail($scope.email, () => {
           sweetAlert({

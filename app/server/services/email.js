@@ -74,7 +74,7 @@ function sendOne(templateName, options, data, callback) {
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-controller.sendVerificationEmail = function(email, token, callback) {
+controller.sendVerificationEmail = function (email, token, callback) {
   const options = {
     to: email,
     subject: '[VandyHacks] - Verify your email'
@@ -109,7 +109,7 @@ controller.sendVerificationEmail = function(email, token, callback) {
  * @param  {[type]}   token    [description]
  * @param  {Function} callback [description]
  */
-controller.sendPasswordResetEmail = function(email, token, callback) {
+controller.sendPasswordResetEmail = function (email, token, callback) {
   const options = {
     to: email,
     subject: '[VandyHacks] - Password reset requested!'
@@ -148,7 +148,7 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
  * @param  {[type]}   email    [description]
  * @param  {Function} callback [description]
  */
-controller.sendPasswordChangedEmail = function(email, callback) {
+controller.sendPasswordChangedEmail = function (email, callback) {
   const options = {
     to: email,
     subject: '[VandyHacks] - Your password has been changed!'

@@ -2,7 +2,7 @@ angular.module('app')
   .factory('UserService', [
     '$http',
     'Session',
-    function($http, Session) {
+    function ($http, Session) {
       const users = '/api/users';
       const base = users + '/';
 
@@ -11,19 +11,19 @@ angular.module('app')
         // ----------------------
         // Basic Actions
         // ----------------------
-        getCurrentUser: function() {
+        getCurrentUser: function () {
           return $http.get(base + Session.getUserId());
         },
 
-        get: function(id) {
+        get: function (id) {
           return $http.get(base + id);
         },
 
-        getAll: function() {
+        getAll: function () {
           return $http.get(base);
         },
 
-        getPage: function(page, size, text) {
+        getPage: function (page, size, text) {
           return $http.get(users + '?' + $.param(
             {
               text: text,
@@ -33,36 +33,36 @@ angular.module('app')
           );
         },
 
-        updateProfile: function(id, profile) {
+        updateProfile: function (id, profile) {
           return $http.put(base + id + '/profile', {
             profile: profile
           });
         },
 
-        updateConfirmation: function(id, confirmation) {
+        updateConfirmation: function (id, confirmation) {
           return $http.put(base + id + '/confirm', {
             confirmation: confirmation
           });
         },
 
-        declineAdmission: function(id) {
+        declineAdmission: function (id) {
           return $http.post(base + id + '/decline');
         },
 
         // ------------------------
         // Team
         // ------------------------
-        joinOrCreateTeam: function(code) {
+        joinOrCreateTeam: function (code) {
           return $http.put(base + Session.getUserId() + '/team', {
             code: code
           });
         },
 
-        leaveTeam: function() {
+        leaveTeam: function () {
           return $http.delete(base + Session.getUserId() + '/team');
         },
 
-        getMyTeammates: function() {
+        getMyTeammates: function () {
           return $http.get(base + Session.getUserId() + '/team');
         },
 
@@ -70,19 +70,19 @@ angular.module('app')
         // Admin Only
         // -------------------------
 
-        getStats: function() {
+        getStats: function () {
           return $http.get(base + 'stats');
         },
 
-        admitUser: function(id) {
+        admitUser: function (id) {
           return $http.post(base + id + '/admit');
         },
 
-        checkIn: function(id) {
+        checkIn: function (id) {
           return $http.post(base + id + '/checkin');
         },
 
-        checkOut: function(id) {
+        checkOut: function (id) {
           return $http.post(base + id + '/checkout');
         }
 

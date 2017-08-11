@@ -43,7 +43,7 @@ const schema = new mongoose.Schema({
  * Whitelist emails are by default not included in settings.
  * @param  {Function} callback args(err, emails)
  */
-schema.statics.getWhitelistedEmails = function(callback) {
+schema.statics.getWhitelistedEmails = function (callback) {
   this
     .findOne({})
     .select('whitelistedEmails')
@@ -56,7 +56,7 @@ schema.statics.getWhitelistedEmails = function(callback) {
  * Get the open and close time for registration.
  * @param  {Function} callback args(err, times : {timeOpen, timeClose, timeConfirm})
  */
-schema.statics.getRegistrationTimes = function(callback) {
+schema.statics.getRegistrationTimes = function (callback) {
   this
     .findOne({})
     .select('timeOpen timeClose timeConfirm')
@@ -69,7 +69,7 @@ schema.statics.getRegistrationTimes = function(callback) {
     });
 };
 
-schema.statics.getPublicSettings = function(callback) {
+schema.statics.getPublicSettings = function (callback) {
   this
     .findOne({})
     .exec(callback);

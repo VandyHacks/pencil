@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function (app) {
   // Application ------------------------------------------
   app.get('/', (req, res) => {
     res.sendfile('./app/client/index.html');

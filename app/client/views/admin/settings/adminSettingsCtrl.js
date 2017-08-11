@@ -3,7 +3,7 @@ angular.module('app')
     '$scope',
     '$sce',
     'SettingsService',
-    function($scope, $sce, SettingsService) {
+    function ($scope, $sce, SettingsService) {
       $scope.settings = {};
       SettingsService
         .getPublicSettings()
@@ -29,7 +29,7 @@ angular.module('app')
           $scope.whitelist = emails.join(', ');
         });
 
-      $scope.updateWhitelist = function() {
+      $scope.updateWhitelist = function () {
         SettingsService
           .updateWhitelistedEmails($scope.whitelist.replace(/ /g, '').split(','))
           .success((settings) => {
@@ -40,7 +40,7 @@ angular.module('app')
 
       // Registration Times -----------------------------
 
-      $scope.formatDate = function(date) {
+      $scope.formatDate = function (date) {
         if (!date) {
           return 'Invalid Date';
         }
@@ -61,7 +61,7 @@ angular.module('app')
         );
       }
 
-      $scope.updateRegistrationTimes = function() {
+      $scope.updateRegistrationTimes = function () {
         // Clean the dates and turn them to ms.
         const open = cleanDate($scope.settings.timeOpen).getTime();
         const close = cleanDate($scope.settings.timeClose).getTime();
@@ -84,7 +84,7 @@ angular.module('app')
 
       // Confirmation Time -----------------------------
 
-      $scope.updateConfirmationTime = function() {
+      $scope.updateConfirmationTime = function () {
         const confirmBy = cleanDate($scope.settings.timeConfirm).getTime();
 
         SettingsService
@@ -99,11 +99,11 @@ angular.module('app')
 
       const converter = new showdown.Converter();
 
-      $scope.markdownPreview = function(text) {
+      $scope.markdownPreview = function (text) {
         return $sce.trustAsHtml(converter.makeHtml(text));
       };
 
-      $scope.updateWaitlistText = function() {
+      $scope.updateWaitlistText = function () {
         const text = $scope.settings.waitlistText;
         SettingsService
           .updateWaitlistText(text)
@@ -113,7 +113,7 @@ angular.module('app')
           });
       };
 
-      $scope.updateAcceptanceText = function() {
+      $scope.updateAcceptanceText = function () {
         const text = $scope.settings.acceptanceText;
         SettingsService
           .updateAcceptanceText(text)
@@ -123,7 +123,7 @@ angular.module('app')
           });
       };
 
-      $scope.updateConfirmationText = function() {
+      $scope.updateConfirmationText = function () {
         const text = $scope.settings.confirmationText;
         SettingsService
           .updateConfirmationText(text)

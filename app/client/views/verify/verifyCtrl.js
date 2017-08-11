@@ -3,7 +3,7 @@ angular.module('app')
     '$scope',
     '$stateParams',
     'AuthService',
-    function($scope, $stateParams, AuthService) {
+    function ($scope, $stateParams, AuthService) {
       const token = $stateParams.token;
 
       $scope.loading = true;

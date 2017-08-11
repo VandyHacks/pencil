@@ -4,7 +4,7 @@ angular.module('app')
     '$state',
     '$stateParams',
     'UserService',
-    function($scope, $state, $stateParams, UserService) {
+    function ($scope, $state, $stateParams, UserService) {
       $scope.pages = [];
       $scope.users = [];
 
@@ -47,14 +47,14 @@ angular.module('app')
           });
       });
 
-      $scope.goToPage = function(page) {
+      $scope.goToPage = function (page) {
         $state.go('app.admin.users', {
           page: page,
           size: $stateParams.size || 50
         });
       };
 
-      $scope.goUser = function($event, user) {
+      $scope.goUser = function ($event, user) {
         $event.stopPropagation();
 
         $state.go('app.admin.user', {
@@ -62,7 +62,7 @@ angular.module('app')
         });
       };
 
-      $scope.toggleCheckIn = function($event, user, index) {
+      $scope.toggleCheckIn = function ($event, user, index) {
         $event.stopPropagation();
 
         if (!user.status.checkedIn) {
@@ -94,7 +94,7 @@ angular.module('app')
         }
       };
 
-      $scope.acceptUser = function($event, user, index) {
+      $scope.acceptUser = function ($event, user, index) {
         $event.stopPropagation();
 
         swal({
@@ -132,7 +132,7 @@ angular.module('app')
         }
       }
 
-      $scope.rowClass = function(user) {
+      $scope.rowClass = function (user) {
         if (user.admin) {
           return 'admin';
         }

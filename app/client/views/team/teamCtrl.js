@@ -6,7 +6,7 @@ angular.module('app')
     'Utils',
     'UserService',
     'TEAM',
-    function($scope, currentUser, settings, Utils, UserService, TEAM) {
+    function ($scope, currentUser, settings, Utils, UserService, TEAM) {
       // Get the current user's most recent data.
       const Settings = settings.data;
 
@@ -29,7 +29,7 @@ angular.module('app')
         _populateTeammates();
       }
 
-      $scope.joinTeam = function() {
+      $scope.joinTeam = function () {
         UserService
           .joinOrCreateTeam($scope.code)
           .success((user) => {
@@ -42,7 +42,7 @@ angular.module('app')
           });
       };
 
-      $scope.leaveTeam = function() {
+      $scope.leaveTeam = function () {
         UserService
           .leaveTeam()
           .success((user) => {

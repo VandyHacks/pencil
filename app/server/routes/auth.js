@@ -1,6 +1,6 @@
 const UserController = require('../controllers/UserController');
 
-module.exports = function(router) {
+module.exports = function (router) {
   // ---------------------------------------------
   // AUTHENTICATION
   // ---------------------------------------------

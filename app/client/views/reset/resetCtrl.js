@@ -4,13 +4,13 @@ angular.module('app')
     '$stateParams',
     '$state',
     'AuthService',
-    function($scope, $stateParams, $state, AuthService) {
+    function ($scope, $stateParams, $state, AuthService) {
       const sweetAlertButtonColor = '';
       const token = $stateParams.token;
 
       $scope.loading = true;
 
-      $scope.changePassword = function() {
+      $scope.changePassword = function () {
         const password = $scope.password;
         const confirm = $scope.confirm;
 

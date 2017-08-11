@@ -68,7 +68,7 @@ function canRegister(email, password, callback) {
  * @param  {String}   token    auth token
  * @param  {Function} callback args(err, token, user)
  */
-UserController.loginWithToken = function(token, callback) {
+UserController.loginWithToken = function (token, callback) {
   User.getByToken(token, (err, user) => {
     return callback(err, token, user);
   });
@@ -80,7 +80,7 @@ UserController.loginWithToken = function(token, callback) {
  * @param  {String}   password Password
  * @param  {Function} callback args(err, token, user)
  */
-UserController.loginWithPassword = function(email, password, callback) {
+UserController.loginWithPassword = function (email, password, callback) {
   if (!password || password.length === 0) {
     return callback({
       message: 'Please enter a password'
@@ -128,7 +128,7 @@ UserController.loginWithPassword = function(email, password, callback) {
  * @param  {String}   password [description]
  * @param  {Function} callback args(err, user)
  */
-UserController.createUser = function(email, password, callback) {
+UserController.createUser = function (email, password, callback) {
   if (typeof email !== 'string') {
     return callback({
       message: 'You must provide a valid email.'
@@ -184,7 +184,7 @@ UserController.createUser = function(email, password, callback) {
   });
 };
 
-UserController.getByToken = function(token, callback) {
+UserController.getByToken = function (token, callback) {
   User.getByToken(token, callback);
 };
 
@@ -193,7 +193,7 @@ UserController.getByToken = function(token, callback) {
  * It's going to be a lot of data, so make sure you want to do this.
  * @param  {Function} callback args(err, user)
  */
-UserController.getAll = function(callback) {
+UserController.getAll = function (callback) {
   User.find({}, callback);
 };
 
@@ -203,7 +203,7 @@ UserController.getAll = function(callback) {
  * @param  {[type]}   size     size of the page
  * @param  {Function} callback args(err, {users, page, totalPages})
  */
-UserController.getPage = function(query, callback) {
+UserController.getPage = function (query, callback) {
   const page = query.page;
   const size = parseInt(query.size);
   const searchText = query.text;
@@ -252,7 +252,7 @@ UserController.getPage = function(query, callback) {
  * @param  {String}   id       User id
  * @param  {Function} callback args(err, user)
  */
-UserController.getById = function(id, callback) {
+UserController.getById = function (id, callback) {
   User.findById(id, callback);
 };
 
@@ -263,7 +263,7 @@ UserController.getById = function(id, callback) {
  * @param  {Object}   profile  Profile object
  * @param  {Function} callback Callback with args (err, user)
  */
-UserController.updateProfileById = function(id, profile, callback) {
+UserController.updateProfileById = function (id, profile, callback) {
   // Validate the user profile, and mark the user as profile completed
   // when successful.
   User.validateProfile(profile, (err) => {
@@ -317,7 +317,7 @@ UserController.updateProfileById = function(id, profile, callback) {
  * @param  {String}   lastResumeName  lastResumeName string
  * @param  {Function} callback        Callback with args (err, user)
  */
-UserController.updateLastResumeNameById = function(id, lastResumeName, callback) {
+UserController.updateLastResumeNameById = function (id, lastResumeName, callback) {
   // Validate the lastResumeName
   if (!lastResumeName || lastResumeName.length === 0) {
     return callback({ message: 'invalid lastResumeName' });
@@ -368,7 +368,7 @@ UserController.updateLastResumeNameById = function(id, lastResumeName, callback)
  * @param  {Object}   confirmation  Confirmation object
  * @param  {Function} callback      Callback with args (err, user)
  */
-UserController.updateConfirmationById = function(id, confirmation, callback) {
+UserController.updateConfirmationById = function (id, confirmation, callback) {
   User.findById(id, (err, user) => {
     if (err || !user) {
       return callback(err);
@@ -408,7 +408,7 @@ UserController.updateConfirmationById = function(id, confirmation, callback) {
  * @param  {String}   id            Id of the user
  * @param  {Function} callback      Callback with args (err, user)
  */
-UserController.declineById = function(id, callback) {
+UserController.declineById = function (id, callback) {
   // You can only decline if you've been accepted.
   User.findOneAndUpdate({
     '_id': id,
@@ -433,7 +433,7 @@ UserController.declineById = function(id, callback) {
  * @param  {[type]}   token    token
  * @param  {Function} callback args(err, user)
  */
-UserController.verifyByToken = function(token, callback) {
+UserController.verifyByToken = function (token, callback) {
   User.verifyEmailVerificationToken(token, (err, email) => {
     User.findOneAndUpdate({
       email: new RegExp('^' + email + '$', 'i')
@@ -453,7 +453,7 @@ UserController.verifyByToken = function(token, callback) {
  * @param  {String}   id       id of the user we're looking for.
  * @param  {Function} callback args(err, users)
  */
-UserController.getTeammates = function(id, callback) {
+UserController.getTeammates = function (id, callback) {
   User.findById(id, (err, user) => {
     if (err || !user) {
       return callback(err, user);
@@ -482,7 +482,7 @@ UserController.getTeammates = function(id, callback) {
  * @param  {String}   code     Code of the proposed team
  * @param  {Function} callback args(err, users)
  */
-UserController.createOrJoinTeam = function(id, code, callback) {
+UserController.createOrJoinTeam = function (id, code, callback) {
   if (!code) {
     return callback({
       message: 'Please enter a team name.'
@@ -527,7 +527,7 @@ UserController.createOrJoinTeam = function(id, code, callback) {
  * @param  {[type]}   id       Id of the user leaving
  * @param  {Function} callback args(err, user)
  */
-UserController.leaveTeam = function(id, callback) {
+UserController.leaveTeam = function (id, callback) {
   User.findOneAndUpdate({
     _id: id
   }, {
@@ -543,7 +543,7 @@ UserController.leaveTeam = function(id, callback) {
 /**
  * Resend an email verification email given a user id.
  */
-UserController.sendVerificationEmailById = function(id, callback) {
+UserController.sendVerificationEmailById = function (id, callback) {
   User.findOne(
     {
       _id: id,
@@ -565,7 +565,7 @@ UserController.sendVerificationEmailById = function(id, callback) {
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-UserController.sendPasswordResetEmail = function(email, callback) {
+UserController.sendPasswordResetEmail = function (email, callback) {
   if (!email) {
     return callback({
       message: 'You must provide a valid email.'
@@ -592,7 +592,7 @@ UserController.sendPasswordResetEmail = function(email, callback) {
  * @param  {[type]}   newPassword new password
  * @param  {Function} callback    args(err, user)
  */
-UserController.changePassword = function(id, oldPassword, newPassword, callback) {
+UserController.changePassword = function (id, oldPassword, newPassword, callback) {
   if (!id || !oldPassword || !newPassword) {
     return callback({
       message: 'Bad arguments.'
@@ -628,7 +628,7 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
  * @param  {String}   password    New Password
  * @param  {Function} callback    args(err, user)
  */
-UserController.resetPassword = function(token, password, callback) {
+UserController.resetPassword = function (token, password, callback) {
   if (!password || !token) {
     return callback({
       message: 'Bad arguments'
@@ -678,7 +678,7 @@ UserController.resetPassword = function(token, password, callback) {
  * @param  {String}   user     User doing the admitting
  * @param  {Function} callback args(err, user)
  */
-UserController.admitUser = function(id, user, callback) {
+UserController.admitUser = function (id, user, callback) {
   Settings.getRegistrationTimes((err, times) => {
     User
       .findOneAndUpdate({
@@ -705,7 +705,7 @@ UserController.admitUser = function(id, user, callback) {
  * @param  {String}   user     User checking in this person.
  * @param  {Function} callback args(err, user)
  */
-UserController.checkInById = function(id, user, callback) {
+UserController.checkInById = function (id, user, callback) {
   User.findOneAndUpdate({
     _id: id,
     verified: true
@@ -728,7 +728,7 @@ UserController.checkInById = function(id, user, callback) {
  * @param  {String}   user     User checking in this person.
  * @param  {Function} callback args(err, user)
  */
-UserController.checkOutById = function(id, user, callback) {
+UserController.checkOutById = function (id, user, callback) {
   User.findOneAndUpdate({
     _id: id,
     verified: true
@@ -746,7 +746,7 @@ UserController.checkOutById = function(id, user, callback) {
  * [ADMIN ONLY]
  */
 
-UserController.getStats = function(callback) {
+UserController.getStats = function (callback) {
   return callback(null, Stats.getUserStats());
 };
 

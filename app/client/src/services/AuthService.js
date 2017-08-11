@@ -5,7 +5,7 @@ angular.module('app')
     '$state',
     '$window',
     'Session',
-    function($http, $rootScope, $state, $window, Session) {
+    function ($http, $rootScope, $state, $window, Session) {
       const authService = {};
 
       function loginSuccess(data, cb) {
@@ -24,7 +24,7 @@ angular.module('app')
         }
       }
 
-      authService.loginWithPassword = function(email, password, onSuccess, onFailure) {
+      authService.loginWithPassword = function (email, password, onSuccess, onFailure) {
         return $http
           .post('/auth/login', {
             email: email,
@@ -38,7 +38,7 @@ angular.module('app')
           });
       };
 
-      authService.loginWithToken = function(token, onSuccess, onFailure) {
+      authService.loginWithToken = function (token, onSuccess, onFailure) {
         return $http
           .post('/auth/login', {
             token: token
@@ -53,13 +53,13 @@ angular.module('app')
           });
       };
 
-      authService.logout = function(callback) {
+      authService.logout = function (callback) {
         // Clear the session
         Session.destroy(callback);
         $state.go('login');
       };
 
-      authService.register = function(email, password, onSuccess, onFailure) {
+      authService.register = function (email, password, onSuccess, onFailure) {
         return $http
           .post('/auth/register', {
             email: email,
@@ -69,7 +69,7 @@ angular.module('app')
           .error(onFailure);
       };
 
-      authService.verify = function(token, onSuccess, onFailure) {
+      authService.verify = function (token, onSuccess, onFailure) {
         return $http
           .get('/auth/verify/' + token)
           .success((user) => {
@@ -85,14 +85,14 @@ angular.module('app')
           });
       };
 
-      authService.resendVerificationEmail = function(onSuccess, onFailure) {
+      authService.resendVerificationEmail = function (onSuccess, onFailure) {
         return $http
           .post('/auth/verify/resend', {
             id: Session.getUserId()
           });
       };
 
-      authService.sendResetEmail = function(email, onSuccess, onFailure) {
+      authService.sendResetEmail = function (email, onSuccess, onFailure) {
         return $http
           .post('/auth/reset', {
             email: email
@@ -101,7 +101,7 @@ angular.module('app')
           .error(onFailure);
       };
 
-      authService.resetPassword = function(token, pass, onSuccess, onFailure) {
+      authService.resetPassword = function (token, pass, onSuccess, onFailure) {
         return $http
           .post('/auth/reset/password', {
             token: token,

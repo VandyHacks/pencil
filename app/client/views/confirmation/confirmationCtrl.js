@@ -6,7 +6,7 @@ angular.module('app')
     'currentUser',
     'Utils',
     'UserService',
-    function($scope, $rootScope, $state, currentUser, Utils, UserService) {
+    function ($scope, $rootScope, $state, currentUser, Utils, UserService) {
       // Set up the user
       const user = currentUser.data;
       $scope.user = user;
@@ -106,7 +106,7 @@ angular.module('app')
         });
       }
 
-      $scope.submitForm = function() {
+      $scope.submitForm = function () {
         $('.ui.form').form('validate form');
         if ($('.ui.form').form('is valid')) {
           _updateUser();

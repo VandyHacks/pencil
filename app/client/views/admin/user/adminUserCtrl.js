@@ -5,7 +5,7 @@ angular.module('app')
     'SCHOOLS',
     'user',
     'UserService',
-    function($scope, $http, possibleSchools, User, UserService) {
+    function ($scope, $http, possibleSchools, User, UserService) {
       $scope.selectedUser = User.data;
 
       // Populate the school dropdown
@@ -23,7 +23,7 @@ angular.module('app')
         }
       }
 
-      $scope.updateProfile = function() {
+      $scope.updateProfile = function () {
         UserService
           .updateProfile($scope.selectedUser._id, $scope.selectedUser.profile)
           .success((data) => {

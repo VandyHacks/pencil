@@ -1,43 +1,43 @@
 angular.module('app')
   .factory('SettingsService', [
     '$http',
-    function($http) {
+    function ($http) {
       const base = '/api/settings/';
 
       return {
-        getPublicSettings: function() {
+        getPublicSettings: function () {
           return $http.get(base);
         },
-        updateRegistrationTimes: function(open, close) {
+        updateRegistrationTimes: function (open, close) {
           return $http.put(base + 'times', {
             timeOpen: open,
             timeClose: close
           });
         },
-        updateConfirmationTime: function(time) {
+        updateConfirmationTime: function (time) {
           return $http.put(base + 'confirm-by', {
             time: time
           });
         },
-        getWhitelistedEmails: function() {
+        getWhitelistedEmails: function () {
           return $http.get(base + 'whitelist');
         },
-        updateWhitelistedEmails: function(emails) {
+        updateWhitelistedEmails: function (emails) {
           return $http.put(base + 'whitelist', {
             emails: emails
           });
         },
-        updateWaitlistText: function(text) {
+        updateWaitlistText: function (text) {
           return $http.put(base + 'waitlist', {
             text: text
           });
         },
-        updateAcceptanceText: function(text) {
+        updateAcceptanceText: function (text) {
           return $http.put(base + 'acceptance', {
             text: text
           });
         },
-        updateConfirmationText: function(text) {
+        updateConfirmationText: function (text) {
           return $http.put(base + 'confirmation', {
             text: text
           });

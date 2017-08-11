@@ -6,19 +6,19 @@ angular.module('app')
     'AuthService',
     'Session',
     'EVENT_INFO',
-    function($rootScope, $scope, Utils, AuthService, Session, EVENT_INFO) {
+    function ($rootScope, $scope, Utils, AuthService, Session, EVENT_INFO) {
       const user = $rootScope.currentUser;
 
       $scope.EVENT_INFO = EVENT_INFO;
 
       $scope.pastConfirmation = Utils.isAfter(user.status.confirmBy);
 
-      $scope.logout = function() {
+      $scope.logout = function () {
         AuthService.logout();
       };
 
       $scope.showSidebar = false;
-      $scope.toggleSidebar = function() {
+      $scope.toggleSidebar = function () {
         $scope.showSidebar = !$scope.showSidebar;
       };
 

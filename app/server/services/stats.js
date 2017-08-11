@@ -231,7 +231,7 @@ setInterval(calculateStats, 300000);
 
 const Stats = {};
 
-Stats.getUserStats = function() {
+Stats.getUserStats = function () {
   return stats;
 };
 
