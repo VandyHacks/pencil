@@ -126,7 +126,7 @@ angular.module('app')
           maxFilesize: 2,
           uploadMultiple: false,
           sending: function (file, xhr, formData) {
-            formData.append("x-access-token", window.localStorage.jwt);            
+            xhr.setRequestHeader("x-access-token", window.localStorage.jwt);            
           }            
         });
 
