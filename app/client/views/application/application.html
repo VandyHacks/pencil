@@ -127,12 +127,9 @@
             </div>
             <div class="curr-file">{{user.profile.lastResumeName || 'No file uploaded'}}</div>
           </div>
-          <div class="field" style="display: none">
-            <label> Current File: </label>
-            <input class="ui input"
-                   name="lastResumeName"
-                   ng-model="user.profile.lastResumeName">
-          </div>
+          <input class="ui input"
+                name="lastResumeName"
+                ng-model="user.profile.lastResumeName" style="display: none">
         </div>
 
         <div class="field">
