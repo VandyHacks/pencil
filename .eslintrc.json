@@ -23,6 +23,7 @@
         "prefer-arrow-callback": "error",
         "no-var": "error",
         "semi": ["error", "always"],
-        "space-before-function-paren": ["error", "never"]
+        "space-before-function-paren": ["error", "never"],
+        "standard/no-callback-literal": "off"
     }
 }

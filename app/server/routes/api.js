@@ -220,7 +220,7 @@ module.exports = function(router) {
             contentType: file.mimetype
           }
         };
-        request.post({url: uploadHelper.getUploadUrl(), formData: formData}, (err, httpResponse, body) => {
+        request.post({ url: uploadHelper.getUploadUrl(), formData: formData }, (err, httpResponse, body) => {
           if (err) {
             defaultResponse(req, res)(err);
           } else {

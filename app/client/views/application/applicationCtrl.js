@@ -168,7 +168,7 @@ angular.module('app')
           success: function(file, msg) {
             $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
             updateDropzoneText(successMsg);
-            $('#resume-upload-wrapper').removeClass('error');            
+            $('#resume-upload-wrapper').removeClass('error');
             setTimeout(() => updateDropzoneText(defaultMsg), 2000);
           },
           error: function(file, msg) {
