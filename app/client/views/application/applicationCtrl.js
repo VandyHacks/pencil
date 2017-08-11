@@ -137,8 +137,6 @@ angular.module('app')
           $('#schoolDropdown').dropdown('set selected', $scope.user.profile.school);
         }
 
-        console.log('init dropzone - lastResumeName: ' + $scope.user.profile.lastResumeName);
-
         // Shitty file uploads
         const dropzoneEl = $('div#resume-upload');
         const updateDropzoneText = text => dropzoneEl.find('.upload-status').text(text);

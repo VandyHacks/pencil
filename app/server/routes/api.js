@@ -225,7 +225,7 @@ module.exports = function(router) {
             defaultResponse(req, res)(err);
           } else {
             defaultResponse(req, res)(null, {
-              message: 'Upload successful!  Server responded with:\n' + body
+              message: 'Upload succeeded'
             });
           }
         });
