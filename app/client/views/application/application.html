@@ -36,7 +36,7 @@
                  ng-model="user.profile.school">
         </div>
 
-        <div class="field">
+        <div class="field" ng-show="!autoFilledSchool">
           <label> School </label>
           <div class="ui search selection dropdown" id="schoolDropdown">
             <input type="hidden" name="school" id="school">
