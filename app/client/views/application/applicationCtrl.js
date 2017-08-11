@@ -136,7 +136,7 @@ angular.module('app')
             xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
           },
           success: function (file, successMsg) {
-            $scope.user.profile.lastResumeName = file.name;
+            $scope.$apply(() => $scope.user.profile.lastResumeName = file.name);
           }
         });
 
