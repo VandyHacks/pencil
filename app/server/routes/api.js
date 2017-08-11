@@ -1,29 +1,8 @@
 const UserController = require('../controllers/UserController');
 const SettingsController = require('../controllers/SettingsController');
 
-const request = require('request');
-
 const multer = require('multer');
-const upload = multer({
-  fileFilter: (req, file, cb) => {
-    const allowedMimeTypes = [
-      'application/msword', // doc
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
-      'application/vnd.oasis.opendocument.text', // odt
-      'application/x-iwork-pages-sffpages', // pages
-      'application/pdf' // pdf
-    ];
-
-    if (allowedMimeTypes.includes(file.mimetype)) cb(null, true); // Accept file
-    else cb(null, false); // Reject file
-
-    cb(new Error('wtf this shouldn\'t happen'));
-  },
-  limits: {
-    fileSize: 2 * 1000 * 1000 // 2 MB
-  },
-  storage: multer.memoryStorage()
-});
+const request = require('request');
 
 module.exports = function(router) {
   function getToken(req) {
@@ -196,13 +175,35 @@ module.exports = function(router) {
     UserController.declineById(id, defaultResponse(req, res));
   });
 
+  const resumeUpload = multer({
+    fileFilter: (req, file, cb) => {
+      const allowedMimeTypes = [
+        'application/msword', // doc
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+        'application/vnd.oasis.opendocument.text', // odt
+        'application/x-iwork-pages-sffpages', // pages
+        'application/pdf' // pdf
+      ];
+
+      if (allowedMimeTypes.includes(file.mimetype)) cb(null, true); // Accept file
+      else cb(null, false); // Reject file]
+    },
+    limits: {
+      fileSize: 2 * 1000 * 1000 // 2 MB
+    },
+    storage: multer.memoryStorage()
+  });
+
   /**
    * [OWNER/ADMIN]
    *
    * POST - Upload a resume for the specified user.
    */
-  router.post('/users/:id/resume', isOwnerOrAdmin, upload.single('file'), (req, res) => {
+  router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
+    // const lastResumeName = req.body.lastResumeName;
+    console.log(req.body);
+
     defaultResponse(req, res)(null, {
       message: `File ${file.originalname} of size ${file.size} bytes with mime type ${file.mimetype} and encoding ${file.encoding} uploaded successfully!`
     });
