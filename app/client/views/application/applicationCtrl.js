@@ -134,10 +134,8 @@ angular.module('app')
           uploadMultiple: false,
           sending: function(file, xhr, formData) {
             xhr.setRequestHeader('x-access-token', window.localStorage.jwt);
-            xhr.setRequestHeader('client-file-name')
           },
           success: function (file, successMsg) {
-            console.log(file.name);
             $scope.user.profile.lastResumeName = file.name;
           }
         });
