@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
@@ -23,36 +22,33 @@ module.exports = function(router) {
    * }
    *
    */
-  router.post('/login',
-    (req, res, next) => {
-      const email = req.body.email;
-      const password = req.body.password;
-      const token = req.body.token;
+  router.post('/login', (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const token = req.body.token;
 
-      if (token) {
-        UserController.loginWithToken(token,
-          (err, token, user) => {
-            if (err || !user) {
-              return res.status(400).send(err);
-            }
-            return res.json({
-              token: token,
-              user: user
-            });
-          });
-      } else {
-        UserController.loginWithPassword(email, password,
-          (err, token, user) => {
-            if (err || !user) {
-              return res.status(400).send(err);
-            }
-            return res.json({
-              token: token,
-              user: user
-            });
-          });
-      }
-    });
+    if (token) {
+      UserController.loginWithToken(token, (err, token, user) => {
+        if (err || !user) {
+          return res.status(400).send(err);
+        }
+        return res.json({
+          token: token,
+          user: user
+        });
+      });
+    } else {
+      UserController.loginWithPassword(email, password, (err, token, user) => {
+        if (err || !user) {
+          return res.status(400).send(err);
+        }
+        return res.json({
+          token: token,
+          user: user
+        });
+      });
+    }
+  });
 
   /**
    * Register a user with a username (email) and password.
@@ -64,34 +60,31 @@ module.exports = function(router) {
    * }
    *
    */
-  router.post('/register',
-    (req, res, next) => {
+  router.post('/register', (req, res, next) => {
       // Register with an email and password
-      const email = req.body.email;
-      const password = req.body.password;
+    const email = req.body.email;
+    const password = req.body.password;
 
-      UserController.createUser(email, password,
-        (err, user) => {
-          if (err) {
-            return res.status(400).send(err);
-          }
-          return res.json(user);
-        });
+    UserController.createUser(email, password, (err, user) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      return res.json(user);
     });
+  });
 
-  router.post('/reset',
-    (req, res, next) => {
-      const email = req.body.email;
+  router.post('/reset', (req, res, next) => {
+    const email = req.body.email;
 
-      UserController.sendPasswordResetEmail(email, (err) => {
-        if (err) {
-          return res.status(400).send(err);
-        }
-        return res.json({
-          message: 'Email Sent'
-        });
+    UserController.sendPasswordResetEmail(email, (err) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      return res.json({
+        message: 'Email Sent'
       });
     });
+  });
 
   /**
    * Reset user's password.
@@ -119,33 +112,31 @@ module.exports = function(router) {
    *   id: user id
    * }
    */
-  router.post('/verify/resend',
-    (req, res, next) => {
-      const id = req.body.id;
-      if (id) {
-        UserController.sendVerificationEmailById(id, (err, user) => {
-          if (err || !user) {
-            return res.status(400).send();
-          }
-          return res.status(200).send();
-        });
-      } else {
-        return res.status(400).send();
-      }
-    });
+  router.post('/verify/resend', (req, res, next) => {
+    const id = req.body.id;
+    if (id) {
+      UserController.sendVerificationEmailById(id, (err, user) => {
+        if (err || !user) {
+          return res.status(400).send();
+        }
+        return res.status(200).send();
+      });
+    } else {
+      return res.status(400).send();
+    }
+  });
 
   /**
    * Verify a user with a given token.
    */
-  router.get('/verify/:token',
-    (req, res, next) => {
-      const token = req.params.token;
-      UserController.verifyByToken(token, (err, user) => {
-        if (err || !user) {
-          return res.status(400).send(err);
-        }
+  router.get('/verify/:token', (req, res, next) => {
+    const token = req.params.token;
+    UserController.verifyByToken(token, (err, user) => {
+      if (err || !user) {
+        return res.status(400).send(err);
+      }
 
-        return res.json(user);
-      });
+      return res.json(user);
     });
+  });
 };
