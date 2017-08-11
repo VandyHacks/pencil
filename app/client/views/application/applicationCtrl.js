@@ -128,7 +128,7 @@ angular.module('app')
             'application/vnd.oasis.opendocument.text', // odt
             'application/x-iwork-pages-sffpages', // pages
             'application/pdf' // pdf
-          ],
+          ].join(','),
           createImageThumbnails: false,
           maxFilesize: 2,
           uploadMultiple: false,
