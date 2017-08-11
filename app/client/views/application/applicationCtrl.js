@@ -119,8 +119,8 @@ angular.module('app')
         }
 
         // Shitty file uploads
-        $("div#resume-upload").dropzone({ url: '/file/upload' });
-        
+        $('div#resume-upload').dropzone({ url: '/file/upload' });
+
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {

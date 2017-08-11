@@ -169,10 +169,18 @@ module.exports = function(router) {
    * POST - Decline an acceptance.
    */
   router.post('/users/:id/decline', isOwnerOrAdmin, (req, res) => {
-    const confirmation = req.body.confirmation;
     const id = req.params.id;
 
     UserController.declineById(id, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * PUT - Update a specific user's profile.
+   */
+  router.put('/users/:id/resume', isOwnerOrAdmin, (req, res) => {
+    defaultResponse(req, res)();
   });
 
   /**

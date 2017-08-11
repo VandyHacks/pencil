@@ -52,7 +52,7 @@ function canRegister(email, password, callback) {
         return callback(err);
       }
       const isEmailValid = validator.isEmail(email);
-      for (let whitelistedSuffix of emails) {
+      for (const whitelistedSuffix of emails) {
         if (isEmailValid && email.endsWith(whitelistedSuffix)) {
           return callback(null, true);
         }
@@ -517,7 +517,7 @@ UserController.sendVerificationEmailById = function(id, callback) {
  */
 UserController.sendPasswordResetEmail = function(email, callback) {
   if (!email) {
-    return callback({ 
+    return callback({
       message: 'You must provide a valid email.'
     });
   }

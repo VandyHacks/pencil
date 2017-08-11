@@ -45,6 +45,7 @@ const profile = {
 
   majors: String,
   resume: String,
+  lastResumeName: String,
   github: String,
   devpost: String,
   linkedin: String,
