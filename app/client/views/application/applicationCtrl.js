@@ -124,7 +124,7 @@ angular.module('app')
         const dropzoneEl = $('div#resume-upload');
         const updateDropzoneText = text => dropzoneEl.find(".upload-status").text(text);
         
-        const defaultMsg = 'Drag files here or click to upload';
+        const defaultMsg = 'Drag file here or click to upload';
         const progressMsg = progress => `Uploading (${Math.floor(progress)}%)...`;
         const successMsg = 'Upload successful!';
         const failureMsg = 'Upload failed, please retry.';
