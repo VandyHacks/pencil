@@ -30,7 +30,7 @@
 
         <div class="field" ng-show="autoFilledSchool">
           <label> School </label>
-          <input class="ui input"
+          <input class="ui input" name="school"
                  disabled="disabled"
                  ng-show="autoFilledSchool"
                  ng-model="user.profile.school">
@@ -39,7 +39,7 @@
         <div class="field" ng-show="!autoFilledSchool">
           <label> School </label>
           <div class="ui search selection dropdown" id="schoolDropdown">
-            <input type="hidden" name="school" id="school">
+            <input type="hidden" name="school">
             <div class="default text">School</div>
             <i class="dropdown icon"></i>
           </div>
