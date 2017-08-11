@@ -312,6 +312,58 @@ UserController.updateProfileById = function(id, profile, callback) {
 };
 
 /**
+ * Update a user's lastResumeName, given an id and a lastResumeName.
+ *
+ * @param  {String}   id              Id of the user
+ * @param  {String}   lastResumeName  lastResumeName string
+ * @param  {Function} callback        Callback with args (err, user)
+ */
+UserController.updateLastResumeNameById = function(id, lastResumeName, callback) {
+  // Validate the lastResumeName
+  if (!lastResumeName || lastResumeName.length === 0) {
+    return callback({ message: 'invalid lastResumeName' });
+  }
+
+  // Check if its within the registration window.
+  Settings.getRegistrationTimes((err, times) => {
+    if (err) {
+      callback(err);
+    }
+
+    const now = Date.now();
+
+    if (now < times.timeOpen) {
+      return callback({
+        message: 'Registration opens in ' + moment(times.timeOpen).fromNow() + '!'
+      });
+    }
+
+    if (now > times.timeClose) {
+      return callback({
+        message: 'Sorry, registration is closed.'
+      });
+    }
+  });
+
+  User.findOneAndUpdate(
+    {
+      _id: id,
+      verified: true
+    },
+    {
+      $set: {
+        'lastUpdated': Date.now(),
+        'profile.lastResumeName': lastResumeName,
+        'status.completedProfile': true
+      }
+    },
+    {
+      new: true
+    },
+    callback);
+};
+
+/**
  * Update a user's confirmation object, given an id and a confirmation.
  *
  * @param  {String}   id            Id of the user

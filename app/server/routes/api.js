@@ -201,11 +201,17 @@ module.exports = function(router) {
    */
   router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
-    // const lastResumeName = req.body.lastResumeName;
-    console.log(req.body);
+    const id = req.params.id;
+    const lastResumeName = file.originalname;
 
-    defaultResponse(req, res)(null, {
-      message: `File ${file.originalname} of size ${file.size} bytes with mime type ${file.mimetype} and encoding ${file.encoding} uploaded successfully!`
+    UserController.updateLastResumeNameById(id, lastResumeName, (err, data) => {
+      if (err) {
+        defaultResponse(req, res)(err);
+      } else {
+        defaultResponse(req, res)(null, {
+          message: `File of size ${file.size} bytes with mime type ${file.mimetype} uploaded successfully!`
+        });
+      }
     });
   });
 
