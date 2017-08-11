@@ -214,7 +214,7 @@ angular.module('app')
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select a gender.'
+                  prompt: 'Please select a gender, or select "Prefer not to disclose".'
                 }
               ]
             },
@@ -222,8 +222,20 @@ angular.module('app')
               identifier: 'ethnicity',
               rules: [
                 {
-                  type: 'empty',
-                  prompt: 'Please select an ethnicity.'
+                  type: 'minCount',
+                  value: 1,
+                  prompt: 'Please select an ethnicity, or select "Prefer not to disclose".'
+                }
+              ]
+            },
+            essay: {
+              identifier: 'essay',
+              optional: true,
+              rules: [
+                {
+                  type: 'maxLength',
+                  value: 2500,
+                  prompt: 'Your response to the optional prompt cannot be greater than 2500 characters.'
                 }
               ]
             },
@@ -243,6 +255,46 @@ angular.module('app')
                 {
                   type: 'url',
                   prompt: 'Please enter the URL of your resume.'
+                }
+              ]
+            },
+            github: {
+              identifier: 'github',
+              optional: true,
+              rules: [
+                {
+                  type: 'url',
+                  prompt: 'Please enter a valid URL for your Github profile.'
+                }
+              ]
+            },
+            devpost: {
+              identifier: 'devpost',
+              optional: true,
+              rules: [
+                {
+                  type: 'url',
+                  prompt: 'Please enter a valid URL for your Devpost profile.'
+                }
+              ]
+            },
+            linkedin: {
+              identifier: 'linkedin',
+              optional: true,
+              rules: [
+                {
+                  type: 'url',
+                  prompt: 'Please enter a valid URL for your LinkedIn profile.'
+                }
+              ]
+            },
+            website: {
+              identifier: 'website',
+              optional: true,
+              rules: [
+                {
+                  type: 'url',
+                  prompt: 'Please enter a valid URL for your portfolio.'
                 }
               ]
             },

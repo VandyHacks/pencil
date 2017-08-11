@@ -75,7 +75,7 @@
             <option value="M">Male</option>
             <option value="F">Female</option>
             <option value="O">Other</option>
-            <option value="N">I prefer not to answer.</option>
+            <option value="N">Prefer not to disclose</option>
           </select>
         </div>
 
@@ -85,7 +85,7 @@
             ng-repeat="(key, value) in ethnicities">
 
             <div class="ui checkbox">
-              <input type="checkbox" ng-model="ethnicities[key]" />
+              <input type="checkbox" ng-model="ethnicities[key]" name="ethnicity" />
               <label>{{key}}</label>
             </div>
 
@@ -102,7 +102,7 @@
           <p>
             2) What are you excited to learn at VandyHacks IV this October?
           </p>
-          <textarea ng-model="user.profile.essay">
+          <textarea name="essay" ng-model="user.profile.essay">
           </textarea>
         </div>
 
@@ -113,7 +113,7 @@
         <div class="field">
           <label> Major(s) </label>
           <div class="ui multiple search selection dropdown" id="majorsDropdown">
-            <input type="hidden" name="majors" id="majors">
+            <input type="hidden" name="majors">
             <div class="default text">Major(s)</div>
             <i class="dropdown icon"></i>
           </div>
@@ -199,7 +199,7 @@
             </strong>
           </p>
           <div class="ui checkbox">
-            <input type="checkbox" id="adult" ng-model="user.profile.adult">
+            <input type="checkbox" name="adult" ng-model="user.profile.adult">
             <label for="adult">I am 18 or older.</label>
           </div>
         </div>

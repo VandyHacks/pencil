@@ -16,7 +16,7 @@ const profile = {
   school: {
     type: String,
     min: 1,
-    max: 150
+    max: 250
   },
 
   graduationYear: {
@@ -40,7 +40,7 @@ const profile = {
   essay: {
     type: String,
     min: 0,
-    max: 1500
+    max: 2500
   },
 
   majors: String,
