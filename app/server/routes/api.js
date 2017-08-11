@@ -210,7 +210,7 @@ module.exports = function (router) {
         return;
       }
       const profile = user.profile;
-      console.log(profile);
+      defaultResponse(req, res)(null, profile);
     });
   });
 
