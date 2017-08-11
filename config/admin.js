@@ -10,6 +10,9 @@ User
     email: ADMIN_EMAIL
   })
   .exec((err, user) => {
+    if (err) {
+      throw new Error('Error while setting up admin user');
+    }
     if (!user) {
       const u = new User();
       u.email = ADMIN_EMAIL;
