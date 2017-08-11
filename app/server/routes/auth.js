@@ -1,7 +1,3 @@
-const jwt = require('jsonwebtoken');
-const validator = require('validator');
-
-const SettingsController = require('../controllers/SettingsController');
 const UserController = require('../controllers/UserController');
 
 module.exports = function(router) {
