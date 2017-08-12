@@ -52,9 +52,15 @@ module.exports = function (router) {
         return res.status(500).send(err);
       }
 
-      if (user._id.toString() === userId || user.admin) {
+      if (user.admin) {
+        req.isUserAdmin = true;
         return next();
       }
+
+      if (user._id.toString() === userId) {
+        return next();
+      }
+
       return res.status(400).send({
         message: 'Token does not match user id.'
       });
@@ -146,7 +152,7 @@ module.exports = function (router) {
         defaultResponse(req, res)(err);
         return;
       }
-      if (data.profile && data.profile.lastResumeName) {
+      if (req.isUserAdmin && data.profile && data.profile.lastResumeName) {
         data = JSON.parse(JSON.stringify(data));
         data.profile.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
       }
