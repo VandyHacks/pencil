@@ -154,7 +154,8 @@ module.exports = function (router) {
       }
       if (req.isUserAdmin && data.profile && data.profile.lastResumeName) {
         data = JSON.parse(JSON.stringify(data));
-        data.profile.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
+        const resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
+        data.profile.resumePath = process.env.STOREHOUSE_DL_URL + resumePath;
       }
       defaultResponse(req, res)(null, data);
     });
