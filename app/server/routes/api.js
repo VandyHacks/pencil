@@ -206,7 +206,7 @@ module.exports = function (router) {
       ];
 
       if (allowedMimeTypes.includes(file.mimetype)) cb(null, true); // Accept file
-      else cb(null, false); // Reject file]
+      else cb(null, false); // Reject file
     },
     limits: {
       fileSize: 2 * 1000 * 1000 // 2 MB
@@ -222,21 +222,20 @@ module.exports = function (router) {
   router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
     const id = req.params.id;
-    const lastResumeName = file.originalname;
 
-    UserController.updateLastResumeNameById(id, lastResumeName, (err, data) => {
+    const formData = uploadHelper.generateOpts(id, file.mimetype);
+    formData.file = {
+      value: file.buffer,
+      options: {
+        filename: file.originalname,
+        contentType: file.mimetype
+      }
+    };
+    request.post({ url: uploadHelper.getUploadUrl(), formData: formData }, (err, httpResponse, body) => {
       if (err) {
         defaultResponse(req, res)(err);
       } else {
-        const formData = uploadHelper.generateOpts(id, file.mimetype);
-        formData.file = {
-          value: file.buffer,
-          options: {
-            filename: lastResumeName,
-            contentType: file.mimetype
-          }
-        };
-        request.post({ url: uploadHelper.getUploadUrl(), formData: formData }, (err, httpResponse, body) => {
+        UserController.updateLastResumeNameById(id, file.originalname, (err, data) => {
           if (err) {
             defaultResponse(req, res)(err);
           } else {
