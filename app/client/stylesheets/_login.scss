@@ -53,4 +53,12 @@ $login-sidebar-width: 450px;
       background-size: cover;
       background-repeat: no-repeat;
   }
+
+  .logo {
+    max-width: 108px;
+
+    @media only screen and (min-width: 480px) {
+      max-width: 128px;
+    }
+  }
 }
