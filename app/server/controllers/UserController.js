@@ -435,6 +435,7 @@ UserController.declineById = function (id, callback) {
  */
 UserController.verifyByToken = function (token, callback) {
   User.verifyEmailVerificationToken(token, (err, email) => {
+    if (err) callback(err);
     User.findOneAndUpdate({
       email: new RegExp('^' + email + '$', 'i')
     }, {
@@ -500,6 +501,8 @@ UserController.createOrJoinTeam = function (id, code, callback) {
   })
     .select('profile.name')
     .exec((err, users) => {
+      if (err) callback(err);
+
       // Check to see if this team is joinable (< team max size)
       if (users.length >= maxTeamSize) {
         return callback({
@@ -603,6 +606,8 @@ UserController.changePassword = function (id, oldPassword, newPassword, callback
     .findById(id)
     .select('password')
     .exec((err, user) => {
+      if (err) callback(err);
+
       if (user.checkPassword(oldPassword)) {
         User.findOneAndUpdate({
           _id: id
@@ -680,6 +685,7 @@ UserController.resetPassword = function (token, password, callback) {
  */
 UserController.admitUser = function (id, user, callback) {
   Settings.getRegistrationTimes((err, times) => {
+    if (err) callback(err);
     User
       .findOneAndUpdate({
         _id: id,
