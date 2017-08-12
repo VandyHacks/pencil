@@ -146,7 +146,7 @@ module.exports = function (router) {
         defaultResponse(req, res)(err);
         return;
       }
-      if (data.profile.lastResumeName) {
+      if (data.profile && data.profile.lastResumeName) {
         data = Object.assign({}, data);
         data.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
       }
