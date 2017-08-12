@@ -55,7 +55,8 @@ $login-sidebar-width: 450px;
   }
 
   .logo {
-    max-width: 108px;
+    max-width: 96px;
+    margin-bottom: 10px;
 
     @media only screen and (min-width: 480px) {
       max-width: 128px;
