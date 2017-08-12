@@ -204,7 +204,7 @@ module.exports = function (router) {
   const uploadHelper = require('../services/uploadhelper');
   const path = require('path');
 
-  router.get('/users/:id/resume', isAdmin, (req, res) => {
+  router.get('/users/:id/resume/path', isAdmin, (req, res) => {
     const id = req.params.id;
     UserController.getById(id, (err, user) => {
       if (err) {
