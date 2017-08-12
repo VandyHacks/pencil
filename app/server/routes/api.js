@@ -148,7 +148,7 @@ module.exports = function (router) {
       }
       if (data.profile && data.profile.lastResumeName) {
         data = JSON.parse(JSON.stringify(data));
-        data.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
+        data.profile.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
       }
       defaultResponse(req, res)(null, data);
     });
