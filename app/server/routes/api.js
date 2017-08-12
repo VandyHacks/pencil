@@ -3,6 +3,7 @@ const SettingsController = require('../controllers/SettingsController');
 
 const multer = require('multer');
 const request = require('request');
+const path = require('path');
 
 module.exports = function (router) {
   function getToken(req) {
@@ -138,7 +139,17 @@ module.exports = function (router) {
    * GET - Get a specific user.
    */
   router.get('/users/:id', isOwnerOrAdmin, (req, res) => {
-    UserController.getById(req.params.id, defaultResponse(req, res));
+    const id = req.params.id;
+    UserController.getById(id, (err, data) => {
+      if (err) {
+        defaultResponse(req, res)(err);
+        return;
+      }
+      if (data.profile.lastResumeName) {
+        data.profile.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
+      }
+      defaultResponse(req, res)(null, data);
+    });
   });
 
   /**
@@ -202,24 +213,6 @@ module.exports = function (router) {
    */
 
   const uploadHelper = require('../services/uploadhelper');
-  const path = require('path');
-
-  router.get('/users/:id/resume/path', isAdmin, (req, res) => {
-    const id = req.params.id;
-    UserController.getById(id, (err, user) => {
-      if (err) {
-        defaultResponse(req, res)(err);
-        return;
-      }
-      const profile = user.profile;
-      if (!profile.lastResumeName) {
-        defaultResponse(req, res)({ message: 'Resume not uploaded' });
-        return;
-      }
-      const filePath = uploadHelper.getFilePathByExt(id, path.extname(profile.lastResumeName));
-      defaultResponse(req, res)(null, { path: filePath });
-    });
-  });
 
   router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
