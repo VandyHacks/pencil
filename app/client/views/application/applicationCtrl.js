@@ -188,6 +188,10 @@ angular.module('app')
                 {
                   type: 'empty',
                   prompt: 'Please enter your name.'
+                },
+                {
+                  type: 'maxLength',
+                  value: 100
                 }
               ]
             },
@@ -197,6 +201,10 @@ angular.module('app')
                 {
                   type: 'empty',
                   prompt: 'Please enter your school name.'
+                },
+                {
+                  type: 'maxLength',
+                  value: 250
                 }
               ]
             },
