@@ -4,6 +4,7 @@ const SettingsController = require('../controllers/SettingsController');
 const multer = require('multer');
 const request = require('request');
 const path = require('path');
+const uploadHelper = require('../services/uploadhelper');
 
 module.exports = function (router) {
   function getToken(req) {
@@ -146,7 +147,10 @@ module.exports = function (router) {
         return;
       }
       if (data.profile.lastResumeName) {
-        data.profile.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
+        const resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
+        console.log('Setting resume path: ' + resumePath);
+        data.profile.resumePath = resumePath;
+        console.log('Set to: ' + data.profile.resumePath);
       }
       defaultResponse(req, res)(null, data);
     });
@@ -211,9 +215,6 @@ module.exports = function (router) {
    *
    * POST - Upload a resume for the specified user.
    */
-
-  const uploadHelper = require('../services/uploadhelper');
-
   router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
     const id = req.params.id;
