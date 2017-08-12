@@ -202,15 +202,22 @@ module.exports = function (router) {
    */
 
   const uploadHelper = require('../services/uploadhelper');
+  const path = require('path');
 
   router.get('/users/:id/resume', isAdmin, (req, res) => {
-    UserController.getById(req.params.id, (err, user) => {
+    const id = req.params.id;
+    UserController.getById(id, (err, user) => {
       if (err) {
         defaultResponse(req, res)(err);
         return;
       }
       const profile = user.profile;
-      defaultResponse(req, res)(null, profile);
+      if (!profile.lastResumeName) {
+        defaultResponse(req, res)({ message: 'Resume not uploaded' });
+        return;
+      }
+      const filePath = uploadHelper.getFilePathByExt(id, path.extname(profile.lastResumeName));
+      defaultResponse(req, res)(null, { path: filePath });
     });
   });
 
