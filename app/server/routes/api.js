@@ -147,10 +147,8 @@ module.exports = function (router) {
         return;
       }
       if (data.profile.lastResumeName) {
-        const resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
-        console.log('Setting resume path: ' + resumePath);
-        data.profile.resumePath = resumePath;
-        console.log('Set to: ' + data.profile.resumePath);
+        data = Object.assign({}, data);
+        data.resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
       }
       defaultResponse(req, res)(null, data);
     });
