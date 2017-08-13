@@ -1,4 +1,5 @@
 $login-sidebar-width: 450px;
+$login-sidebar-break: 769px;
 
 #login {
   height: inherit;
@@ -7,7 +8,6 @@ $login-sidebar-width: 450px;
 
   > .container {
     position: relative;
-    height: inherit;
 
     .login-sidebar {
       max-width: 100%;
@@ -18,7 +18,7 @@ $login-sidebar-width: 450px;
       display: -ms-flexbox;
       display: flex;
 
-      @media only screen and (min-width: 769px) {
+      @media only screen and (min-width: $login-sidebar-break) {
           max-width: $login-sidebar-width;
           padding: 0 3em;
           box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
@@ -32,7 +32,7 @@ $login-sidebar-width: 450px;
       width: 100%;
       max-width: $login-sidebar-width - 50px;
 
-      @media only screen and (min-width: 769px) {
+      @media only screen and (min-width: $login-sidebar-break) {
         max-width: none;
       }
     }
@@ -46,7 +46,7 @@ $login-sidebar-width: 450px;
     }
   }
 
-  @media only screen and (min-width: 769px) {
+  @media only screen and (min-width: $login-sidebar-break) {
       background: $login-bg; 
       background-position: $login-sidebar-width;
       background-size: cover;
