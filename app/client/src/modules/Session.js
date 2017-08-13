@@ -5,7 +5,6 @@ angular.module('app')
     function ($rootScope, $window) {
       this.create = function (token, user) {
         $window.localStorage.jwt = token;
-        $window.localStorage.userId = user._id;
         $window.localStorage.currentUser = JSON.stringify(user);
         $rootScope.currentUser = user;
       };
@@ -24,12 +23,12 @@ angular.module('app')
         return $window.localStorage.jwt;
       };
 
-      this.getUserId = function () {
-        return $window.localStorage.userId;
-      };
-
       this.getUser = function () {
         return JSON.parse($window.localStorage.currentUser);
+      };
+
+      this.getUserId = function () {
+        return this.getUser()._id;
       };
 
       this.setUser = function (user) {
