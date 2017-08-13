@@ -52,7 +52,13 @@ angular.module('app')
         // ------------------------
         // Team
         // ------------------------
-        joinOrCreateTeam: function (code) {
+        createTeam: function (code) {
+          return $http.post(base + Session.getUserId() + '/team', {
+            code: code
+          });
+        },
+
+        joinTeam: function (code) {
           return $http.put(base + Session.getUserId() + '/team', {
             code: code
           });

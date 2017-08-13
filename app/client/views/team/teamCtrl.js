@@ -29,9 +29,22 @@ angular.module('app')
         _populateTeammates();
       }
 
+      $scope.createTeam = function () {
+        UserService
+          .createTeam($scope.code)
+          .success((user) => {
+            $scope.error = null;
+            $scope.user = user;
+            _populateTeammates();
+          })
+          .error((res) => {
+            $scope.error = res.message;
+          });
+      };
+
       $scope.joinTeam = function () {
         UserService
-          .joinOrCreateTeam($scope.code)
+          .joinTeam($scope.code)
           .success((user) => {
             $scope.error = null;
             $scope.user = user;

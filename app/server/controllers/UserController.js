@@ -478,12 +478,12 @@ UserController.getTeammates = function (id, callback) {
 };
 
 /**
- * Given a team code and id, join a team.
- * @param  {String}   id       Id of the user joining/creating
+ * Given a team code and id, create a team.
+ * @param  {String}   id       Id of the user creating
  * @param  {String}   code     Code of the proposed team
  * @param  {Function} callback args(err, users)
  */
-UserController.createOrJoinTeam = function (id, code, callback) {
+UserController.createTeam = function (id, code, callback) {
   if (!code) {
     return callback({
       message: 'Please enter a team name.'
@@ -502,6 +502,61 @@ UserController.createOrJoinTeam = function (id, code, callback) {
     .select('profile.name')
     .exec((err, users) => {
       if (err) callback(err);
+
+      // Check to see if this team is creatable (0 members)
+      if (users.length > 0) {
+        return callback({
+          message: 'Team already exists! Pick a different name.'
+        });
+      }
+
+      // Otherwise, we can add that person to the team.
+      User.findOneAndUpdate({
+        _id: id,
+        verified: true
+      }, {
+        $set: {
+          teamCode: code
+        }
+      }, {
+        new: true
+      },
+        callback);
+    });
+};
+
+/**
+ * Given a team code and id, join a team.
+ * @param  {String}   id       Id of the user joining
+ * @param  {String}   code     Team code
+ * @param  {Function} callback args(err, users)
+ */
+UserController.joinTeam = function (id, code, callback) {
+  if (!code) {
+    return callback({
+      message: 'Please enter a team name.'
+    });
+  }
+
+  if (typeof code !== 'string') {
+    return callback({
+      message: 'Get outta here, punk!'
+    });
+  }
+
+  User.find({
+    teamCode: code
+  })
+    .select('profile.name')
+    .exec((err, users) => {
+      if (err) callback(err);
+
+      // Check to see if this team exists
+      if (users.length === 0) {
+        return callback({
+          message: 'Team doesn\'t exist yet. Either create the team or choose an existing team.'
+        });
+      }
 
       // Check to see if this team is joinable (< team max size)
       if (users.length >= maxTeamSize) {

@@ -259,7 +259,20 @@ module.exports = function (router) {
   });
 
   /**
-   * Update a teamcode. Join/Create a team here.
+   * Create a teamcode. Create a team here.
+   * {
+   *   code: STRING
+   * }
+   */
+  router.post('/users/:id/team', isOwnerOrAdmin, (req, res) => {
+    const code = req.body.code;
+    const id = req.params.id;
+
+    UserController.createTeam(id, code, defaultResponse(req, res));
+  });
+
+  /**
+   * Update a teamcode. Join a team here.
    * {
    *   code: STRING
    * }
@@ -268,7 +281,7 @@ module.exports = function (router) {
     const code = req.body.code;
     const id = req.params.id;
 
-    UserController.createOrJoinTeam(id, code, defaultResponse(req, res));
+    UserController.joinTeam(id, code, defaultResponse(req, res));
   });
 
   /**
