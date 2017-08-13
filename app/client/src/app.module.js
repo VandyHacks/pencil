@@ -13,7 +13,7 @@ angular
     'AuthService',
     'Session',
     function (AuthService, Session) {
-      // Startup, login if there's  a token.
+      // Startup, login if there's a token.
       const token = Session.getToken();
       if (token) {
         AuthService.loginWithToken(token);
