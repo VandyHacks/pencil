@@ -22,6 +22,7 @@ $login-sidebar-width: 450px;
           max-width: $login-sidebar-width;
           padding: 0 3em;
           box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+          min-height: 100vh;
       }
     }
 
@@ -50,6 +51,7 @@ $login-sidebar-width: 450px;
       background-position: $login-sidebar-width;
       background-size: cover;
       background-repeat: no-repeat;
+      background-attachment: fixed;
   }
 
   .logo {
