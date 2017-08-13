@@ -5,9 +5,12 @@ $login-sidebar-break: 769px;
   height: inherit;
   width: inherit;
   background-color: $login-bg-color;
-
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  
   > .container {
-    position: relative;
+    height: 100%;
 
     .login-sidebar {
       max-width: 100%;
@@ -52,6 +55,7 @@ $login-sidebar-break: 769px;
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
+      position: static;
   }
 
   .logo {
