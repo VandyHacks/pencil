@@ -82,7 +82,7 @@ yarn install
 
 Run the application:
 ```
-npm start
+npm run dev
 ```
 
 # Customizing for your event
