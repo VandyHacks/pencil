@@ -41,7 +41,7 @@ angular.module('app')
         'Middle Eastern or North African': false,
         'Native American or Alaska Native': false,
         'Native Hawaiian or Pacific Islander': false,
-        'Non-Hispanic White or Euro-American': false,
+        'White or Euro-American': false,
         'None of the above': false,
         'Prefer not to disclose': false
       };
@@ -113,7 +113,6 @@ angular.module('app')
         $('#schoolDropdown').dropdown({
           allowAdditions: true,
           fullTextSearch: 'exact',
-          hideAdditions: false,
           match: 'text',
           values: possibleSchools.map((school) => ({
             name: school,
@@ -171,6 +170,10 @@ angular.module('app')
         });
         updateDropzoneText(defaultMsg);
 
+        // custom form validation rule
+        $.fn.form.settings.rules.ethnicityChecked = value => Object.values($scope.ethnicities).some(ethnicity => {
+          return ethnicity === true; // At least one must be checked
+        });
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
@@ -222,8 +225,7 @@ angular.module('app')
               identifier: 'ethnicity',
               rules: [
                 {
-                  type: 'minCount',
-                  value: 1,
+                  type: 'ethnicityChecked',
                   prompt: 'Please select an ethnicity, or select "Prefer not to disclose".'
                 }
               ]
