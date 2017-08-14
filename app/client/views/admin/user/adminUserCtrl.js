@@ -2,10 +2,10 @@ angular.module('app')
   .controller('AdminUserCtrl', [
     '$scope',
     '$http',
-    'SCHOOLS',
+    'EMAILS_TO_SCHOOLS',
     'user',
     'UserService',
-    function ($scope, $http, possibleSchools, User, UserService) {
+    function ($scope, $http, emailsToSchools, User, UserService) {
       $scope.selectedUser = User.data;
 
       // Populate the school dropdown
@@ -17,8 +17,8 @@ angular.module('app')
       function populateSchools() {
         const email = $scope.selectedUser.email.split('@')[1];
 
-        if (possibleSchools[email]) {
-          $scope.selectedUser.profile.school = possibleSchools[email].school;
+        if (emailsToSchools[email]) {
+          $scope.selectedUser.profile.school = emailsToSchools[email].school;
           $scope.autoFilledSchool = true;
         }
       }

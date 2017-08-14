@@ -6,11 +6,12 @@ angular.module('app')
     '$http',
     'currentUser',
     'MAJORS',
+    'EMAILS_TO_SCHOOLS',
     'SCHOOLS',
     'settings',
     'Session',
     'UserService',
-    function ($scope, $rootScope, $state, $http, currentUser, possibleMajors, possibleSchools, Settings, Session, UserService) {
+    function ($scope, $rootScope, $state, $http, currentUser, possibleMajors, emailsToSchools, possibleSchools, Settings, Session, UserService) {
       const sweetAlertButtonColor = '';
 
       // Set up the user
@@ -92,8 +93,8 @@ angular.module('app')
       function populateSchools() {
         const email = $scope.user.email.split('@')[1];
 
-        if (possibleSchools[email]) {
-          $scope.user.profile.school = possibleSchools[email].school;
+        if (emailsToSchools[email]) {
+          $scope.user.profile.school = emailsToSchools[email].school;
           $scope.autoFilledSchool = true;
         }
       }
@@ -114,19 +115,10 @@ angular.module('app')
           fullTextSearch: 'exact',
           hideAdditions: false,
           match: 'text',
-          values: Object.values(possibleSchools).sort((a, b) => {
-            const schoolA = a.school.toUpperCase();
-            const schoolB = b.school.toUpperCase();
-
-            if (schoolA < schoolB) return -1;
-            if (schoolA > schoolB) return 1;
-            return 0;
-          }).filter((item, index, self) => {
-            return index === 0 || item.school !== self[index - 1].school;
-          }).map((school) => ({
-            name: school.school,
-            value: school.school
-          })) // Extract school names and dedupe
+          values: possibleSchools.map((school) => ({
+            name: school,
+            value: school
+          }))
         });
         // Jank way to do data binding for semantic ui dropdown
         if ($scope.user.profile.majors) {

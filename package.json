@@ -1,7 +1,7 @@
 {
   "name": "vhf2017-registration",
   "description": "VandyHacks Fall 2017 registration system",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "async": "^1.4.2",
