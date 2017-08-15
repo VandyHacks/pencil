@@ -125,11 +125,27 @@ module.exports = function (router) {
    */
   router.get('/users', isAdmin, (req, res) => {
     const query = req.query;
+    const storehouseDlUrl = process.env.STOREHOUSE_DL_URL;
+
+    const addFields = function (err, data) {
+      if (err) {
+        defaultResponse(req, res)(err);
+        return;
+      }
+      data = JSON.parse(JSON.stringify(data));
+      data.users.forEach(user => {
+        if (user.profile.lastResumeName) {
+          const resumePath = uploadHelper.getFilePathByExt(user.id, path.extname(user.profile.lastResumeName));
+          user.profile.resumePath = storehouseDlUrl + resumePath;
+        }
+      });
+      defaultResponse(req, res)(null, data);
+    };
 
     if (query.page && query.size) {
-      UserController.getPage(query, defaultResponse(req, res));
+      UserController.getPage(query, addFields);
     } else {
-      UserController.getAll(defaultResponse(req, res));
+      UserController.getAll(addFields);
     }
   });
 
@@ -147,18 +163,7 @@ module.exports = function (router) {
    */
   router.get('/users/:id', isOwnerOrAdmin, (req, res) => {
     const id = req.params.id;
-    UserController.getById(id, (err, data) => {
-      if (err) {
-        defaultResponse(req, res)(err);
-        return;
-      }
-      if (req.isUserAdmin && data.profile && data.profile.lastResumeName) {
-        data = JSON.parse(JSON.stringify(data));
-        const resumePath = uploadHelper.getFilePathByExt(id, path.extname(data.profile.lastResumeName));
-        data.profile.resumePath = process.env.STOREHOUSE_DL_URL + resumePath;
-      }
-      defaultResponse(req, res)(null, data);
-    });
+    UserController.getById(id, defaultResponse(req, res));
   });
 
   /**
