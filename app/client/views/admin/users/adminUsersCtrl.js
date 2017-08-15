@@ -202,16 +202,20 @@ angular.module('app')
                 value: user.profile.majors
               }, {
                 name: 'Github',
-                value: user.profile.github
+                value: user.profile.github,
+                type: 'link'
               }, {
                 name: 'LinkedIn',
-                value: user.profile.linkedin
+                value: user.profile.linkedin,
+                type: 'link'
               }, {
                 name: 'DevPost',
-                value: user.profile.devpost
+                value: user.profile.devpost,
+                type: 'link'
               }, {
                 name: 'Resume link',
-                value: user.profile.resumePath
+                value: user.profile.resumePath,
+                type: 'link'
               }
             ]
           }, {
