@@ -211,7 +211,7 @@ angular.module('app')
                 value: user.profile.devpost
               }, {
                 name: 'Resume link',
-                value: user.profile.lastResumeName
+                value: user.profile.resumePath
               }
             ]
           }, {
