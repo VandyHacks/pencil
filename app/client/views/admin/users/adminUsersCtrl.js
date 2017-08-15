@@ -197,6 +197,21 @@ angular.module('app')
               }, {
                 name: 'Essay',
                 value: user.profile.essay
+              }, {
+                name: 'Majors',
+                value: user.profile.majors
+              }, {
+                name: 'Github',
+                value: user.profile.github
+              }, {
+                name: 'LinkedIn',
+                value: user.profile.linkedin
+              }, {
+                name: 'DevPost',
+                value: user.profile.devpost
+              }, {
+                name: 'Resume link',
+                value: user.profile.lastResumeName
               }
             ]
           }, {
@@ -211,15 +226,6 @@ angular.module('app')
               }, {
                 name: 'Shirt Size',
                 value: user.confirmation.shirtSize
-              }, {
-                name: 'Major',
-                value: user.confirmation.major
-              }, {
-                name: 'Github',
-                value: user.confirmation.github
-              }, {
-                name: 'Website',
-                value: user.confirmation.website
               }, {
                 name: 'Needs Hardware',
                 value: user.confirmation.needsHardware,
