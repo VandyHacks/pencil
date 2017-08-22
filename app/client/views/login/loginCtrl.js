@@ -39,7 +39,7 @@ angular.module('app')
           $scope.email, $scope.password, () => {
             sweetAlert({
               title: 'Registration complete!',
-              text: 'An email should be sent to you shortly.',
+              text: 'A confirmation email should be sent to you shortly. If you don\'t receive it within the next few minutes, please check your spam folder.',
               type: 'success',
               confirmButtonColor: sweetAlertButtonColor
             });
