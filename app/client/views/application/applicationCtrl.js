@@ -237,7 +237,7 @@ angular.module('app')
                 {
                   type: 'maxLength',
                   value: 2500,
-                  prompt: 'Your response to the optional prompt cannot be greater than 2500 characters.'
+                  prompt: 'Your response to the optional prompt cannot be longer than 2500 characters.'
                 }
               ]
             },

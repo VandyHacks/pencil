@@ -79,9 +79,6 @@ const confirmation = {
 
   needsReimbursement: Boolean,
   address: {
-    name: String,
-    line1: String,
-    line2: String,
     city: String,
     state: String,
     zip: String,
@@ -90,7 +87,11 @@ const confirmation = {
 
   signatureLiability: String,
 
-  notes: String
+  notes: {
+    type: String,
+    min: 0,
+    max: 2500
+  }
 };
 
 const status = {

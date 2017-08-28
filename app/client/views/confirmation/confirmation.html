@@ -95,7 +95,7 @@
           <div class="field">
             <label> Will you be needing travel reimbursement? </label>
             <div class="ui checkbox">
-              <input type="checkbox" ng-model="user.confirmation.needsReimbursement">
+              <input type="checkbox" name="needsReimbursement" ng-model="user.confirmation.needsReimbursement">
               <label> I will be needing travel reimbursement. </label>
             </div>
           </div>
@@ -103,36 +103,9 @@
           <div
             ng-show="user.confirmation.needsReimbursement">
 
-            <div class="ui header">
-              Mailing Address
-            </div>
-
             <p>
-              Travel reimbursement is processed and sent by check after the event. To expedite the reimbursement process and ensure that you receive your reimbursement as quickly as possible, make sure that your mailing address is accurate.
+              Please enter the location you will be traveling from.
             </p>
-
-            <div class="field">
-              <label>Full Name</label>
-              <input type="text"
-                     name="name"
-                     ng-model="user.confirmation.address.name">
-            </div>
-
-            <div class="field">
-              <label> Address Line 1 - Street address, P.O. box, company name, c/o </label>
-              <input
-                type="text"
-                name="addressLine1"
-                ng-model="user.confirmation.address.line1">
-            </div>
-
-            <div class="field">
-              <label> Address Line 2 - Apartment, suite, unit, building, floor, etc. </label>
-              <input
-                type="text"
-                name="addressLine2"
-                ng-model="user.confirmation.address.line2">
-            </div>
 
             <div class="four fields">
               <div class="field">
@@ -203,8 +176,8 @@
             <p>
               If there's anything else you need to let us know, tell us here!
             </p>
-            <textarea
-              ng-model="user.confirmation.notes"></textarea>
+            <textarea name="notes" ng-model="user.confirmation.notes">
+            </textarea>
           </div>
 
           <br>
@@ -216,6 +189,7 @@
               Submit
             </button>
           </div>
+          <div class="ui error message"></div>
 
         </fieldset>
       </div>

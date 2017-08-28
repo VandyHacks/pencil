@@ -93,12 +93,64 @@ angular.module('app')
                 }
               ]
             },
+            city: {
+              identifier: 'city',
+              depends: 'needsReimbursement',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter the city you are traveling from.'
+                }
+              ]
+            },
+            state: {
+              identifier: 'state',
+              depends: 'needsReimbursement',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter the state you are traveling from.'
+                }
+              ]
+            },
+            zip: {
+              identifier: 'zip',
+              depends: 'needsReimbursement',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter the zip you are traveling from.'
+                }
+              ]
+            },
+            country: {
+              identifier: 'country',
+              depends: 'needsReimbursement',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter the country you are traveling from.'
+                }
+              ]
+            },
             signatureLiability: {
               identifier: 'signatureLiabilityWaiver',
               rules: [
                 {
-                  type: 'empty',
-                  prompt: 'Please type your digital signature.'
+                  type: 'isExactly',
+                  value: user.profile.name,
+                  prompt: 'Your digital signature must match your full name.'
+                }
+              ]
+            },
+            notes: {
+              identifier: 'notes',
+              optional: true,
+              rules: [
+                {
+                  type: 'maxLength',
+                  value: 2500,
+                  prompt: 'Your additional notes cannot be longer than 2500 characters.'
                 }
               ]
             }
