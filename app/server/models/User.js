@@ -83,8 +83,6 @@ const confirmation = {
     country: String
   },
 
-  signatureLiability: String,
-
   notes: {
     type: String,
     min: 0,

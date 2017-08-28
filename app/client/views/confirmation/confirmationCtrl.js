@@ -133,16 +133,6 @@ angular.module('app')
                 }
               ]
             },
-            signatureLiability: {
-              identifier: 'signatureLiabilityWaiver',
-              rules: [
-                {
-                  type: 'isExactly',
-                  value: user.profile.name,
-                  prompt: 'Your digital signature must match your full name.'
-                }
-              ]
-            },
             notes: {
               identifier: 'notes',
               optional: true,
