@@ -74,28 +74,6 @@
             </select>
           </div>
 
-          <div class="field">
-            <label>
-              Will you be needing hardware?
-            </label>
-            <div class="ui checkbox">
-              <input type="checkbox" ng-model="user.confirmation.wantsHardware">
-              <label> Yes, I would like to use hardware in my hack. </label>
-            </div>
-          </div>
-
-          <div
-            class="field"
-            ng-show="user.confirmation.wantsHardware">
-            <label>
-              What kind of hardware would be useful for you?
-            </label>
-            <p>
-              We will have a hardware checkout, and we'll try our best to provide things that would be useful to you - however, we can't guarantee everything. We will publish a list of available hardware closer to the day of the event.
-            </p>
-            <input type="text" ng-model="user.confirmation.hardware">
-          </div>
-
           <br>
           <div class="divided title">Travel</div>
           <br>
