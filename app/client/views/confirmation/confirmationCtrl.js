@@ -89,7 +89,7 @@ angular.module('app')
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please give us a shirt size!'
+                  prompt: 'Please select a shirt size.'
                 }
               ]
             },
