@@ -93,6 +93,24 @@ angular.module('app')
                 }
               ]
             },
+            mlhconduct: {
+              identifier: 'mlhconduct',
+              rules: [
+                {
+                  type: 'checked',
+                  prompt: 'You must agree to the MLH Code of Conduct.'
+                }
+              ]
+            },
+            mlhdata: {
+              identifier: 'mlhdata',
+              rules: [
+                {
+                  type: 'checked',
+                  prompt: 'You must agree to the MLH Data Sharing Provision.'
+                }
+              ]
+            },
             city: {
               identifier: 'city',
               depends: 'needsReimbursement',
@@ -141,24 +159,6 @@ angular.module('app')
                   type: 'maxLength',
                   value: 2500,
                   prompt: 'Your additional notes cannot be longer than 2500 characters.'
-                }
-              ]
-            },
-            mlhconduct: {
-              identifier: 'mlhconduct',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'You must agree to the MLH Code of Conduct.'
-                }
-              ]
-            },
-            mlhdata: {
-              identifier: 'mlhdata',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'You must agree to the MLH Data Sharing Provision.'
                 }
               ]
             }
