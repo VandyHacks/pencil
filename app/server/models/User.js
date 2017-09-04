@@ -74,8 +74,7 @@ const confirmation = {
       values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
     }
   },
-  mlhConduct: Boolean,
-  mlhData: Boolean,
+
   needsReimbursement: Boolean,
   address: {
     city: String,
