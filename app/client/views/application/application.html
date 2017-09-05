@@ -5,183 +5,149 @@
 
   <div class="ui stackable page grid">
     <div class="column">
-      <div class="ui form"
-            ng-class="{'loading': loading}">
+      <div class="ui form" ng-class="{'loading': loading}">
 
         <fieldset ng-disabled="regIsClosed">
-        <br>
-        <div class="divided title">Basic Information</div>
-        <br>
+          <br>
+          <div class="divided title">Basic Information</div>
+          <br>
 
-        <div class="field">
-          <label> Email </label>
-          <input type="email"
-                 name="email"
-                 disabled="disabled"
-                 ng-model="user.email">
-        </div>
-
-        <div class="field">
-          <label> Full Name </label>
-          <input type="text"
-                 name="name"
-                 ng-model="user.profile.name">
-        </div>
-
-        <div class="field" ng-show="autoFilledSchool">
-          <label> School </label>
-          <input class="ui input" name="school"
-                 disabled="disabled"
-                 ng-show="autoFilledSchool"
-                 ng-model="user.profile.school">
-        </div>
-
-        <div class="field" ng-show="!autoFilledSchool">
-          <label> School </label>
-          <div class="ui search selection dropdown" id="schoolDropdown">
-            <input type="hidden" name="school">
-            <div class="default text">School</div>
-            <i class="dropdown icon"></i>
+          <div class="field">
+            <label> Email </label>
+            <input type="email" name="email" disabled="disabled" ng-model="user.email">
           </div>
-        </div>
 
-        <div class="field">
-          <label>Graduation Year</label>
-          <select
-            name="year"
-            ng-model="user.profile.graduationYear">
+          <div class="field">
+            <label> Full Name </label>
+            <input type="text" name="name" ng-model="user.profile.name">
+          </div>
+
+          <div class="field" ng-show="autoFilledSchool">
+            <label> School </label>
+            <input class="ui input" name="school" disabled="disabled" ng-show="autoFilledSchool" ng-model="user.profile.school">
+          </div>
+
+          <div class="field" ng-show="!autoFilledSchool">
+            <label> School </label>
+            <div class="ui search selection dropdown" id="schoolDropdown">
+              <input type="hidden" name="school">
+              <div class="default text">School</div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Graduation Year</label>
+            <select name="year" ng-model="user.profile.graduationYear">
             <option value="">Graduation Year</option>
             <option value="2018">2018</option>
             <option value="2019">2019</option>
             <option value="2020">2020</option>
             <option value="2021">2021</option>
           </select>
-        </div>
-
-        <div class="field">
-          <label>Is this your first hackathon?</label>
-          <div class="ui checkbox">
-            <input type="checkbox" name="firstHackathon" ng-model="user.profile.firstHackathon">
-            <label for="firstHackathon">Yes</label>
           </div>
-        </div>
 
-        <div class="field">
-          <label>Gender</label>
-          <select
-            name="gender"
-            ng-model="user.profile.gender">
+          <div class="field">
+            <label>Is this your first hackathon?</label>
+            <div class="ui checkbox">
+              <input type="checkbox" name="firstHackathon" ng-model="user.profile.firstHackathon">
+              <label for="firstHackathon">Yes</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Gender</label>
+            <select name="gender" ng-model="user.profile.gender">
             <option value="">Gender</option>
             <option value="M">Male</option>
             <option value="F">Female</option>
             <option value="O">Other</option>
             <option value="N">Prefer not to disclose</option>
           </select>
-        </div>
-
-        <div class="grouped fields">
-          <label> Ethnicity (Choose as many as you like) </label>
-          <div class="field"
-            ng-repeat="(key, value) in ethnicities">
-
-            <div class="ui checkbox">
-              <input type="checkbox" ng-model="ethnicities[key]" name="ethnicity" />
-              <label>{{key}}</label>
-            </div>
-
           </div>
-        </div>
 
-        <div class="field">
-          <label>
+          <div class="grouped fields">
+            <label> Ethnicity (Choose as many as you like) </label>
+            <div class="field" ng-repeat="(key, value) in ethnicities">
+
+              <div class="ui checkbox">
+                <input type="checkbox" ng-model="ethnicities[key]" name="ethnicity" />
+                <label>{{key}}</label>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="field">
+            <label>
               (Optional) Respond to one of the following prompts:
           </label>
-          <p>
-            1) Tell us about a cool project you've worked on.
-          </p>
-          <p>
-            2) What are you excited to learn at VandyHacks IV this October?
-          </p>
-          <textarea name="essay" ng-model="user.profile.essay">
+            <p>
+              1) Tell us about a cool project you've worked on.
+            </p>
+            <p>
+              2) What are you excited to learn at VandyHacks IV this October?
+            </p>
+            <textarea name="essay" ng-model="user.profile.essay">
           </textarea>
-        </div>
-
-        <br>
-        <div class="divided title"> Skills & Accomplishments </div>
-        <br>
-
-        <div class="field">
-          <label> Major(s) </label>
-          <div class="ui multiple search selection dropdown" id="majorsDropdown">
-            <input type="hidden" name="majors">
-            <div class="default text">Major(s)</div>
-            <i class="dropdown icon"></i>
           </div>
-        </div>
 
-        <div class="field" id="resume-upload-wrapper">
-          <label> Resume (PDF preferred, max 2MB) </label>
-          <div class="file-upload-wrapper">
-            <div id="resume-upload">
-              <div class="upload-status"></div>
+          <br>
+          <div class="divided title"> Skills & Accomplishments </div>
+          <br>
+
+          <div class="field">
+            <label> Major(s) </label>
+            <div class="ui multiple search selection dropdown" id="majorsDropdown">
+              <input type="hidden" name="majors">
+              <div class="default text">Major(s)</div>
+              <i class="dropdown icon"></i>
             </div>
-            <div class="curr-file">{{user.profile.lastResumeName || 'No file uploaded'}}</div>
           </div>
-          <input class="ui input"
-                name="lastResumeName"
-                ng-model="user.profile.lastResumeName" style="display: none">
-        </div>
 
-        <div class="field">
-          <label> Github (Optional) </label>
-          <input type="text"
-                  name="github"
-                  placeholder="https://github.com/foobar"
-                  ng-model="user.profile.github">
-        </div>
+          <div class="field" id="resume-upload-wrapper">
+            <label> Resume (PDF preferred, max 2MB) </label>
+            <div class="file-upload-wrapper">
+              <div id="resume-upload">
+                <div class="upload-status"></div>
+              </div>
+              <div class="curr-file">{{user.profile.lastResumeName || 'No file uploaded'}}</div>
+            </div>
+            <input class="ui input" name="lastResumeName" ng-model="user.profile.lastResumeName" style="display: none">
+          </div>
 
-        <div class="field">
-          <label> Devpost (Optional) </label>
-          <input type="text"
-                  name="devpost"
-                  placeholder="https://devpost.com/foobar"
-                  ng-model="user.profile.devpost">
-        </div>
+          <div class="field">
+            <label> Github (Optional) </label>
+            <input type="text" name="github" placeholder="https://github.com/foobar" ng-model="user.profile.github">
+          </div>
 
-        <div class="field">
-          <label> LinkedIn (Optional) </label>
-          <input type="text"
-                  name="linkedin"
-                  placeholder="https://linkedin.com/in/foobar"
-                  ng-model="user.profile.linkedin">
-        </div>
+          <div class="field">
+            <label> Devpost (Optional) </label>
+            <input type="text" name="devpost" placeholder="https://devpost.com/foobar" ng-model="user.profile.devpost">
+          </div>
 
-        <div class="field">
-          <label> Personal Website / Portfolio (Optional) </label>
-          <input type="text"
-                  name="website"
-                  placeholder="https://foobar.me"
-                  ng-model="user.profile.website">
-        </div>
+          <div class="field">
+            <label> LinkedIn (Optional) </label>
+            <input type="text" name="linkedin" placeholder="https://linkedin.com/in/foobar" ng-model="user.profile.linkedin">
+          </div>
 
-        <br>
-        <div class="divided title">Legal</div>
-        <br>
+          <div class="field">
+            <label> Personal Website / Portfolio (Optional) </label>
+            <input type="text" name="website" placeholder="https://foobar.me" ng-model="user.profile.website">
+          </div>
 
-        <div class="field">
-          <label> Code of Conduct </label>
-          <p>
-            <a
-              target="_blank"
-              href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">
-              MLH Code of Conduct
-            </a>
-          </p>
-          <p>
-            It is extremely important to us that attendees follow a set of guidelines to make the event fun for everyone involved. Please read through the MLH Code of Conduct and make sure you understand what we will be expecting of you.
-          </p>
-          <p>
-            By writing my name below, I affirm that I have read and will abide by the MLH Code of Conduct.
+          <br>
+          <div class="divided title">Legal</div>
+          <br>
+
+          <div class="field">
+            <label> Code of Conduct </label>
+            <p>
+              It is extremely important to us that attendees follow a set of guidelines to make the event fun for everyone involved. Please
+              read through the <a target="_blank" rel="noopener" href="https://github.com/MLH/mlh-policies/blob/master/code-of-conduct.md">MLH Code of Conduct</a> and make sure you understand what we will be expecting of you.
+            </p>
+            <p>
+              By writing my name below, I affirm that I have read and will abide by the <a target="_blank" rel="noopener" href="https://github.com/MLH/mlh-policies/blob/master/code-of-conduct.md">MLH Code of Conduct</a>.
           </p>
           <input type="text"
                   name="signatureCodeOfConduct"
@@ -217,7 +183,7 @@
           </button>
         </div>
         <footer>
-          We participate in Major League Hacking (MLH) as a MLH Member Event. By submitting your application to VandyHacks, you authorize us to share certain application/registration information for event administration, ranking, MLH administration, pre and post-event informational e-mails, and occasional messages about hackathons in line with the MLH Privacy Policy.
+          We participate in Major League Hacking (MLH) as a MLH Member Event. By submitting your application to VandyHacks, you authorize us to share certain application/registration information for event administration, ranking, MLH administration, pre and post-event informational e-mails, and occasional messages about hackathons in line with the <a target="_blank" rel="noopener" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
         </footer>
         <div class="ui error message"></div>
 
