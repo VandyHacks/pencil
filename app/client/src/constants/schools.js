@@ -121,6 +121,7 @@ angular.module('app')
   'Cherokee High School',
   'Cherry Hill High School East',
   'Chinguacousy Secondary School',
+  'Christian Brothers University',
   'Cincinnati State Technical and Community College',
   'Citrus College',
   'City University London',

@@ -388,6 +388,10 @@ angular.module('app')
     'school': 'Drexel University',
     'state': 'Pennsylvania'
   },
+  'cbu.edu': {
+    'school': 'Christian Brothers University',
+    'state': 'Tennessee'
+  },
   'wisc.edu': {
     'school': 'University of Wisconsin-Madison',
     'state': 'Wisconsin'
