@@ -181,6 +181,10 @@ const schema = new mongoose.Schema({
     max: 140
   },
 
+  wristbandCode: {
+    type: Number
+  },
+
   verified: {
     type: Boolean,
     required: true,
