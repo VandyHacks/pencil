@@ -350,6 +350,18 @@ module.exports = function (router) {
     UserController.checkOutById(id, user, defaultResponse(req, res));
   });
 
+  /**
+   * Set wristband code for User
+   * {
+   *   user: [String]
+   * }
+   */
+  router.put('/users/:id/wristband', isAdmin, (req, res) => {
+    const id = req.params.id;
+    const user = req.user;
+    // TODO:: set wristband id in User via usercontroller
+  });
+
   // ---------------------------------------------
   // Settings [ADMIN ONLY!]
   // ---------------------------------------------
@@ -447,5 +459,26 @@ module.exports = function (router) {
   router.put('/settings/whitelist', isAdmin, (req, res) => {
     const emails = req.body.emails;
     SettingsController.updateWhitelistedEmails(emails, defaultResponse(req, res));
+  });
+
+  // ---------------------------------------------
+  // Events [ADMIN ONLY!]
+  // ---------------------------------------------
+
+  /**
+   * Get event info
+   */
+  router.get('/events/:id', isAdmin, (req, res) => {
+    const id = req.params.id;
+    // TODO:: get event info and attendees (do not get tendies)
+  });
+
+  /**
+   * Add user to event
+   */
+  router.put('/events/:eventid/user/:userid', isAdmin, (req, res) => {
+    const event = req.params.eventid;
+    const user = req.params.userid;
+    // TODO:: add user to event
   });
 };
