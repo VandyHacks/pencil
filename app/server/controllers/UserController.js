@@ -57,7 +57,7 @@ function canRegister(email, password, callback) {
         }
       }
       return callback({
-        message: 'Please enter an educational email address.'
+        message: 'Registration is over for non-Vanderbilt students.'
       }, false);
     });
   });
