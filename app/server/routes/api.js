@@ -1,4 +1,5 @@
 const UserController = require('../controllers/UserController');
+const EventController = require('../controllers/EventController');
 const SettingsController = require('../controllers/SettingsController');
 
 const multer = require('multer');
@@ -358,8 +359,10 @@ module.exports = function (router) {
    */
   router.put('/users/:id/wristband', isAdmin, (req, res) => {
     const id = req.params.id;
-    const user = req.user;
-    // TODO:: set wristband id in User via usercontroller
+    const code = req.body.code;
+
+    // Should we record what admin set the code?
+    UserController.setWristband(id, code, defaultResponse(req, res));
   });
 
   // ---------------------------------------------
@@ -466,19 +469,20 @@ module.exports = function (router) {
   // ---------------------------------------------
 
   /**
-   * Get event info
+   * Get event info and attendees (do not get tendies)
    */
   router.get('/events/:id', isAdmin, (req, res) => {
     const id = req.params.id;
-    // TODO:: get event info and attendees (do not get tendies)
+    EventController.getById(id, defaultResponse(req, res));
   });
 
   /**
    * Add user to event
    */
-  router.put('/events/:eventid/user/:userid', isAdmin, (req, res) => {
+  router.put('/events/:eventid/', isAdmin, (req, res) => {
     const event = req.params.eventid;
-    const user = req.params.userid;
-    // TODO:: add user to event
+    const attendee = req.body.attendee;
+
+    EventController.addAttendee(event, attendee, defaultResponse(req, res));
   });
 };

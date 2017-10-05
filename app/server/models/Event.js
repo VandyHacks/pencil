@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
     default: true
   },
 
-  users: [String]
+  attendees: [String]
 });
 
 module.exports = mongoose.model('Event', schema);

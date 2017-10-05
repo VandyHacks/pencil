@@ -182,7 +182,7 @@ const schema = new mongoose.Schema({
   },
 
   wristbandCode: {
-    type: Number
+    type: String
   },
 
   verified: {
