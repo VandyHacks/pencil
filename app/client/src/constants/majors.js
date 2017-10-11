@@ -385,6 +385,7 @@ angular.module('app')
   'Hospitality and Tourism Management',
   'Hotel and Resort Management',
   'Human Development',
+  'Human and Organizational Development',
   'Human Resources Development',
   'Human Resources Management',
   'Human Resources',
