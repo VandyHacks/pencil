@@ -469,20 +469,55 @@ module.exports = function (router) {
   // ---------------------------------------------
 
   /**
+   * Create a new event
+   */
+  router.push('/events', (req, res) => {
+    // Register with an email and password
+    const name = req.body.name;
+    const open = req.body.open;
+
+    EventController.createEvent(name, open, (err, user) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      return res.json(user);
+    });
+
+    EventController.getEvents(defaultResponse(req, res));
+  });
+
+  /**
+   * Get events list
+   */
+  router.get('/events', (req, res) => {
+    EventController.getEvents(defaultResponse(req, res));
+  });
+
+  /**
    * Get event info and attendees (do not get tendies)
    */
   router.get('/events/:id', isAdmin, (req, res) => {
     const id = req.params.id;
-    EventController.getById(id, defaultResponse(req, res));
+    EventController.getAttendees(id, defaultResponse(req, res));
   });
 
   /**
    * Add user to event
    */
-  router.put('/events/:eventid/', isAdmin, (req, res) => {
+  router.push('/events/:eventid/attendee', isAdmin, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.body.attendee;
 
     EventController.addAttendee(event, attendee, defaultResponse(req, res));
+  });
+
+  /**
+   * Change open status of event
+   */
+  router.put('/events/:eventid/open', isAdmin, (req, res) => {
+    const event = req.params.eventid;
+    const open = req.body.open;
+
+    EventController.setOpen(event, open, defaultResponse(req, res));
   });
 };

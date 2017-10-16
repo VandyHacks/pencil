@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
     default: true
   },
 
-  attendees: [String]
+  attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
 module.exports = mongoose.model('Event', schema);
