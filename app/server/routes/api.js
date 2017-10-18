@@ -471,7 +471,7 @@ module.exports = function (router) {
   /**
    * Create a new event
    */
-  router.push('/events', (req, res) => {
+  router.post('/events', (req, res) => {
     // Register with an email and password
     const name = req.body.name;
     const open = req.body.open;
@@ -504,7 +504,7 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.push('/events/:eventid/attendee', isAdmin, (req, res) => {
+  router.post('/events/:eventid/attendee', isAdmin, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.body.attendee;
 
