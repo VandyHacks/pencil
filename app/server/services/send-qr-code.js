@@ -7,14 +7,14 @@ const baseData = () => {
   return {
     from: 'VandyHacks <info@vandyhacks.org>',
     subject: 'VandyHacks IV - Important information regarding check-in',
-    text: '420 blaze it'
+    html: '420 blaze it: <img src="cid:vh-checkin-code.png" />'
   };
 };
 
 module.exports = (email, name, id) => {
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
-    attachment: new mailgun.Attachment({
+    inline: new mailgun.Attachment({
       data: getQr(id),
       filename: 'vh-checkin-code.png',
       contentType: 'image/png'
