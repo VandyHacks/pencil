@@ -135,4 +135,15 @@ module.exports = function (router) {
       return res.json(user);
     });
   });
+
+  /**
+   * Verify an apicode before checking attendees into an event
+   */
+  router.post('/verify/apicode', (req, res, next) => {
+    const apicode = req.params.apicode;
+
+    if(apicode == process.env.API_SECRET){
+      return res.status(204);
+    }
+  });
 };
