@@ -12,10 +12,10 @@ const baseData = () => {
 };
 
 module.exports = email => {
-  console.log(process.env.MG_API_KEY);
+  const attach = new mailgun.Attachment({ data: getQr('598a593894537c001fae3dda'), filename: 'vh-checkin-code.png' });
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
-    attachment: getQr('598a593894537c001fae3dda')
+    attachment: attach
   }), (err, body) => {
     if (err) {
       console.log(err);
