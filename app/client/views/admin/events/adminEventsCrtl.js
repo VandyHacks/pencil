@@ -9,7 +9,9 @@ angular.module('app')
     EventsService
       .getEvents()
       .success((events) => {
+        console.log("success");
         $scope.events = events;
+        $scope.loading = false;
       });
 
     $scope.addEvent = function () {

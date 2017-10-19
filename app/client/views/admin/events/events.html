@@ -3,7 +3,6 @@
   
       <!-- Create Event -->
       <div
-        ng-class="{'loading': loading}"
         class="ui red segment">
         <div class="ui form">
   
@@ -23,6 +22,11 @@
               Open
             </label>
             <input type="boolean" ng-model="events.create.open">
+            <select 
+              ng-model="events.create.open"
+              ng-options="o.v as o.n for o in [{ n: 'Open', v: true }, { n: 'Close', v: false }]"
+              ng-init="events.create.open = true">
+            </select>
           </div>
   
           <div class="ui field">
