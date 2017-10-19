@@ -131,6 +131,11 @@ angular.module('app')
             }
           }
         })
+        .state('app.admin.events', {
+          url: '/admin/events',
+          templateUrl: 'views/admin/events/events.html',
+          controller: 'AdminEventsCtrl'
+        })
         .state('app.admin.settings', {
           url: '/admin/settings',
           templateUrl: 'views/admin/settings/settings.html',
