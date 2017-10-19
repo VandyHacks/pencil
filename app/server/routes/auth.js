@@ -142,10 +142,10 @@ module.exports = function (router) {
    */
   router.post('/verify/apicode', cors, (req, res, next) => {
     const token = req.body.token;
-    console.log(token);
-    console.log(typeof token);
-    console.log(process.env.API_SECRET);
-    console.log(typeof process.env.API_SECRET);
+    console.log('token: ' + token);
+    console.log('token type: ' + typeof token);
+    console.log('secret: ' + process.env.API_SECRET);
+    console.log('secret type: ' + typeof process.env.API_SECRET);
 
     res.status((token === process.env.API_SECRET) ? 200 : 400).send();
   });
