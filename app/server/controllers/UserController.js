@@ -57,7 +57,7 @@ function canRegister(email, password, callback) {
         }
       }
       return callback({
-        message: 'Please enter an educational email address.'
+        message: 'Registration is over for non-Vanderbilt students.'
       }, false);
     });
   });
@@ -749,6 +749,7 @@ UserController.admitUser = function (id, user, callback) {
         $set: {
           'status.admitted': true,
           'status.admittedBy': user.email,
+          'status.admittedOn': Date.now(),
           'status.confirmBy': times.timeConfirm
         }
       }, {

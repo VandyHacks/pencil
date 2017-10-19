@@ -331,6 +331,7 @@ angular.module('app')
   'Indiana University of Pennsylvania',
   'Indiana University-Purdue University Fort Wayne',
   'Indiana University–Purdue University Indianapolis',
+  'University of Indianapolis',
   'Indira Gandhi Delhi Technical University for Women',
   'Indira Gandhi National Open University',
   'Indraprastha Institute of Information Technology',
