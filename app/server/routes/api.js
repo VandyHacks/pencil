@@ -36,6 +36,16 @@ module.exports = function (router) {
     });
   }
 
+  function isValidSecret(req, res, next) {
+    if (req.header('x-event-secret') === process.env.API_SECRET) {
+      return next();
+    } else {
+      return res.status(401).send({
+        message: 'Invalid event API secret'
+      });
+    }
+  }
+
   /**
    * [Users API Only]
    *
@@ -508,7 +518,7 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.post('/events/:eventid/attendee', isAdmin, (req, res) => {
+  router.post('/events/:eventid/attendee', isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.body.attendee;
 
