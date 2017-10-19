@@ -35,6 +35,7 @@
     "nodemailer": "^1.4.0",
     "nodemailer-smtp-transport": "^1.0.3",
     "passport-local": "^1.0.0",
+    "qr-image": "^3.2.0",
     "raven": "^2.1.1",
     "request": "^2.81.0",
     "underscore": "^1.8.3",
