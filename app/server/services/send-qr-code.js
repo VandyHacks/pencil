@@ -1,7 +1,7 @@
 const mailgun = require('mailgun-js')({ apiKey: process.env.MG_API_KEY, domain: 'vandyhacks.org' });
 const qr = require('qr-image');
 
-const getQr = data => qr.image(data, { type: 'png', size: 240, margin: 16 });
+const getQr = data => qr.imageSync(data, { type: 'png', size: 240, margin: 4 });
 
 const baseData = () => {
   return {
