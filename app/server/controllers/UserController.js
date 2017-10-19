@@ -812,4 +812,38 @@ UserController.getStats = function (callback) {
   return callback(null, Stats.getUserStats());
 };
 
+/**
+ * [ADMIN ONLY]
+ *
+ * Given a wristband code and id, set wristband code for user.
+ * @param  {String}   id       Id of the user joining
+ * @param  {String}   code     Wristband code
+ * @param  {Function} callback args(err, users)
+ */
+UserController.setWristband = function (id, code, callback) {
+  if (!code) {
+    return callback({
+      message: 'Please provide a wristband code.'
+    });
+  }
+
+  if (typeof code !== 'string') {
+    return callback({
+      message: 'Get outta here, punk!'
+    });
+  }
+
+  User.findOneAndUpdate({
+    _id: id,
+    verified: true
+  }, {
+    $set: {
+      wristbandCode: code
+    }
+  }, {
+    new: true
+  },
+    callback);
+};
+
 module.exports = UserController;
