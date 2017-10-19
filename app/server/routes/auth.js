@@ -140,7 +140,7 @@ module.exports = function (router) {
    * Verify an apicode before checking attendees into an event
    */
   router.post('/verify/apicode', (req, res, next) => {
-    const apicode = req.params.apicode;
+    const apicode = req.body.apicode;
 
     res.status((apicode === process.env.API_SECRET) ? 200 : 400).send();
   });
