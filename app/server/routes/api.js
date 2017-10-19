@@ -488,8 +488,6 @@ module.exports = function (router) {
       }
       return res.json(user);
     });
-
-    EventController.getEvents(defaultResponse(req, res));
   });
 
   /**

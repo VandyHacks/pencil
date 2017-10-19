@@ -142,8 +142,6 @@ module.exports = function (router) {
   router.post('/verify/apicode', (req, res, next) => {
     const apicode = req.params.apicode;
 
-    if(apicode == process.env.API_SECRET){
-      return res.status(204);
-    }
+    res.status((apicode === process.env.API_SECRET) ? 200 : 400).send();
   });
 };

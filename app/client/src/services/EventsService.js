@@ -13,6 +13,9 @@ angular.module('app')
           name,
           open
         });
+      },
+      getAttendees: function (eventId) {
+        return $http.get(base + eventId);
       }
     };
   }

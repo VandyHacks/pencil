@@ -60,7 +60,7 @@ EventController.addAttendee = function (id, attendee, callback) {
       _id: id
     }, {
       $push: {
-        attendees: attendee
+        attendees: {attendee}  // will we need timestamp, lets find out
       }
     }, {
       new: true
@@ -91,7 +91,7 @@ EventController.setOpen = (id, open, callback) => {
  * @param  {Function} callback args(err, event)
  */
 EventController.getEvents = (callback) => {
-  Event.find({}, 'name _id', callback);
+  Event.find({}, 'name _id open', callback);
 };
 
 /**

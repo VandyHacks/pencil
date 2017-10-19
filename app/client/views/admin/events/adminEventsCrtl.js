@@ -4,12 +4,12 @@ angular.module('app')
   '$sce',
   'EventsService',
   function ($scope, $sce, EventsService) {
-    $scope.settings = {};
+    $scope.selectedEvent = null;
 
     EventsService
       .getEvents()
       .success((events) => {
-        console.log("success");
+        console.log(events);
         $scope.events = events;
         $scope.loading = false;
       });
@@ -25,9 +25,20 @@ angular.module('app')
 
       EventsService
         .addEvent(name, open)
-        .success((settings) => {
-          // TODO:: add event to local
+        .success((event) => {
+          $scope.events.push(event);
           swal('Looks good!', 'Added Event', 'success');
+        });
+    };
+
+    $scope.selectEvent = function (event) {
+      console.log(event);
+      $scope.selectedEvent = event;
+
+      EventsService
+        .getAttendees(event._id)
+        .success((attendees) => {
+          console.log(attendees);
         });
     };
   }]);
