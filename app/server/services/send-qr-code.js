@@ -11,10 +11,14 @@ const baseData = () => {
   };
 };
 
-module.exports = email => {
+module.exports = (email, name, id) => {
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
-    attachment: getQr('598a494939ffb9001f4b95dd')
+    attachment: new mailgun.Attachment({
+      data: getQr(id),
+      filename: 'vh-checkin-code.png',
+      contentType: 'image/png'
+    })
   }), (err, body) => {
     if (err) {
       console.log(err);

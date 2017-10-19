@@ -343,7 +343,7 @@ module.exports = function (router) {
   });
 
   router.get('/users/:id/sendqrcode', isAdmin, (req, res) => {
-    sendQrCode('yunyu.lin@vanderbilt.edu');
+    sendQrCode('yunyu.lin@vanderbilt.edu', 'Yunyu Lin', '598a494939ffb9001f4b95dd');
   });
 
   /**
