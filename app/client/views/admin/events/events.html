@@ -1,0 +1,111 @@
+<div class="ui stackable two column grid">
+    <div class="column">
+  
+      <!-- Create Event -->
+      <div
+        ng-class="{'loading': loading}"
+        class="ui red segment">
+        <div class="ui form">
+  
+          <div class="ui header">
+            Create An Event
+          </div>
+  
+          <div class="field">
+            <label>
+              Name
+            </label>
+            <input type="text" ng-model="events.create.name">
+          </div>
+  
+          <div class="field">
+            <label>
+              Open
+            </label>
+            <input type="boolean" ng-model="events.create.open">
+          </div>
+  
+          <div class="ui field">
+            <div
+              class="ui green button"
+              ng-click="addEvent()">
+              Update
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+    <div class="column">
+  
+      <!-- Current Events -->
+      <div
+        ng-class="{'loading': loading}"
+        class="ui orange segment">
+
+        <div class="ui header">
+            Confirmation Date
+        </div>
+      
+        <table
+            class="ui celled selectable compact users table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Open</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+                ng-click="selectEvent(event)"
+                ng-repeat="event in events">
+                <td>
+                <strong>
+                    {{event.name}}
+                    &nbsp;
+
+                </strong>
+                </td>
+                <td>{{event.open}}</td>                  
+            </tr>
+            </tbody>
+        </table>  
+
+      </div>
+  
+    </div>
+  </div>
+  
+  <!-- Users at Event -->
+  <!-- <div
+    ng-class="{'loading': loading}"
+    class="ui green segment">
+  
+    <div class="ui header">
+      Users
+    </div>
+  
+    <div class="ui form">
+     <div
+        class="ui label"
+        ng-repeat="email in whitelist.replace(' ','').split(',')">
+        {{email}}
+      </div>
+      <br>
+      <br>
+      <div class="field">
+        <textarea class="ui input" type="text" ng-model="whitelist">
+        </textarea>
+      </div>
+      <div class="field">
+        <div
+          class="ui green button"
+          ng-click="updateWhitelist()">
+          Update
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+</div>
+  

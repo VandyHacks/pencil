@@ -1,5 +1,6 @@
 // bad name: covers JS Event
 const Event = require('../models/Event');
+const UserController = require('./UserController');
 
 const EventController = {};
 
@@ -46,19 +47,26 @@ EventController.createEvent = (name, open, callback) => {
 /**
  * Set user as attending the event
  * @param  {String}   id       Event id
+ * @param  {String}   attendee User id
  * @param  {Function} callback args(err, event)
  */
 EventController.addAttendee = function (id, attendee, callback) {
-  Event.findOneAndUpdate({
-    _id: id
-  }, {
-    $push: {
-      attendees: attendee
+  UserController.getById(attendee, (err, user) => {
+    if (err) {
+      callback(err);
     }
-  }, {
-    new: true
-  },
-    callback);
+
+    Event.findOneAndUpdate({
+      _id: id
+    }, {
+      $push: {
+        attendees: attendee
+      }
+    }, {
+      new: true
+    },
+      callback);
+  });
 };
 
 /**

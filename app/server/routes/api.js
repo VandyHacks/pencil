@@ -467,12 +467,13 @@ module.exports = function (router) {
 
   // ---------------------------------------------
   // Events [ADMIN ONLY!]
+  // excepting getting events
   // ---------------------------------------------
 
   /**
    * Create a new event
    */
-  router.post('/events', (req, res) => {
+  router.post('/events', isAdmin, (req, res) => {
     // Register with an email and password
     const name = req.body.name;
     const open = req.body.open;
