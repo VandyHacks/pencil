@@ -6,6 +6,7 @@ const multer = require('multer');
 const request = require('request');
 const path = require('path');
 const uploadHelper = require('../services/uploadhelper');
+// const sendQrCode = require('../services/send-qr-code');
 
 module.exports = function (router) {
   function getToken(req) {

@@ -25,6 +25,7 @@
     "gulp-uglify": "^3.0.0",
     "handlebars": "^3.0.3",
     "jsonwebtoken": "5.0.4",
+    "mailgun-js": "^0.13.1",
     "method-override": "^2.3.9",
     "mime": "^1.3.6",
     "moment": "^2.10.3",
@@ -45,7 +46,8 @@
     "start": "gulp build && node app.js",
     "config": "cp .env.config .env",
     "postinstall": "bower install && gulp build",
-    "lint": "eslint gulpfile.js app.js scripts config app/client/src app/client/views app/server"
+    "lint": "eslint gulpfile.js app.js scripts config app/client/src app/client/views app/server",
+    "autolint": "eslint --fix gulpfile.js app.js scripts config app/client/src app/client/views app/server"
   },
   "pre-commit": [
     "lint"
