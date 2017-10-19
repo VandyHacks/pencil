@@ -7,6 +7,7 @@ const request = require('request');
 const path = require('path');
 const uploadHelper = require('../services/uploadhelper');
 const sendQrCode = require('../services/send-qr-code');
+const cors = require('./cors');
 
 module.exports = function (router) {
   function getToken(req) {
@@ -41,6 +42,10 @@ module.exports = function (router) {
    * the correct one (for qr-scanner)
    */
   function isValidSecret(req, res, next) {
+    if (!req.header('x-event-secret')) {
+      return isAdmin(req, res, next);
+    }
+
     if (req.header('x-event-secret') === process.env.API_SECRET) {
       return next();
     } else {
@@ -507,7 +512,7 @@ module.exports = function (router) {
   /**
    * Get events list
    */
-  router.get('/events', (req, res) => {
+  router.get('/events', cors, (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
   });
 
@@ -522,7 +527,7 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.post('/events/:eventid/attendee', isValidSecret, (req, res) => {
+  router.post('/events/:eventid/attendee', cors, isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.body.attendee;
 

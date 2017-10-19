@@ -1,4 +1,5 @@
 const UserController = require('../controllers/UserController');
+const cors = require('./cors');
 
 module.exports = function (router) {
   // ---------------------------------------------
@@ -139,9 +140,9 @@ module.exports = function (router) {
   /**
    * Verify an apicode before checking attendees into an event
    */
-  router.post('/verify/apicode', (req, res, next) => {
-    const apicode = req.body.apicode;
+  router.post('/verify/apicode', cors, (req, res, next) => {
+    const token = req.body.token;
 
-    res.status((apicode === process.env.API_SECRET) ? 200 : 400).send();
+    res.status((token === process.env.API_SECRET) ? 200 : 400).send();
   });
 };
