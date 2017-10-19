@@ -1,6 +1,7 @@
 const mailgun = require('mailgun-js')({ apiKey: process.env.MG_API_KEY, domain: 'vandyhacks.org' });
+const request = require('request');
 
-const getQr = data => `https://chart.googleapis.com/chart?cht=qr&chl=${data}&chs=240x240&chld=L|0`;
+const getQr = data => request(`https://chart.googleapis.com/chart?cht=qr&chl=${data}&chs=240x240&chld=L|0`);
 
 const baseData = () => {
   return {
@@ -11,6 +12,7 @@ const baseData = () => {
 };
 
 module.exports = email => {
+  console.log(process.env.MG_API_KEY);
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
     attachment: getQr('598a593894537c001fae3dda')
