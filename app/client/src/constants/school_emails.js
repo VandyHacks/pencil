@@ -428,6 +428,10 @@ angular.module('app')
     'school': 'Indiana University-Bloomington',
     'state': 'Indiana'
   },
+  'uindy.edu': {
+    'school': 'University of Indianapolis',
+    'state': 'Indiana'
+  },
   'g.harvard.edu': {
     'school': 'Harvard University',
     'state': 'Massachusetts'

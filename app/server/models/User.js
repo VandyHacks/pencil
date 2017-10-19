@@ -113,6 +113,9 @@ const status = {
     ],
     select: false
   },
+  admittedOn: {
+    type: Number
+  },
   confirmed: {
     type: Boolean,
     required: true,
