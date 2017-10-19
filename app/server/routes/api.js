@@ -5,7 +5,7 @@ const multer = require('multer');
 const request = require('request');
 const path = require('path');
 const uploadHelper = require('../services/uploadhelper');
-// const sendQrCode = require('../services/send-qr-code');
+const sendQrCode = require('../services/send-qr-code');
 
 module.exports = function (router) {
   function getToken(req) {
@@ -340,6 +340,10 @@ module.exports = function (router) {
     const id = req.params.id;
     const user = req.user;
     UserController.checkInById(id, user, defaultResponse(req, res));
+  });
+
+  router.get('/users/:id/sendqrcode', isAdmin, (req, res) => {
+    sendQrCode('yunyu.lin@vanderbilt.edu');
   });
 
   /**
