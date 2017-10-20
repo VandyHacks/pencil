@@ -536,9 +536,10 @@ module.exports = function (router) {
     EventController.addAttendee(event, attendee, defaultResponse(req, res));
   });
 
-  router.options('/events/attendee/:id', cors(corsOpts));
-  router.get('/events/attendee/:id', cors(corsOpts), isValidSecret, (req, res) => {
+  router.options('/attendee/:id', cors(corsOpts));
+  router.get('/attendee/:id', cors(corsOpts), isValidSecret, (req, res) => {
     const id = req.params.id;
+    console.log('ATTENDEE ID: ' + id);
     UserController.getById(id, defaultResponse(req, res));
   });
 
