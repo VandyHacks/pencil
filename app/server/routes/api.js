@@ -536,6 +536,12 @@ module.exports = function (router) {
     EventController.addAttendee(event, attendee, defaultResponse(req, res));
   });
 
+  router.options('/attendee/:id', cors(corsOpts));
+  router.get('/attendee/:id', cors(corsOpts), isValidSecret, (req, res) => {
+    const id = req.params.id;
+    UserController.getById(id, defaultResponse(req, res));
+  });
+
   /**
    * Change open status of event
    */
