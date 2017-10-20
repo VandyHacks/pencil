@@ -1,5 +1,5 @@
 const UserController = require('../controllers/UserController');
-const cors = require('./cors');
+const cors = require('cors');
 const corsOpts = require('./cors');
 
 module.exports = function (router) {
