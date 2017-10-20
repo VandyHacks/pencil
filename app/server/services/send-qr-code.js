@@ -6,14 +6,14 @@ const getQr = data => qr.imageSync(data, { type: 'png', size: 10, margin: 4 });
 const baseData = () => {
   return {
     from: 'VandyHacks <info@vandyhacks.org>',
-    subject: 'VandyHacks IV - Important information regarding check-in',
-    text: '420 blaze it'
+    subject: 'VandyHacks IV - Important information regarding check-in'
   };
 };
 
 module.exports = (email, name, id) => {
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
+    text: `420 blaze it`,
     attachment: new mailgun.Attachment({
       data: getQr(id),
       filename: 'vh-checkin-code.png',
