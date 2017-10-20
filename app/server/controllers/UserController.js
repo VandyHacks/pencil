@@ -362,6 +362,17 @@ UserController.updateLastResumeNameById = function (id, lastResumeName, callback
     callback);
 };
 
+UserController.sendQrCodeEmailById = function (id, callback) {
+  User.findById(id, (err, user) => {
+    if (err || !user) {
+      return callback(err);
+    }
+
+    sendQrCode(user.email, id);
+    callback(null, user);
+  });
+};
+
 /**
  * Update a user's confirmation object, given an id and a confirmation.
  *

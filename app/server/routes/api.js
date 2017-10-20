@@ -6,7 +6,6 @@ const multer = require('multer');
 const request = require('request');
 const path = require('path');
 const uploadHelper = require('../services/uploadhelper');
-const sendQrCode = require('../services/send-qr-code');
 const cors = require('cors');
 const corsOpts = require('./cors');
 
@@ -364,7 +363,8 @@ module.exports = function (router) {
   });
 
   router.get('/users/:id/sendqrcode', isAdmin, (req, res) => {
-    sendQrCode('yunyu.lin@vanderbilt.edu', '598a494939ffb9001f4b95dd');
+    const id = req.params.id;
+    UserController.sendQrCodeEmailById(id, defaultResponse(req, res));
   });
 
   /**
