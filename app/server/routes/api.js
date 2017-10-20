@@ -528,10 +528,10 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.options('/events/:eventid/attendee', cors(corsOpts));
-  router.post('/events/:eventid/attendee', cors(corsOpts), isValidSecret, (req, res) => {
+  router.options('/events/:eventid/:attendeeid', cors(corsOpts));
+  router.get('/events/:eventid/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
-    const attendee = req.body.attendee;
+    const attendee = req.params.attendeeid;
 
     EventController.addAttendee(event, attendee, defaultResponse(req, res));
   });
