@@ -56,8 +56,12 @@ EventController.addAttendee = function (id, attendee, callback) {
       callback(err);
     }
 
-    Event.findOneAndUpdate({
-      _id: id
+    if (!user) {
+      callback({message: 'Not a valid ID'});
+    }
+
+    Event.update({
+      _id: id, 'attendees.attendee': {$ne: attendee}
     }, {
       $addToSet: {
         attendees: {attendee}  // unique? maybe
