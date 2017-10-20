@@ -140,7 +140,7 @@ module.exports = function (router) {
   /**
    * Verify an apicode before checking attendees into an event
    */
-  router.post('/verify/apicode', cors, (req, res, next) => {
+  router.post('/eventcode', cors, (req, res, next) => {
     const token = req.body.token;
     console.log(req.body);
     console.log('token: ' + token);
