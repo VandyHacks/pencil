@@ -141,8 +141,9 @@ EventController.admittedToEvent = (user, event, callback) => {
         return callback({message: 'Not a valid user'});
       }
 
-      model.admitted = admitted;
-      return callback(null, model);
+      const modelCopy = JSON.parse(JSON.stringify(model));
+      modelCopy.admittedToEvent = admitted;
+      return callback(null, modelCopy);
     });
   });
 };
