@@ -37,9 +37,9 @@ angular.module('app')
 
       EventsService
         .getAttendees(event._id)
-        .success((attendees) => {
-          console.log(attendees);
-          $scope.users = attendees;
+        .success((event) => {
+          console.log(event);
+          $scope.users = event.attendees;
         });
     };
   }]);
