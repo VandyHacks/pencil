@@ -13,7 +13,12 @@ const baseData = () => {
 module.exports = (email, name, id) => {
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
-    text: `420 blaze it`,
+    text: `We're excited to have you at VandyHacks IV! Please download the attached QR code to your phone before you arrive tomorrow evening; it'll be required to check into the event, any workshops, and any meals throughout the weekend. If you don't have it downloaded prior to check-in, you may be asked to go through the line again, so please come prepared!
+
+    See you tomorrow!
+
+    All the best,
+    The VandyHacks Team`,
     attachment: new mailgun.Attachment({
       data: getQr(id),
       filename: 'vh-checkin-code.png',
