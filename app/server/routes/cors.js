@@ -1,5 +1,3 @@
-const cors = require('cors');
-
 const corsOptions = {
   origin: function (origin, callback) {
     if (origin.endsWith('.vandyhacks.org')) {
@@ -10,4 +8,4 @@ const corsOptions = {
   }
 };
 
-module.exports = () => cors(corsOptions);
+module.exports = corsOptions;

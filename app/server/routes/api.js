@@ -7,7 +7,8 @@ const request = require('request');
 const path = require('path');
 const uploadHelper = require('../services/uploadhelper');
 const sendQrCode = require('../services/send-qr-code');
-const cors = require('./cors');
+const cors = require('cors');
+const corsOpts = require('./cors');
 
 module.exports = function (router) {
   function getToken(req) {
@@ -512,7 +513,7 @@ module.exports = function (router) {
   /**
    * Get events list
    */
-  router.get('/events', cors, (req, res) => {
+  router.get('/events', cors(corsOpts), (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
   });
 
@@ -527,7 +528,7 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.post('/events/:eventid/attendee', cors(), isValidSecret, (req, res) => {
+  router.post('/events/:eventid/attendee', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.body.attendee;
 
