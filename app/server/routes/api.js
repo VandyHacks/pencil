@@ -528,19 +528,20 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.options('/events/:eventid/:attendeeid', cors(corsOpts));
-  router.get('/events/:eventid/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
+  router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts));
+  router.get('/events/:eventid/admit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.params.attendeeid;
 
     EventController.addAttendee(event, attendee, defaultResponse(req, res));
   });
 
-  router.options('/attendee/:id', cors(corsOpts));
-  router.get('/attendee/:id', cors(corsOpts), isValidSecret, (req, res) => {
-    const id = req.params.id;
-    console.log('ATTENDEE ID: ' + id);
-    UserController.getById(id, defaultResponse(req, res));
+  router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts));
+  router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
+    const user = req.params.attendeeid;
+    const event = req.params.eventid;
+
+    EventController.admittedToEvent(user, event, defaultResponse(req, res));
   });
 
   /**

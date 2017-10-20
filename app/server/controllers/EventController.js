@@ -53,11 +53,11 @@ EventController.createEvent = (name, open, callback) => {
 EventController.addAttendee = function (id, attendee, callback) {
   UserController.getById(attendee, (err, user) => {
     if (err) {
-      callback(err);
+      return callback(err);
     }
 
     if (!user) {
-      callback({message: 'Not a valid ID'});
+      return callback({message: 'Not a valid ID'});
     }
 
     Event.update({
@@ -105,8 +105,35 @@ EventController.getEvents = (callback) => {
  */
 EventController.getAttendees = (id, callback) => {
   Event.findById(id)
-    .populate('attendees', 'profile.name email')
+    .populate('attendees.attendee', 'profile.name email')
     .exec(callback);
+};
+
+EventController.admittedToEvent = (user, event, callback) => {
+  Event.findById(event, (err, event) => {
+    if (err) {
+      return callback(err);
+    }
+
+    if (!event) {
+      return callback({message: 'Not a valid event'});
+    }
+
+    const admitted = event.attendees.some(attendee => attendee.attendee === user);
+
+    UserController.getById(user, (err, model) => {
+      if (err) {
+        return callback(err);
+      }
+
+      if (!model) {
+        return callback({message: 'Not a valid user'});
+      }
+
+      model.admitted = admitted;
+      return callback(null, model);
+    });
+  });
 };
 
 module.exports = EventController;
