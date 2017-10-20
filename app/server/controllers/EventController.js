@@ -105,7 +105,7 @@ EventController.getEvents = (callback) => {
  */
 EventController.getAttendees = (id, callback) => {
   Event.findById(id)
-    .populate('attendees', '_id name school confirmation.dietaryRestrictions')
+    .populate('attendees', 'profile.name email')
     .exec(callback);
 };
 
