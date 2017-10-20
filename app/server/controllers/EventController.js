@@ -130,7 +130,13 @@ EventController.admittedToEvent = (user, event, callback) => {
       return callback({message: 'Not a valid event'});
     }
 
-    const admitted = event.attendees.some(attendee => attendee.attendee === user);
+    const admitted = event.attendees.some(attendee => {
+      console.log(attendee);
+      console.log('user ' + user);
+      console.log('attendee type ' + typeof attendee.attendee);
+      
+      return attendee.attendee.toString() === user;
+    });
 
     UserController.getById(user, (err, model) => {
       if (err) {
