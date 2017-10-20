@@ -13,9 +13,9 @@ const baseData = () => {
 module.exports = (email, id) => {
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
-    text: `We're excited to have you at VandyHacks IV! Please download the attached QR code to your phone before you arrive tomorrow evening; it'll be required to check into the event, any workshops, and any meals throughout the weekend. If you don't have it downloaded prior to check-in, you may be asked to go through the line again, so please come prepared!
+    text: `We're excited to have you at VandyHacks IV! Please download the attached QR code to your phone before you arrive this evening; it'll be required to check into the event, any workshops, and any meals throughout the weekend. If you don't have it downloaded prior to check-in, you may be asked to go through the line again, so please come prepared!
 
-See you tomorrow!
+See you soon!
 
 All the best,
 The VandyHacks Team`,
