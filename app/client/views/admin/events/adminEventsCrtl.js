@@ -39,6 +39,7 @@ angular.module('app')
         .getAttendees(event._id)
         .success((attendees) => {
           console.log(attendees);
+          $scope.users = attendees;
         });
     };
   }]);
