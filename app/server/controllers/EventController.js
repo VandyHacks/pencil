@@ -73,6 +73,17 @@ EventController.addAttendee = function (id, attendee, callback) {
   });
 };
 
+EventController.removeAttendee = (event, attendee, callback) => {
+  Event.update({
+    _id: event
+  }, {
+    $pull: {
+      attendees: {attendee}
+    }
+  },
+    callback);
+};
+
 /**
  * Change open status of event
  * @param {String}    id    Event id

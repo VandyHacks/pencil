@@ -536,6 +536,14 @@ module.exports = function (router) {
     EventController.addAttendee(event, attendee, defaultResponse(req, res));
   });
 
+  router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts));
+  router.get('/events/:eventid/unadmit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
+    const event = req.params.eventid;
+    const attendee = req.params.attendeeid;
+
+    EventController.removeAttendee(event, attendee, defaultResponse(req, res));
+  });
+
   router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts));
   router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const user = req.params.attendeeid;
