@@ -141,6 +141,7 @@ module.exports = function (router) {
   /**
    * Verify an apicode before checking attendees into an event
    */
+  router.options('/eventcode', cors(corsOpts));
   router.post('/eventcode', cors(corsOpts), (req, res, next) => {
     const token = req.body.token;
     console.log(req.body);
