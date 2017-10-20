@@ -15,11 +15,13 @@ angular.module('app')
       $('.ui.dimmer').remove();
       // Populate the size of the modal for when it appears, with an arbitrary user.
       $scope.selectedUser = {};
-      $scope.selectedUser.sections = generateSections({status: '',
+      $scope.selectedUser.sections = generateSections({
+        status: '',
         confirmation: {
           dietaryRestrictions: []
         },
-        profile: ''});
+        profile: ''
+      });
 
       function updatePage(data) {
         $scope.users = data.users;
@@ -109,7 +111,7 @@ angular.module('app')
           swal({
             title: 'Are you sure?',
             text: 'Your account will be logged as having accepted this user. ' +
-                'Remember, this power is a privilege.',
+            'Remember, this power is a privilege.',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#DD6B55',
@@ -117,12 +119,33 @@ angular.module('app')
             closeOnConfirm: false
           }, () => {
             UserService
-                  .admitUser(user._id)
-                  .success((user) => {
-                    $scope.users[index] = user;
-                    swal('Accepted', user.profile.name + ' has been admitted.', 'success');
-                  });
+              .admitUser(user._id)
+              .success((user) => {
+                $scope.users[index] = user;
+                swal('Accepted', user.profile.name + ' has been admitted.', 'success');
+              });
           });
+        });
+      };
+
+      $scope.sendQrCode = function ($event, user, index) {
+        $event.stopPropagation();
+
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: 'You are about to send a QR code to  ' + user.profile.name + '!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonText: 'Yes, send a code.',
+          closeOnConfirm: false
+        }, () => {
+          UserService
+            .sendQrCode(user._id)
+            .success((user) => {
+              $scope.users[index] = user;
+              swal('Sent', user.profile.name + ' has been sent a QR code.', 'success');
+            });
         });
       };
 
