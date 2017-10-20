@@ -134,7 +134,7 @@ EventController.admittedToEvent = (user, event, callback) => {
       console.log(attendee);
       console.log('user ' + user);
       console.log('attendee type ' + typeof attendee.attendee);
-      
+
       return attendee.attendee.toString() === user;
     });
 

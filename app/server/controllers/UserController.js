@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Settings = require('../models/Settings');
 const Mailer = require('../services/email');
 const Stats = require('../services/stats');
+const sendQrCode = require('../services/send-qr-code');
 
 const validator = require('validator');
 const moment = require('moment');
@@ -398,7 +399,11 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
       }, {
         new: true
       },
-      callback);
+      (err, user) => {
+        if (err) callback(err);
+        sendQrCode(user.email, id);
+        callback(null, user);
+      });
   });
 };
 
