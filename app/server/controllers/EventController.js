@@ -59,8 +59,8 @@ EventController.addAttendee = function (id, attendee, callback) {
     Event.findOneAndUpdate({
       _id: id
     }, {
-      $push: {
-        attendees: {attendee}  // will we need timestamp, lets find out
+      $addToSet: {
+        attendees: {attendee}  // unique? maybe
       }
     }, {
       new: true
