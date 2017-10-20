@@ -527,7 +527,7 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.post('/events/:eventid/attendee', cors, isValidSecret, (req, res) => {
+  router.post('/events/:eventid/attendee', cors(), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.body.attendee;
 
