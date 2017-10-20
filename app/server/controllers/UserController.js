@@ -362,6 +362,9 @@ UserController.updateLastResumeNameById = function (id, lastResumeName, callback
     callback);
 };
 
+/**
+ * Send a user the QR code email
+ */
 UserController.sendQrCodeEmailById = function (id, callback) {
   User.findById(id, (err, user) => {
     if (err || !user) {
