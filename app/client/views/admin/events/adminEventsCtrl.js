@@ -9,7 +9,7 @@ angular.module('app')
     EventsService
       .getEvents()
       .success((events) => {
-        console.log(events);
+        // console.log(events);
         $scope.events = events;
         $scope.loading = false;
       });
@@ -32,13 +32,13 @@ angular.module('app')
     };
 
     $scope.selectEvent = function (event) {
-      console.log(event);
+      // console.log(event);
       $scope.selectedEvent = event;
 
       EventsService
         .getAttendees(event._id)
         .success((event) => {
-          console.log(event);
+          // console.log(event);
           $scope.users = event.attendees;
         });
     };
