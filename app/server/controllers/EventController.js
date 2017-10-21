@@ -110,9 +110,13 @@ EventController.getEvents = (callback) => {
     if (err) {
       callback(err, data);
     } else {
-      const dataCopy = JSON.parse(JSON.stringify(data));
-      dataCopy.attendees = dataCopy.attendees.length;
-      callback(err, dataCopy);
+      const out = [];
+      for (const event of data) {
+        const eventObj = JSON.parse(JSON.stringify(event));
+        eventObj.attendees = event.attendees.length;
+        out.push(eventObj);
+      }
+      callback(err, out);
     }
   });
 };
