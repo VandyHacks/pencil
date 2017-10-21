@@ -106,7 +106,15 @@ EventController.setOpen = (id, open, callback) => {
  * @param  {Function} callback args(err, event)
  */
 EventController.getEvents = (callback) => {
-  Event.find({}, 'name _id open', callback);
+  Event.find({}, 'name _id open attendees', (err, data) => {
+    if (err) {
+      callback(err, data);
+    } else {
+      const dataCopy = JSON.parse(JSON.stringify(data));
+      dataCopy.attendees = dataCopy.attendees.length;
+      callback(err, dataCopy);
+    }
+  });
 };
 
 /**
