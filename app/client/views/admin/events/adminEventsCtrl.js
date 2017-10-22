@@ -50,4 +50,13 @@ angular.module('app')
           $scope.users = event.attendees;
         });
     };
+
+    $scope.toggleOpen = function ($e, event, index) {
+      $e.stopPropagation();
+      EventsService
+        .toggleOpen(event)
+        .success((event) => {
+          $scope.events[index] = event;
+        });
+    };
   }]);

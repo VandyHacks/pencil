@@ -61,7 +61,8 @@
                 <th>Name</th>
                 <th>Open</th>
                 <th>Type</th>
-                <th>Attendees</th>          
+                <th>Attendees</th>  
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -77,7 +78,20 @@
                 </td>
                 <td>{{event.open.toString()}}</td>
                 <td>{{event.eventType}}</td>
-                <td>{{event.attendees}}</td>                
+                <td>{{event.attendees}}</td>
+                <td>
+                  <button
+                    class="accept ui circular mini basic green icon button"
+                    ng-click="toggleOpen($event, event, $index)">
+                    <i
+                      ng-if="event.open"
+                      class="lock outline icon"></i>
+  
+                    <i
+                      ng-if="!event.open"
+                      class="green unlock icon"></i>
+                  </button>
+                </td>          
             </tr>
             </tbody>
         </table>  

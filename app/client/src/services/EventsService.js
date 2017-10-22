@@ -18,6 +18,11 @@ angular.module('app')
           type
         });
       },
+      toggleOpen: function (event) {
+        return $http.put(base + event._id + '/open', {
+          open: event.open
+        });
+      },
       getAttendees: function (eventId) {
         return $http.get(base + eventId);
       }

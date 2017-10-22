@@ -62,7 +62,7 @@ EventController.addAttendee = function (id, attendee, callback) {
     }
 
     Event.update({
-      _id: id, 'attendees.attendee': {$ne: attendee}
+      _id: id, open: true, 'attendees.attendee': {$ne: attendee}
     }, {
       $addToSet: {
         attendees: {attendee}  // unique? maybe
