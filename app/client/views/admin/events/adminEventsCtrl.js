@@ -56,7 +56,7 @@ angular.module('app')
       EventsService
         .toggleOpen(event)
         .success((event) => {
-          $scope.events[index] = event;
+          $scope.events[index].open = event.open;
         });
     };
   }]);

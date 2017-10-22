@@ -92,12 +92,13 @@ EventController.removeAttendee = (event, attendee, callback) => {
  * @param {Function}  callback  args(err, event)
  */
 EventController.setOpen = (id, open, callback) => {
+  console.log('open: ' + open.toString());
   Event.findOneAndUpdate({
     _id: id
   }, {
-    $set: {open}
+    $set: { open: open } // should be { open } but wasn't working
   }, {
-    projection: {'name': 1, 'open': 1, 'type': 1},
+    projection: {'open': 1},
     returnNewDocument: true
   },
     callback);
