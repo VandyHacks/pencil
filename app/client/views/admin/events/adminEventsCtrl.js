@@ -17,6 +17,7 @@ angular.module('app')
     EventsService
       .getTypes()
       .success((types) => {
+        console.log(types);
         $scope.types = types;
       });
 

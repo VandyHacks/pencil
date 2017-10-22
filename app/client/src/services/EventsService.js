@@ -8,6 +8,9 @@ angular.module('app')
       getEvents: function () {
         return $http.get(base);
       },
+      getTypes: function () {
+        return $http.get(base + 'types');
+      },
       addEvent: function (name, open, type) {
         return $http.post(base, {
           name,
