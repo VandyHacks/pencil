@@ -92,7 +92,6 @@ EventController.removeAttendee = (event, attendee, callback) => {
  * @param {Function}  callback  args(err, event)
  */
 EventController.setOpen = (id, open, callback) => {
-  console.log('open: ' + open.toString());
   Event.findOneAndUpdate({
     _id: id
   }, {
