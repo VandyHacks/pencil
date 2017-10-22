@@ -58,7 +58,7 @@ function canRegister(email, password, callback) {
         }
       }
       return callback({
-        message: 'Registration is over for non-Vanderbilt students.'
+        message: 'Registration is currently closed.'
       }, false);
     });
   });
