@@ -17,7 +17,6 @@ angular.module('app')
     EventsService
       .getTypes()
       .success((types) => {
-        console.log(types);
         $scope.types = types;
       });
 
@@ -53,6 +52,7 @@ angular.module('app')
 
     $scope.toggleOpen = function ($e, event, index) {
       $e.stopPropagation();
+
       EventsService
         .toggleOpen(event)
         .success((event) => {

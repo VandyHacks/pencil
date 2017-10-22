@@ -97,7 +97,8 @@ EventController.setOpen = (id, open, callback) => {
   }, {
     $set: {open}
   }, {
-    new: true
+    projection: {'name': 1, 'open': 1, 'type': 1},
+    returnNewDocument: true
   },
     callback);
 };
