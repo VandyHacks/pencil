@@ -20,7 +20,7 @@ angular.module('app')
       },
       toggleOpen: function (event) {
         return $http.put(base + event._id + '/open', {
-          open: event.open
+          open: !event.open
         });
       },
       getAttendees: function (eventId) {
