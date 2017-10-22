@@ -4,7 +4,7 @@ const UserController = require('./UserController');
 
 const EventController = {};
 
-EventController.createEvent = (name, open, callback) => {
+EventController.createEvent = (name, open, eventType, callback) => {
   if (!name) {
     return callback({
       message: 'You must provide a name.'
@@ -33,6 +33,7 @@ EventController.createEvent = (name, open, callback) => {
         const event = new Event();
         event.name = name;
         event.open = open;
+        event.eventType = eventType;
         event.save((err) => {
           if (err) {
             return callback(err);
@@ -106,7 +107,7 @@ EventController.setOpen = (id, open, callback) => {
  * @param  {Function} callback args(err, event)
  */
 EventController.getEvents = (callback) => {
-  Event.find({}, 'name _id open attendees', (err, data) => {
+  Event.find({}, 'name _id open eventType attendees', (err, data) => {
     if (err) {
       callback(err, data);
     } else {
@@ -119,6 +120,14 @@ EventController.getEvents = (callback) => {
       callback(err, out);
     }
   });
+};
+
+/**
+ * Get all event types
+ * @param  {Function} callback args(err, types)
+ */
+EventController.getTypes = (callback) => {
+  callback(null, Event.schema.path('eventType').enumValues);
 };
 
 /**

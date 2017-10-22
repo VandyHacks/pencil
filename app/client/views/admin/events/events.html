@@ -1,5 +1,5 @@
-<div class="ui stackable two column grid">
-    <div class="column">
+<div class="ui stackable grid">
+    <div class="six wide column">
   
       <!-- Create Event -->
       <div
@@ -14,14 +14,21 @@
             <label>
               Name
             </label>
-            <input type="text" ng-model="events.create.name">
+            <input type="text" ng-model="create.name">
           </div>
   
           <div class="field">
             <select 
-              ng-model="events.create.open"
-              ng-init="events.create.open = true"
+              ng-model="create.open"
+              ng-init="create.open = true"
               ng-options="o.v as o.n for o in [{ n: 'Open', v: true }, { n: 'Close', v: false }]">
+            </select>
+          </div>
+
+          <div class="field">
+            <select 
+              ng-model="create.eventType"
+              ng-options="o as o for o in types">
             </select>
           </div>
   
@@ -36,7 +43,7 @@
       </div>
   
     </div>
-    <div class="column">
+    <div class="ten wide column">
   
       <!-- Current Events -->
       <div
@@ -53,7 +60,8 @@
             <tr>
                 <th>Name</th>
                 <th>Open</th>
-                <th>Attendees</th>                
+                <th>Type</th>
+                <th>Attendees</th>          
             </tr>
             </thead>
             <tbody>
@@ -68,6 +76,7 @@
                 </strong>
                 </td>
                 <td>{{event.open.toString()}}</td>
+                <td>{{event.eventType}}</td>
                 <td>{{event.attendees}}</td>                
             </tr>
             </tbody>

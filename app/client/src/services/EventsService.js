@@ -8,10 +8,11 @@ angular.module('app')
       getEvents: function () {
         return $http.get(base);
       },
-      addEvent: function (name, open) {
+      addEvent: function (name, open, type) {
         return $http.post(base, {
           name,
-          open
+          open,
+          type
         });
       },
       getAttendees: function (eventId) {

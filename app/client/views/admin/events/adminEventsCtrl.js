@@ -14,17 +14,24 @@ angular.module('app')
         $scope.loading = false;
       });
 
+    EventsService
+      .getTypes()
+      .success((types) => {
+        $scope.types = types;
+      });
+
     $scope.addEvent = function () {
       // Clean the dates and turn them to ms.
-      const name = $scope.events.create.name;
-      const open = $scope.events.create.open;
+      const name = $scope.create.name;
+      const open = $scope.create.open;
+      const type = $scope.create.eventType;
 
       if (!name) {
         return swal('Oops...', 'You need a name for this event, pal', 'error');
       }
 
       EventsService
-        .addEvent(name, open)
+        .addEvent(name, open, type)
         .success((event) => {
           $scope.events.push(event);
           swal('Looks good!', 'Added Event', 'success');

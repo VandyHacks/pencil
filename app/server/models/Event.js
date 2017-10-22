@@ -12,6 +12,14 @@ const schema = new mongoose.Schema({
     default: true
   },
 
+  // scared of using type, bc covering or something
+  eventType: {
+    type: String,
+    enum: ['Meal', 'Tech Talk', 'Swag', 'Hackathon', 'Dunno really'], // hackathon for the event itself
+    required: true,
+    default: 'Dunno really'
+  },
+
   attendees: [{
     attendee: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     timestamp: { type: Date, required: true, default: Date.now }

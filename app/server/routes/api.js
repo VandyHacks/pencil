@@ -501,8 +501,9 @@ module.exports = function (router) {
     // Register with an email and password
     const name = req.body.name;
     const open = req.body.open;
+    const type = req.body.type;
 
-    EventController.createEvent(name, open, (err, user) => {
+    EventController.createEvent(name, open, type, (err, user) => {
       if (err) {
         return res.status(400).send(err);
       }
@@ -515,6 +516,13 @@ module.exports = function (router) {
    */
   router.get('/events', cors(corsOpts), (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
+  });
+
+  /**
+   * Get event types
+   */
+  router.get('/events/types', cors(corsOpts), (req, res) => {
+    EventController.getTypes(defaultResponse(req, res));
   });
 
   /**
