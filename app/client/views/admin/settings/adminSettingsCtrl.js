@@ -3,7 +3,8 @@ angular.module('app')
     '$scope',
     '$sce',
     'SettingsService',
-    function ($scope, $sce, SettingsService) {
+    'Utils',
+    function ($scope, $sce, SettingsService, Utils) {
       $scope.settings = {};
       SettingsService
         .getPublicSettings()
@@ -40,15 +41,7 @@ angular.module('app')
 
       // Registration Times -----------------------------
 
-      $scope.formatDate = function (date) {
-        if (!date) {
-          return 'Invalid Date';
-        }
-
-        // Hack for timezone
-        return moment(date).format('dddd, MMMM Do YYYY, h:mm a') +
-          ' ' + date.toTimeString().split(' ')[2];
-      };
+      $scope.formatDate = Utils.formatTime;
 
       // Take a date and remove the seconds.
       function cleanDate(date) {
