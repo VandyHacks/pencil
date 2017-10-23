@@ -7,7 +7,7 @@ angular.module('app')
   function ($scope, $sce, EventsService, Utils) {
     $scope.selectedEvent = null;
     $scope.formatTime = timeStr => {
-      return Utils.formatTime(Date.parse(timeStr));
+      return Utils.formatTime(Date.parse(timeStr), true);
     };
 
     EventsService

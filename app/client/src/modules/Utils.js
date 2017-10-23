@@ -8,15 +8,19 @@ angular.module('app')
         isAfter: function (time) {
           return Date.now() > time;
         },
-        formatTime: function (time) {
+        formatTime: function (time, seconds) {
           if (!time) {
             return 'Invalid Date';
+          }
+          let fmtStr = 'dddd, MMMM Do YYYY, h:mm a';
+          if (seconds) {
+            fmtStr = 'dddd, MMMM Do YYYY, h:mm:ss a';
           }
 
           const date = new Date(time);
           // Hack for timezone
-          return moment(date).format('dddd, MMMM Do YYYY, h:mm a') +
-            ' (' + date.toTimeString().split(' (')[1];
+          return moment(date).format(fmtStr) +
+            ' (' + date.toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2] + ')';
         }
       };
     }
