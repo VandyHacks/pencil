@@ -3,8 +3,12 @@ angular.module('app')
   '$scope',
   '$sce',
   'EventsService',
-  function ($scope, $sce, EventsService) {
+  'Utils',
+  function ($scope, $sce, EventsService, Utils) {
     $scope.selectedEvent = null;
+    $scope.formatTime = timeStr => {
+      return Utils.formatTime(Date.parse(timeStr));
+    };
 
     EventsService
       .getEvents()
