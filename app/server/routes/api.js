@@ -534,6 +534,14 @@ module.exports = function (router) {
   });
 
   /**
+   * Get event info and attendees (also get tendies)
+   */
+  router.get('/events/dump/:id', isAdmin, (req, res) => {
+    const id = req.params.id;
+    EventController.getAttendeeDump(id, defaultResponse(req, res));
+  });
+
+  /**
    * Add user to event
    */
   router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts));

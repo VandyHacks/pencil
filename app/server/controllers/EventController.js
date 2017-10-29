@@ -142,6 +142,17 @@ EventController.getAttendees = (id, callback) => {
     .exec(callback);
 };
 
+/**
+ * Get attendees for event, all data included
+ * @param  {String}   id       Event id
+ * @param  {Function} callback args(err, users)
+ */
+EventController.getAttendeeDump = (id, callback) => {
+  Event.findById(id)
+    .populate('attendees.attendee')
+    .exec(callback);
+};
+
 EventController.admittedToEvent = (user, event, callback) => {
   Event.findById(event, (err, event) => {
     if (err) {
