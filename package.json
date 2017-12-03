@@ -24,7 +24,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
-    "handlebars": "^3.0.3",
+    "handlebars": "^4.0.11",
     "jsonwebtoken": "5.0.4",
     "mailgun-js": "^0.13.1",
     "method-override": "^2.3.9",
