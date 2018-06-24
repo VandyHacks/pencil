@@ -2,7 +2,7 @@
   "name": "vhf2018-registration",
   "version": "1.0.0",
   "homepage": "https://github.com/VandyHacks/VHF2018-registration",
-  "description": "VandyHacks Fall 2017 registration system",
+  "description": "VandyHacks Fall 2018 registration system",
   "license": "MIT",
   "ignore": [
     "**/.*",
