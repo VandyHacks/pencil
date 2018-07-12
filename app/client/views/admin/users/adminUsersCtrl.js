@@ -174,6 +174,47 @@ angular.module('app')
           .modal('show');
       }
 
+      $scope.initiateAcceptAll = function (users) {
+        if (users.length > 10) {
+          alert('Too many people to accept at once!');
+          return;
+        }
+        console.log($scope.users);
+        const userEmailList = [];
+        users.forEach(user => userEmailList.push(user.email));
+        let userListString = '';
+        userEmailList.forEach(user => { userListString += user + '\n'; });
+
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: 'You are about to accept a lot of people!\n' + userListString,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonText: 'Yes, accept them.',
+          closeOnConfirm: false
+        }, () => {
+          swal({
+            title: 'Are you sure?',
+            text: 'Your account will be logged as having accepted all of these users. ' +
+            'Remember, this power is a privilege.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, accept this users.',
+            closeOnConfirm: false
+          }, () => {
+            users.forEach(user => {
+              UserService
+                .admitUser(user._id)
+                .success((user) => {
+                  swal('Accepted has been admitted.', 'success');
+                });
+            });
+          });
+        });
+      };
+
       function generateSections(user) {
         return [
           {
