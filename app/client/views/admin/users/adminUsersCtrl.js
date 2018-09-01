@@ -179,12 +179,12 @@ angular.module('app')
         if (users.length > 10) {
           alert('Too many people to accept at once!');
           return;
-        }*/
+        } */
         console.log($scope.users);
         const userEmailList = [];
         users.forEach(user => userEmailList.push(user.email));
         let userListString = '';
-        
+
         const NUM_USERS_DISPLAYED = 5;
         userEmailList.slice(0, NUM_USERS_DISPLAYED).forEach(user => { userListString += user + '\n'; });
 
@@ -192,7 +192,6 @@ angular.module('app')
         if (numusers > NUM_USERS_DISPLAYED) {
           userListString += `... ${numusers - NUM_USERS_DISPLAYED} more \n`;
         }
-
 
         swal({
           title: 'Whoa, wait a minute!',
