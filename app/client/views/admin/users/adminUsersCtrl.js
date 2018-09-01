@@ -175,19 +175,28 @@ angular.module('app')
       }
 
       $scope.initiateAcceptAll = function (users) {
+        /*
         if (users.length > 10) {
           alert('Too many people to accept at once!');
           return;
-        }
+        }*/
         console.log($scope.users);
         const userEmailList = [];
         users.forEach(user => userEmailList.push(user.email));
         let userListString = '';
-        userEmailList.forEach(user => { userListString += user + '\n'; });
+        
+        const NUM_USERS_DISPLAYED = 5;
+        userEmailList.slice(0, NUM_USERS_DISPLAYED).forEach(user => { userListString += user + '\n'; });
+
+        const numusers = users.length;
+        if (numusers > NUM_USERS_DISPLAYED) {
+          userListString += `... ${numusers - NUM_USERS_DISPLAYED} more \n`;
+        }
+
 
         swal({
           title: 'Whoa, wait a minute!',
-          text: 'You are about to accept a lot of people!\n' + userListString,
+          text: `You are about to accept ${numusers} people!\n` + userListString,
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#DD6B55',
