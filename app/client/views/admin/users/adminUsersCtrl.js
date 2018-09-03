@@ -42,8 +42,17 @@ angular.module('app')
         });
 
       $scope.$watch('queryText', (queryText) => {
+        $stateParams.queryText = queryText;
         UserService
-          .getPage($stateParams.page, $stateParams.size, queryText)
+          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText)
+          .success((data) => {
+            updatePage(data);
+          });
+      });
+      $scope.$watch('pageNum', (pageNum) => {
+        $stateParams.page = pageNum;
+        UserService
+          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText)
           .success((data) => {
             updatePage(data);
           });
