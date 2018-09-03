@@ -15,7 +15,18 @@
               <i class="search icon"></i>
           </div>
         </div>
+      </div>
 
+      <div class="ui form">
+        <div class="field">
+          <div class="ui icon fluid input">
+            <input type="text"
+                   placeholder="Search..."
+                   ng-model="pageNum"
+                   ng-model-options="{debounce: 300}">
+              <i class="search icon"></i>
+          </div>
+        </div>
       </div>
 
       <div class="ui divider"></div>
