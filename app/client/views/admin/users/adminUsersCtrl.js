@@ -221,13 +221,11 @@ angular.module('app')
             confirmButtonText: 'Yes, accept this users.',
             closeOnConfirm: false
           }, () => {
-            users.forEach(user => {
-              UserService
-                .admitUser(user._id)
-                .success((user) => {
-                  swal('Accepted has been admitted.', 'success');
+            UserService
+                .admitAll($stateParams.queryText)
+                .success(() => {
+                  swal('All people in search have been accepted.');
                 });
-            });
           });
         });
       };

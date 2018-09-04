@@ -84,6 +84,10 @@ angular.module('app')
           return $http.post(base + id + '/admit');
         },
 
+        admitAll: function (querytext) {
+          return $http.post(base + 'admitall', JSON.stringify({querytext: querytext}));
+        },
+
         checkIn: function (id) {
           return $http.post(base + id + '/checkin');
         },

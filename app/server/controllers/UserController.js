@@ -249,6 +249,42 @@ UserController.getPage = function (query, callback) {
     });
 };
 
+// Makes a query with a search text
+UserController.makeQuery = function (searchText) {
+  const findQuery = {};
+  if (searchText.length > 0) {
+    const queries = [];
+    const re = new RegExp(searchText, 'i');
+    queries.push({ email: re });
+    queries.push({ 'profile.name': re });
+    queries.push({ 'teamCode': re });
+    queries.push({ 'profile.school': re });
+    queries.push({ 'profile.graduationYear': re });
+    findQuery.$or = queries;
+  }
+  return findQuery;
+};
+
+// Admits all uses on the page
+UserController.admitAll = function (searchText, callback) {
+  const query = this.makeQuery(searchText);
+  User
+  .find(query)
+  .exec((err, users) => {
+    if (err || !users) {
+      return callback(err);
+    }
+
+    User.count(query).exec((err, count) => {
+      if (err) {
+        return callback(err);
+      }
+
+      console.log(count);
+    });
+  });
+};
+
 /**
  * Get a user by id.
  * @param  {String}   id       User id

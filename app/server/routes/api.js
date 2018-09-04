@@ -353,6 +353,13 @@ module.exports = function (router) {
     UserController.admitUser(id, user, defaultResponse(req, res));
   });
 
+  router.post('/users/admitall', isAdmin, (req, res) => {
+    const query = req.body.querytext;
+    console.log('accepting all users' + query);
+
+    UserController.admitAll(query);
+  });
+
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
