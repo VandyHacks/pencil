@@ -23,40 +23,31 @@ angular.module('app')
         profile: ''
       });
 
-      function updatePage(data) {
-        $scope.users = data.users;
-        $scope.currentPage = data.page;
-        $scope.pageSize = data.size;
-
-        const p = [];
-        for (let i = 0; i < data.totalPages; i++) {
-          p.push(i);
-        }
-        $scope.pages = p;
-      }
-
-      UserService
-        .getPage($stateParams.page, $stateParams.size, $stateParams.query)
-        .success((data) => {
-          updatePage(data);
-        });
-
       $scope.$watch('queryText', (queryText) => {
         $stateParams.queryText = queryText;
-        UserService
-          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText)
-          .success((data) => {
-            updatePage(data);
-          });
+        refreshPage();
       });
       $scope.$watch('pageNum', (pageNum) => {
         $stateParams.page = pageNum;
+        refreshPage();
+      });
+
+      function refreshPage() {
+        function updatePageData(data) {
+          $scope.users = data.users;
+          $scope.currentPage = data.page;
+          $scope.pageSize = data.size;
+          $scope.totalNumUsers = data.totalNumUsers; // TODO: implement getting total num filtered users from server
+          // $scope.pages = data.totalPages; // not needed anymore...
+        }
         UserService
           .getPage($stateParams.page, $stateParams.size, $stateParams.queryText)
           .success((data) => {
-            updatePage(data);
+            updatePageData(data);
           });
-      });
+      }
+      // initial page refresh
+      refreshPage();
 
       $scope.goToPage = function (page) {
         $state.go('app.admin.users', {
