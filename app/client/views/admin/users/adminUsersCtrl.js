@@ -119,8 +119,7 @@ angular.module('app')
         }, () => {
           swal({
             title: 'Are you sure?',
-            text: 'Your account will be logged as having accepted this user. ' +
-            'Remember, this power is a privilege.',
+            text: 'This action cannot be undone, and will be logged.',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#DD6B55',
@@ -133,6 +132,47 @@ angular.module('app')
                 $scope.users[index] = user;
                 swal('Accepted', user.profile.name + ' has been admitted.', 'success');
               });
+          });
+        });
+      };
+
+      $scope.initiateAcceptAll = function (users) {
+
+        const userEmailList = [];
+        users.forEach(user => userEmailList.push(user.email));
+        let userListString = '';
+
+        const NUM_USERS_DISPLAYED = 5;
+        userEmailList.slice(0, NUM_USERS_DISPLAYED).forEach(user => { userListString += user + '\n'; });
+
+        const numusers = users.length;
+        if (numusers > NUM_USERS_DISPLAYED) {
+          userListString += `... ${numusers - NUM_USERS_DISPLAYED} more \n`;
+        }
+
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: `You are about to accept ${numusers} people!\n` + userListString,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonText: 'Yes, accept them.',
+          closeOnConfirm: false
+        }, () => {
+          swal({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone, and will be logged.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, accept these users.',
+            closeOnConfirm: false
+          }, () => {
+            UserService
+                .admitAll($stateParams.queryText)
+                .success(() => {
+                  swal('All people in search have been accepted.');
+                });
           });
         });
       };
@@ -182,53 +222,6 @@ angular.module('app')
         $('.long.user.modal')
           .modal('show');
       }
-
-      $scope.initiateAcceptAll = function (users) {
-        /*
-        if (users.length > 10) {
-          alert('Too many people to accept at once!');
-          return;
-        } */
-        console.log($scope.users);
-        const userEmailList = [];
-        users.forEach(user => userEmailList.push(user.email));
-        let userListString = '';
-
-        const NUM_USERS_DISPLAYED = 5;
-        userEmailList.slice(0, NUM_USERS_DISPLAYED).forEach(user => { userListString += user + '\n'; });
-
-        const numusers = users.length;
-        if (numusers > NUM_USERS_DISPLAYED) {
-          userListString += `... ${numusers - NUM_USERS_DISPLAYED} more \n`;
-        }
-
-        swal({
-          title: 'Whoa, wait a minute!',
-          text: `You are about to accept ${numusers} people!\n` + userListString,
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#DD6B55',
-          confirmButtonText: 'Yes, accept them.',
-          closeOnConfirm: false
-        }, () => {
-          swal({
-            title: 'Are you sure?',
-            text: 'Your account will be logged as having accepted all of these users. ' +
-            'Remember, this power is a privilege.',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, accept this users.',
-            closeOnConfirm: false
-          }, () => {
-            UserService
-                .admitAll($stateParams.queryText)
-                .success(() => {
-                  swal('All people in search have been accepted.');
-                });
-          });
-        });
-      };
 
       function generateSections(user) {
         return [
