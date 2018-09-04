@@ -37,7 +37,7 @@ angular.module('app')
           $scope.users = data.users;
           $scope.currentPage = data.page;
           $scope.pageSize = data.size;
-          $scope.totalNumUsers = data.totalNumUsers; // TODO: implement getting total num filtered users from server
+          $scope.totalNumUsers = data.count;
           // $scope.pages = data.totalPages; // not needed anymore...
         }
         UserService
@@ -135,7 +135,11 @@ angular.module('app')
         const NUM_USERS_DISPLAYED = 5;
         userEmailList.slice(0, NUM_USERS_DISPLAYED).forEach(user => { userListString += user + '\n'; });
 
-        const numusers = users.length;
+        const numusers = $scope.totalNumUsers;
+        if (numusers === 0) {
+          // sanity check
+          return;
+        }
         if (numusers > NUM_USERS_DISPLAYED) {
           userListString += `... ${numusers - NUM_USERS_DISPLAYED} more \n`;
         }

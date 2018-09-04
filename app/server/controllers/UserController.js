@@ -221,18 +221,18 @@ UserController.getPage = function (query, callback) {
       if (err || !users) {
         return callback(err);
       }
-
       User.count(findQuery).exec((err, count) => {
         if (err) {
           return callback(err);
         }
-
-        return callback(null, {
+        const data = {
           users: users,
           page: page,
           size: size,
+          count: count,
           totalPages: Math.ceil(count / size)
-        });
+        };
+        return callback(null, data);
       });
     });
 };
@@ -262,13 +262,14 @@ UserController.admitAll = function (searchText, callback) {
     if (err || !users) {
       return callback(err);
     }
-
     User.count(query).exec((err, count) => {
       if (err) {
         return callback(err);
       }
-
-      console.log(count);
+      const data = {
+        count: count
+      };
+      return callback(null, data);
     });
   });
 };
