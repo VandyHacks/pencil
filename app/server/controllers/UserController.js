@@ -240,7 +240,7 @@ UserController.getPage = function (query, callback) {
 // Makes a query with a search text
 UserController.makeQuery = function (searchText) {
   const findQuery = {};
-  if (searchText.length > 0) {
+  if (searchText && searchText.length > 0) {
     const queries = [];
     const re = new RegExp(searchText, 'i');
     queries.push({ email: re });
