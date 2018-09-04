@@ -207,19 +207,7 @@ UserController.getAll = function (callback) {
 UserController.getPage = function (query, callback) {
   const page = query.page;
   const size = parseInt(query.size);
-  const searchText = query.text;
-
-  const findQuery = {};
-  if (searchText.length > 0) {
-    const queries = [];
-    const re = new RegExp(searchText, 'i');
-    queries.push({ email: re });
-    queries.push({ 'profile.name': re });
-    queries.push({ 'teamCode': re });
-    queries.push({ 'profile.school': re });
-    queries.push({ 'profile.graduationYear': re });
-    findQuery.$or = queries;
-  }
+  const findQuery = this.makeQuery(query.text);
 
   User
     .find(findQuery)
