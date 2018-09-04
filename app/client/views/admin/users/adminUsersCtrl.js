@@ -137,7 +137,6 @@ angular.module('app')
       };
 
       $scope.initiateAcceptAll = function (users) {
-
         const userEmailList = [];
         users.forEach(user => userEmailList.push(user.email));
         let userListString = '';
