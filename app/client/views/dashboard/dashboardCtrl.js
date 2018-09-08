@@ -34,30 +34,30 @@ angular.module('app')
       $scope.dashState = function (status) {
         const user = $scope.user;
         switch (status) {
-          case 'unverified':
-            return !user.verified;
-          case 'openAndIncomplete':
-            return regIsOpen && user.verified && !user.status.completedProfile;
-          case 'openAndSubmitted':
-            return regIsOpen && user.status.completedProfile && !user.status.admitted;
-          case 'closedAndIncomplete':
-            return !regIsOpen && !user.status.completedProfile && !user.status.admitted;
-          case 'closedAndSubmitted': // Waitlisted State
-            return !regIsOpen && user.status.completedProfile && !user.status.admitted;
-          case 'admittedAndCanConfirm':
-            return !pastConfirmation &&
+        case 'unverified':
+          return !user.verified;
+        case 'openAndIncomplete':
+          return regIsOpen && user.verified && !user.status.completedProfile;
+        case 'openAndSubmitted':
+          return regIsOpen && user.status.completedProfile && !user.status.admitted;
+        case 'closedAndIncomplete':
+          return !regIsOpen && !user.status.completedProfile && !user.status.admitted;
+        case 'closedAndSubmitted': // Waitlisted State
+          return !regIsOpen && user.status.completedProfile && !user.status.admitted;
+        case 'admittedAndCanConfirm':
+          return !pastConfirmation &&
               user.status.admitted &&
               !user.status.confirmed &&
               !user.status.declined;
-          case 'admittedAndCannotConfirm':
-            return pastConfirmation &&
+        case 'admittedAndCannotConfirm':
+          return pastConfirmation &&
               user.status.admitted &&
               !user.status.confirmed &&
               !user.status.declined;
-          case 'confirmed':
-            return user.status.admitted && user.status.confirmed && !user.status.declined;
-          case 'declined':
-            return user.status.declined;
+        case 'confirmed':
+          return user.status.admitted && user.status.confirmed && !user.status.declined;
+        case 'declined':
+          return user.status.declined;
         }
         return false;
       };
@@ -91,11 +91,11 @@ angular.module('app')
           closeOnConfirm: true
         }, () => {
           UserService
-              .declineAdmission(user._id)
-              .success((user) => {
-                $rootScope.currentUser = user;
-                $scope.user = user;
-              });
+            .declineAdmission(user._id)
+            .success((user) => {
+              $rootScope.currentUser = user;
+              $scope.user = user;
+            });
         });
       };
     }]);

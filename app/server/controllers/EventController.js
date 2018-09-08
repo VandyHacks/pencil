@@ -18,7 +18,7 @@ EventController.createEvent = (name, open, eventType, callback) => {
    * @param  {Function} callback  args(err, event)
    */
   Event
-    .findOne({name})
+    .findOne({ name })
     .exec((err, found) => {
       if (err) {
         return callback(err);
@@ -58,19 +58,19 @@ EventController.addAttendee = function (id, attendee, callback) {
     }
 
     if (!user) {
-      return callback({message: 'Not a valid ID'});
+      return callback({ message: 'Not a valid ID' });
     }
 
     Event.update({
-      _id: id, open: true, 'attendees.attendee': {$ne: attendee}
+      _id: id, open: true, 'attendees.attendee': { $ne: attendee }
     }, {
       $addToSet: {
-        attendees: {attendee}  // unique? maybe
+        attendees: { attendee } // unique? maybe
       }
     }, {
       new: true
     },
-      callback);
+    callback);
   });
 };
 
@@ -79,10 +79,10 @@ EventController.removeAttendee = (event, attendee, callback) => {
     _id: event
   }, {
     $pull: {
-      attendees: {attendee}
+      attendees: { attendee }
     }
   },
-    callback);
+  callback);
 };
 
 /**
@@ -97,10 +97,10 @@ EventController.setOpen = (id, open, callback) => {
   }, {
     $set: { open: open } // should be { open } but wasn't working
   }, {
-    projection: {'open': 1},
+    projection: { 'open': 1 },
     returnNewDocument: true
   },
-    callback);
+  callback);
 };
 
 /**
@@ -160,7 +160,7 @@ EventController.admittedToEvent = (user, event, callback) => {
     }
 
     if (!event) {
-      return callback({message: 'Not a valid event'});
+      return callback({ message: 'Not a valid event' });
     }
 
     const admitted = event.attendees.some(attendee => {
@@ -177,7 +177,7 @@ EventController.admittedToEvent = (user, event, callback) => {
       }
 
       if (!model) {
-        return callback({message: 'Not a valid user'});
+        return callback({ message: 'Not a valid user' });
       }
 
       const modelCopy = JSON.parse(JSON.stringify(model));

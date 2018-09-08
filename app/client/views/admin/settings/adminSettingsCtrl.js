@@ -14,7 +14,7 @@ angular.module('app')
 
       function updateSettings(settings) {
         $scope.loading = false;
-         // Format the dates in settings.
+        // Format the dates in settings.
         settings.timeOpen = new Date(settings.timeOpen);
         settings.timeClose = new Date(settings.timeClose);
         settings.timeConfirm = new Date(settings.timeConfirm);

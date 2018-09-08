@@ -59,7 +59,7 @@ module.exports = function (router) {
    *
    */
   router.post('/register', (req, res, next) => {
-      // Register with an email and password
+    // Register with an email and password
     const email = req.body.email;
     const password = req.body.password;
 

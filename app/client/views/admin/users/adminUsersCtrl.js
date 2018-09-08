@@ -77,14 +77,14 @@ angular.module('app')
             confirmButtonText: 'Yes, check them in.',
             closeOnConfirm: false
           },
-            () => {
-              UserService
-                .checkIn(user._id)
-                .success((user) => {
-                  $scope.users[index] = user;
-                  swal('Accepted', user.profile.name + ' has been checked in.', 'success');
-                });
-            }
+          () => {
+            UserService
+              .checkIn(user._id)
+              .success((user) => {
+                $scope.users[index] = user;
+                swal('Accepted', user.profile.name + ' has been checked in.', 'success');
+              });
+          }
           );
         } else {
           UserService
@@ -163,10 +163,10 @@ angular.module('app')
             closeOnConfirm: false
           }, () => {
             UserService
-                .admitAll($stateParams.queryText)
-                .success(() => {
-                  swal('All people in search have been accepted.');
-                });
+              .admitAll($stateParams.queryText)
+              .success(() => {
+                swal('All people in search have been accepted.');
+              });
           });
         });
       };

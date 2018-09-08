@@ -14,7 +14,7 @@ SettingsController.updateField = function (field, value, callback) {
   Settings
     .findOneAndUpdate({}, {
       $set: update
-    }, {new: true}, callback);
+    }, { new: true }, callback);
 };
 
 /**
@@ -28,7 +28,7 @@ SettingsController.updateWhitelistedEmails = function (emails, callback) {
       $set: {
         whitelistedEmails: emails
       }
-    }, {new: true})
+    }, { new: true })
     .select('whitelistedEmails')
     .exec(callback);
 };
@@ -69,7 +69,7 @@ SettingsController.updateRegistrationTimes = function (open, close, callback) {
   Settings
     .findOneAndUpdate({}, {
       $set: updatedTimes
-    }, {new: true}, callback);
+    }, { new: true }, callback);
 };
 
 /**

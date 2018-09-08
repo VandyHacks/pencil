@@ -257,21 +257,21 @@ UserController.makeQuery = function (searchText) {
 UserController.admitAll = function (searchText, callback) {
   const query = this.makeQuery(searchText);
   User
-  .find(query)
-  .exec((err, users) => {
-    if (err || !users) {
-      return callback(err);
-    }
-    User.count(query).exec((err, count) => {
-      if (err) {
+    .find(query)
+    .exec((err, users) => {
+      if (err || !users) {
         return callback(err);
       }
-      const data = {
-        count: count
-      };
-      return callback(null, data);
+      User.count(query).exec((err, count) => {
+        if (err) {
+          return callback(err);
+        }
+        const data = {
+          count: count
+        };
+        return callback(null, data);
+      });
     });
-  });
 };
 
 /**
@@ -323,17 +323,17 @@ UserController.updateProfileById = function (id, profile, callback) {
       _id: id,
       verified: true
     },
-      {
-        $set: {
-          'lastUpdated': Date.now(),
-          'profile': profile,
-          'status.completedProfile': true
-        }
-      },
-      {
-        new: true
-      },
-      callback);
+    {
+      $set: {
+        'lastUpdated': Date.now(),
+        'profile': profile,
+        'status.completedProfile': true
+      }
+    },
+    {
+      new: true
+    },
+    callback);
   });
 };
 
@@ -430,20 +430,20 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
       'status.admitted': true,
       'status.declined': { $ne: true }
     },
-      {
-        $set: {
-          'lastUpdated': Date.now(),
-          'confirmation': confirmation,
-          'status.confirmed': true
-        }
-      }, {
-        new: true
-      },
-      (err, user) => {
-        if (err) callback(err);
-        sendQrCode(user.email, id);
-        callback(null, user);
-      });
+    {
+      $set: {
+        'lastUpdated': Date.now(),
+        'confirmation': confirmation,
+        'status.confirmed': true
+      }
+    }, {
+      new: true
+    },
+    (err, user) => {
+      if (err) callback(err);
+      sendQrCode(user.email, id);
+      callback(null, user);
+    });
   });
 };
 
@@ -461,16 +461,16 @@ UserController.declineById = function (id, callback) {
     'status.admitted': true,
     'status.declined': false
   },
-    {
-      $set: {
-        'lastUpdated': Date.now(),
-        'status.confirmed': false,
-        'status.declined': true
-      }
-    }, {
-      new: true
-    },
-    callback);
+  {
+    $set: {
+      'lastUpdated': Date.now(),
+      'status.confirmed': false,
+      'status.declined': true
+    }
+  }, {
+    new: true
+  },
+  callback);
 };
 
 /**
@@ -490,7 +490,7 @@ UserController.verifyByToken = function (token, callback) {
     }, {
       new: true
     },
-      callback);
+    callback);
   });
 };
 
@@ -566,7 +566,7 @@ UserController.createTeam = function (id, code, callback) {
       }, {
         new: true
       },
-        callback);
+      callback);
     });
 };
 
@@ -621,7 +621,7 @@ UserController.joinTeam = function (id, code, callback) {
       }, {
         new: true
       },
-        callback);
+      callback);
     });
 };
 
@@ -640,7 +640,7 @@ UserController.leaveTeam = function (id, callback) {
   }, {
     new: true
   },
-    callback);
+  callback);
 };
 
 /**
@@ -718,7 +718,7 @@ UserController.changePassword = function (id, oldPassword, newPassword, callback
         }, {
           new: true
         },
-          callback);
+        callback);
       } else {
         return callback({
           message: 'Incorrect password'
@@ -824,7 +824,7 @@ UserController.checkInById = function (id, user, callback) {
   }, {
     new: true
   },
-    callback);
+  callback);
 };
 
 /**
@@ -846,7 +846,7 @@ UserController.checkOutById = function (id, user, callback) {
   }, {
     new: true
   },
-    callback);
+  callback);
 };
 
 /**
@@ -888,7 +888,7 @@ UserController.setWristband = function (id, code, callback) {
   }, {
     new: true
   },
-    callback);
+  callback);
 };
 
 module.exports = UserController;

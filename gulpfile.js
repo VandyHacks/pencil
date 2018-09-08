@@ -25,20 +25,20 @@ gulp.task('js', () => {
     // Minify for non-development
     gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
       .pipe(sourcemaps.init())
-        .pipe(concat('app.js'))
-        .pipe(ngAnnotate())
-        .on('error', swallowError)
-        .pipe(babel())
-        .pipe(uglify())
+      .pipe(concat('app.js'))
+      .pipe(ngAnnotate())
+      .on('error', swallowError)
+      .pipe(babel())
+      .pipe(uglify())
       .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest('app/client/build'));
   } else {
     gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
       .pipe(sourcemaps.init())
-        .pipe(concat('app.js'))
-        .pipe(ngAnnotate())
-        .on('error', swallowError)
-        .pipe(babel())
+      .pipe(concat('app.js'))
+      .pipe(ngAnnotate())
+      .on('error', swallowError)
+      .pipe(babel())
       .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest('app/client/build'));
   }
@@ -47,7 +47,7 @@ gulp.task('js', () => {
 gulp.task('sass', () => {
   gulp.src('app/client/stylesheets/site.scss')
     .pipe(sass())
-      .on('error', sass.logError)
+    .on('error', sass.logError)
     .pipe(minifyCss())
     .pipe(gulp.dest('app/client/build'));
 });

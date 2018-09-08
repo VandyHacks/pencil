@@ -321,7 +321,7 @@ schema.statics.getByToken = function (token, callback) {
     if (err) {
       return callback(err);
     }
-    this.findOne({_id: id}, callback);
+    this.findOne({ _id: id }, callback);
   });
 };
 
@@ -332,7 +332,7 @@ schema.statics.validateProfile = function (profile, cb) {
     profile.school.length > 0 &&
     ['2018', '2019', '2020', '2021'].indexOf(profile.graduationYear) > -1 &&
     ['M', 'F', 'O', 'N'].indexOf(profile.gender) > -1
-    ));
+  ));
 };
 
 // =========================================
