@@ -1,4 +1,3 @@
 {
-  "directory": "app/client/plugins",
-  "registry": "https://registry.bower.io"
+  "directory": "app/client/plugins"
 }
