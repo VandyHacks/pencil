@@ -28,6 +28,7 @@
             "named": "never",
             "asyncArrow": "always"
         }],
-        "standard/no-callback-literal": "off"
+        "standard/no-callback-literal": "off",
+        "indent": [1, 2]
     }
 }
