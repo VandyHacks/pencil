@@ -97,6 +97,7 @@ module.exports = function (router) {
     return function (err, data) {
       if (err) {
         // SLACK ALERT!
+        /*
         if (process.env.NODE_ENV === 'production' && process.env.LOG_ERRORS === 'false') {
           request
             .post(process.env.SLACK_HOOK, {
@@ -124,6 +125,7 @@ module.exports = function (router) {
         } else {
           return res.status(500).send(err);
         }
+        */
       } else {
         return res.json(data);
       }
@@ -351,6 +353,12 @@ module.exports = function (router) {
     const id = req.params.id;
     const user = req.user;
     UserController.admitUser(id, user, defaultResponse(req, res));
+  });
+
+  router.post('/users/admitall', isAdmin, (req, res) => {
+    const query = req.body.querytext;
+    console.log('Admitting all users, query= ' + query);
+    UserController.admitAll(query, defaultResponse(req, res));
   });
 
   /**

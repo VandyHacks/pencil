@@ -23,31 +23,31 @@ angular.module('app')
         profile: ''
       });
 
-      function updatePage(data) {
-        $scope.users = data.users;
-        $scope.currentPage = data.page;
-        $scope.pageSize = data.size;
-
-        const p = [];
-        for (let i = 0; i < data.totalPages; i++) {
-          p.push(i);
-        }
-        $scope.pages = p;
-      }
-
-      UserService
-        .getPage($stateParams.page, $stateParams.size, $stateParams.query)
-        .success((data) => {
-          updatePage(data);
-        });
-
       $scope.$watch('queryText', (queryText) => {
-        UserService
-          .getPage($stateParams.page, $stateParams.size, queryText)
-          .success((data) => {
-            updatePage(data);
-          });
+        $stateParams.queryText = queryText;
+        refreshPage();
       });
+      $scope.$watch('pageNum', (pageNum) => {
+        $stateParams.page = pageNum;
+        refreshPage();
+      });
+
+      function refreshPage() {
+        function updatePageData(data) {
+          $scope.users = data.users;
+          $scope.currentPage = data.page;
+          $scope.pageSize = data.size;
+          $scope.totalNumUsers = data.count;
+          // $scope.pages = data.totalPages; // not needed anymore...
+        }
+        UserService
+          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText)
+          .success((data) => {
+            updatePageData(data);
+          });
+      }
+      // initial page refresh
+      refreshPage();
 
       $scope.goToPage = function (page) {
         $state.go('app.admin.users', {
@@ -110,8 +110,7 @@ angular.module('app')
         }, () => {
           swal({
             title: 'Are you sure?',
-            text: 'Your account will be logged as having accepted this user. ' +
-            'Remember, this power is a privilege.',
+            text: 'This action cannot be undone, and will be logged.',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#DD6B55',
@@ -124,6 +123,50 @@ angular.module('app')
                 $scope.users[index] = user;
                 swal('Accepted', user.profile.name + ' has been admitted.', 'success');
               });
+          });
+        });
+      };
+
+      $scope.initiateAcceptAll = function (users) {
+        const userEmailList = [];
+        users.forEach(user => userEmailList.push(user.email));
+        let userListString = '';
+
+        const NUM_USERS_DISPLAYED = 5;
+        userEmailList.slice(0, NUM_USERS_DISPLAYED).forEach(user => { userListString += user + '\n'; });
+
+        const numusers = $scope.totalNumUsers;
+        if (numusers === 0) {
+          // sanity check
+          return;
+        }
+        if (numusers > NUM_USERS_DISPLAYED) {
+          userListString += `... ${numusers - NUM_USERS_DISPLAYED} more \n`;
+        }
+
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: `You are about to accept ${numusers} people!\n` + userListString,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonText: 'Yes, accept them.',
+          closeOnConfirm: false
+        }, () => {
+          swal({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone, and will be logged.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, accept these users.',
+            closeOnConfirm: false
+          }, () => {
+            UserService
+                .admitAll($stateParams.queryText)
+                .success(() => {
+                  swal('All people in search have been accepted.');
+                });
           });
         });
       };

@@ -9,13 +9,24 @@
         <div class="field">
           <div class="ui icon fluid input">
             <input type="text"
-                   placeholder="Search..."
+                   placeholder="Filter"
                    ng-model="queryText"
                    ng-model-options="{debounce: 300}">
               <i class="search icon"></i>
           </div>
         </div>
+      </div>
 
+      <div class="ui form">
+        <div class="field">
+          <div class="ui icon fluid input">
+            <input type="text"
+                   placeholder="Page num"
+                   ng-model="pageNum"
+                   ng-model-options="{debounce: 300}">
+              <i class="search icon"></i>
+          </div>
+        </div>
       </div>
 
       <div class="ui divider"></div>
@@ -33,6 +44,7 @@
       <div class="ui header">
         Users
       </div>
+      <button type="button" ng-click="initiateAcceptAll(users)">MASS ACCEPT</button>
       <div class="ui long user modal">
         <i class="close icon"></i>
         <div class="header">

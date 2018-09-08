@@ -4,6 +4,7 @@ Settings
   .findOne({})
   .exec((err, settings) => {
     if (err) {
+      console.log(err);
       throw new Error('Error while initializing settings');
     }
     if (!settings) {

@@ -207,18 +207,7 @@ UserController.getAll = function (callback) {
 UserController.getPage = function (query, callback) {
   const page = query.page;
   const size = parseInt(query.size);
-  const searchText = query.text;
-
-  const findQuery = {};
-  if (searchText.length > 0) {
-    const queries = [];
-    const re = new RegExp(searchText, 'i');
-    queries.push({ email: re });
-    queries.push({ 'profile.name': re });
-    queries.push({ 'teamCode': re });
-
-    findQuery.$or = queries;
-  }
+  const findQuery = this.makeQuery(query.text);
 
   User
     .find(findQuery)
@@ -232,20 +221,57 @@ UserController.getPage = function (query, callback) {
       if (err || !users) {
         return callback(err);
       }
-
       User.count(findQuery).exec((err, count) => {
         if (err) {
           return callback(err);
         }
-
-        return callback(null, {
+        const data = {
           users: users,
           page: page,
           size: size,
+          count: count,
           totalPages: Math.ceil(count / size)
-        });
+        };
+        return callback(null, data);
       });
     });
+};
+
+// Makes a query with a search text
+UserController.makeQuery = function (searchText) {
+  const findQuery = {};
+  if (searchText && searchText.length > 0) {
+    const queries = [];
+    const re = new RegExp(searchText, 'i');
+    queries.push({ email: re });
+    queries.push({ 'profile.name': re });
+    queries.push({ 'teamCode': re });
+    queries.push({ 'profile.school': re });
+    queries.push({ 'profile.graduationYear': re });
+    findQuery.$or = queries;
+  }
+  return findQuery;
+};
+
+// Admits all uses on the page
+UserController.admitAll = function (searchText, callback) {
+  const query = this.makeQuery(searchText);
+  User
+  .find(query)
+  .exec((err, users) => {
+    if (err || !users) {
+      return callback(err);
+    }
+    User.count(query).exec((err, count) => {
+      if (err) {
+        return callback(err);
+      }
+      const data = {
+        count: count
+      };
+      return callback(null, data);
+    });
+  });
 };
 
 /**
