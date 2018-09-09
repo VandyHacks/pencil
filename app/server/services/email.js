@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
 const templatesDir = path.join(__dirname, '../templates');
-const emailTemplates = require('email-templates');
+const Email = require('email-templates');
 
 const ROOT_URL = process.env.ROOT_URL;
 
@@ -41,30 +41,31 @@ function sendOne(templateName, options, data, callback) {
     console.log(JSON.stringify(data, '', 2));
   }
 
-  emailTemplates(templatesDir, (err, template) => {
-    if (err) {
-      return callback(err);
+  const email = new Email({
+    views: {
+      root: templatesDir
+    },
+    message: {
+      from: EMAIL_CONTACT
+    },
+    transport: {
+      transporter
     }
-
-    data.emailHeaderImage = EMAIL_HEADER_IMAGE;
-    template(templateName, data, (err, html, text) => {
-      if (err) {
-        return callback(err);
-      }
-
-      transporter.sendMail({
-        from: EMAIL_CONTACT,
-        to: options.to,
-        subject: options.subject,
-        html: html,
-        text: text
-      }, (err, info) => {
-        if (callback) {
-          callback(err, info);
-        }
-      });
-    });
   });
+  data.emailHeaderImage = EMAIL_HEADER_IMAGE;
+  email
+    .send({
+      template: templateName,
+      message: {
+        to: options.to,
+        subject: options.subject
+        // html: html,
+        // text: text
+      },
+      locals: EMAIL_CONTACT
+    })
+    .then(console.log)
+    .catch(console.error);
 }
 
 /**
