@@ -3,7 +3,7 @@ const path = require('path');
 const smtpTransport = require('nodemailer-smtp-transport');
 
 const templatesDir = path.join(__dirname, '../templates');
-const Email = require('email-templates');
+const EmailTemplate = require('email-templates');
 
 const ROOT_URL = process.env.ROOT_URL;
 
@@ -41,19 +41,17 @@ function sendOne(templateName, options, data, callback) {
     console.log(JSON.stringify(data, '', 2));
   }
 
-  const email = new Email({
+  const emailTemplate = new EmailTemplate({
     views: {
       root: templatesDir
     },
     message: {
       from: EMAIL_CONTACT
     },
-    transport: {
-      transporter
-    }
+    transport: transporter
   });
   data.emailHeaderImage = EMAIL_HEADER_IMAGE;
-  email
+  emailTemplate
     .send({
       template: templateName,
       message: {
@@ -65,6 +63,7 @@ function sendOne(templateName, options, data, callback) {
       locals: data
     })
     .then(console.log)
+    .then(callback)
     .catch(console.error);
 }
 
