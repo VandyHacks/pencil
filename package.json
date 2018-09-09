@@ -46,7 +46,7 @@
     "dev": "gulp server",
     "start": "gulp build && node app.js",
     "config": "cp .env.config .env",
-    "postinstall": "bower install && gulp build",
+    "postinstall": "npm i bower && bower install && gulp build",
     "lint": "eslint gulpfile.js app.js config app/client/src app/client/views app/server",
     "autolint": "eslint --fix gulpfile.js app.js config app/client/src app/client/views app/server"
   },
