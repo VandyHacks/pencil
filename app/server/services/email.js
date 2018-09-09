@@ -1,5 +1,5 @@
 const path = require('path');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
 const templatesDir = path.join(__dirname, '../templates');
@@ -29,10 +29,10 @@ const options = {
   }
 };
 
-const transporter = nodemailer.createTransport(smtpTransport(options));
+// const transporter = nodemailer.createTransport();
+const transporter = smtpTransport(options);
 
 const controller = {};
-
 controller.transporter = transporter;
 
 function sendOne(templateName, options, data, callback) {
@@ -62,7 +62,7 @@ function sendOne(templateName, options, data, callback) {
         // html: html,
         // text: text
       },
-      locals: EMAIL_CONTACT
+      locals: data
     })
     .then(console.log)
     .catch(console.error);

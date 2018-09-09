@@ -657,7 +657,7 @@ UserController.sendVerificationEmailById = function (id, callback) {
         return callback(err);
       }
       const token = user.generateEmailVerificationToken();
-      Mailer.sendVerificationEmail(user.email, token);
+      Mailer.sendVerificationEmail(user.email, token, callback);
       return callback(err, user);
     });
 };
