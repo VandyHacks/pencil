@@ -163,22 +163,20 @@ UserController.createUser = function (email, password, callback) {
           u.save((err) => {
             if (err) {
               return callback(err);
-            } else {
-              // yay! success.
-              const token = u.generateAuthToken();
-
-              // Send over a verification email
-              const verificationToken = u.generateEmailVerificationToken();
-              Mailer.sendVerificationEmail(email, verificationToken);
-
-              return callback(
-                null,
-                {
-                  token: token,
-                  user: u
-                }
-              );
             }
+
+            // yay! success.
+            const token = u.generateAuthToken();
+
+            // Send over a verification email
+            const verificationToken = u.generateEmailVerificationToken();
+            Mailer.sendVerificationEmail(email, verificationToken);
+
+            return callback(null,
+              {
+                token: token,
+                user: u
+              });
           });
         }
       });

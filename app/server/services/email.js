@@ -34,25 +34,26 @@ const transporter = smtpTransport(options);
 const controller = {};
 controller.transporter = transporter;
 
-function sendOne(templateName, options, data, callback) {
+function sendOne(templateName, options, data) {
   if (NODE_ENV === 'dev') {
     console.log(templateName);
     console.log(JSON.stringify(data, '', 2));
   }
 
   const emailTemplate = new EmailTemplate({
+    /*
     views: {
       root: templatesDir
-    },
+    }, */
     message: {
       from: EMAIL_CONTACT
     },
     transport: transporter
   });
   data.emailHeaderImage = EMAIL_HEADER_IMAGE;
-  emailTemplate
+  return emailTemplate
     .send({
-      template: 'bad',
+      template: path.join(templatesDir, templateName),
       message: {
         to: options.to,
         subject: options.subject
@@ -62,7 +63,6 @@ function sendOne(templateName, options, data, callback) {
       locals: data
     })
     .then(console.log)
-    .then(callback)
     .catch(console.error);
 }
 
@@ -83,23 +83,7 @@ controller.sendVerificationEmail = function (email, token, callback) {
     verifyUrl: ROOT_URL + '/verify/' + token
   };
 
-  /**
-   * Eamil-verify takes a few template values:
-   * {
-   *   verifyUrl: the url that the user must visit to verify their account
-   * }
-   */
-  sendOne('email-verify', options, locals, (err, info) => {
-    if (err) {
-      console.log(err);
-    }
-    if (info) {
-      console.log(info.message);
-    }
-    if (callback) {
-      callback(err, info);
-    }
-  });
+  sendOne('email-verify', options, locals);
 };
 
 /**
@@ -123,23 +107,7 @@ controller.sendPasswordResetEmail = function (email, token, callback) {
     actionName: 'Reset Password'
   };
 
-  /**
-   * Eamil-verify takes a few template values:
-   * {
-   *   verifyUrl: the url that the user must visit to verify their account
-   * }
-   */
-  sendOne('email-link-action', options, locals, (err, info) => {
-    if (err) {
-      console.log(err);
-    }
-    if (info) {
-      console.log(info.message);
-    }
-    if (callback) {
-      callback(err, info);
-    }
-  });
+  sendOne('email-link-action', options, locals);
 };
 
 /**
@@ -158,23 +126,7 @@ controller.sendPasswordChangedEmail = function (email, callback) {
     body: 'Somebody (hopefully you!) has successfully changed your password.'
   };
 
-  /**
-   * Eamil-verify takes a few template values:
-   * {
-   *   verifyUrl: the url that the user must visit to verify their account
-   * }
-   */
-  sendOne('email-basic', options, locals, (err, info) => {
-    if (err) {
-      console.log(err);
-    }
-    if (info) {
-      console.log(info.message);
-    }
-    if (callback) {
-      callback(err, info);
-    }
-  });
+  sendOne('email-basic', options, locals);
 };
 
 module.exports = controller;
