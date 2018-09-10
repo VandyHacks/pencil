@@ -58,7 +58,7 @@ function canRegister(email, password, callback) {
         }
       }
       return callback({
-        message: 'Registration is currently closed.'
+        message: 'Email must be a valid school email.'
       }, false);
     });
   });

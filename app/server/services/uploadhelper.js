@@ -21,7 +21,7 @@ function getFilePathByExt(id, extname) {
 }
 
 function getFilePathByMime(id, contentType) {
-  return getFilePathByExt(id, '.' + mime.extension(contentType));
+  return getFilePathByExt(id, '.' + mime.getExtension(contentType));
 }
 
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
     const opts = {
       path: getFilePathByMime(id, contentType)
     };
-    opts.signature = getSignature(opts, secret);
+    opts.signature = getSignature(opts);
     return opts;
   }
 };

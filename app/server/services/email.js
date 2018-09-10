@@ -1,5 +1,4 @@
 const path = require('path');
-// const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
 const templatesDir = path.join(__dirname, '../templates');
@@ -53,7 +52,7 @@ function sendOne(templateName, options, data, callback) {
   data.emailHeaderImage = EMAIL_HEADER_IMAGE;
   emailTemplate
     .send({
-      template: templateName,
+      template: 'bad',
       message: {
         to: options.to,
         subject: options.subject
