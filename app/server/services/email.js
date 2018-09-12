@@ -41,10 +41,12 @@ function sendOne(templateName, options, data) {
   }
 
   const emailTemplate = new EmailTemplate({
-    /*
     views: {
-      root: templatesDir
-    }, */
+      root: templatesDir,
+      options: {
+        extension: 'hbs'
+      }
+    },
     message: {
       from: EMAIL_CONTACT
     },
@@ -53,7 +55,7 @@ function sendOne(templateName, options, data) {
   data.emailHeaderImage = EMAIL_HEADER_IMAGE;
   return emailTemplate
     .send({
-      template: path.join(templatesDir, templateName),
+      template: templateName,
       message: {
         to: options.to,
         subject: options.subject
