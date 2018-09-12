@@ -3,7 +3,7 @@ const EventController = require('../controllers/EventController');
 const SettingsController = require('../controllers/SettingsController');
 
 const multer = require('multer');
-const request = require('request');
+// const request = require('request');
 const path = require('path');
 const uploadHelper = require('../services/uploadhelper');
 const cors = require('cors');
@@ -148,7 +148,7 @@ module.exports = function (router) {
    */
   router.get('/users', isAdmin, (req, res) => {
     const query = req.query;
-    const storehouseDlUrl = process.env.STOREHOUSE_DL_URL;
+    const resumeURL = 'https://s3.amazonaws.com/' + process.env.BUCKET_NAME;
 
     const addFields = function (err, data) {
       if (err) {
@@ -159,7 +159,7 @@ module.exports = function (router) {
       data.users.forEach(user => {
         if (user.profile.lastResumeName) {
           const resumePath = uploadHelper.getFilePathByExt(user.id, path.extname(user.profile.lastResumeName));
-          user.profile.resumePath = storehouseDlUrl + resumePath;
+          user.profile.resumePath = resumeURL + resumePath;
         }
       });
       defaultResponse(req, res)(null, data);
@@ -260,7 +260,7 @@ module.exports = function (router) {
         contentType: file.mimetype
       }
     };
-    request.post({ url: uploadHelper.getUploadUrl(), formData: formData }, (err, httpResponse, body) => {
+    uploadHelper.uploadToS3(file.originalname, file.buffer, (err, data) => {
       if (err) {
         defaultResponse(req, res)(err);
       } else {
