@@ -245,7 +245,7 @@ schema.methods.generateEmailVerificationToken = function () {
 };
 
 schema.methods.generateAuthToken = function () {
-  return jwt.sign({ _id: this._id }, JWT_SECRET);
+  return jwt.sign({ id: this._id }, JWT_SECRET);
 };
 
 /**
@@ -270,7 +270,7 @@ schema.methods.generateTempAuthToken = function () {
 // =========================================
 
 schema.statics.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 };
 
 /**
