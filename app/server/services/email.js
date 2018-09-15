@@ -84,6 +84,7 @@ controller.sendVerificationEmail = function (email, token, callback) {
   const locals = {
     verifyUrl: ROOT_URL + '/verify/' + token
   };
+  console.log('VERIFY URL: ' + locals.verifyUrl);
 
   sendOne('email-verify', options, locals);
 };
