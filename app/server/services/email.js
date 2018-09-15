@@ -64,7 +64,9 @@ function sendOne(templateName, options, data) {
       },
       locals: data
     })
-    .then(console.log)
+    .then(() => {
+      console.log(`${templateName} Email sent successfully.`);
+    })
     .catch(console.error);
 }
 
