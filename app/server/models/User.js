@@ -279,7 +279,10 @@ schema.statics.generateHash = function (password) {
  * @param  {Function} cb    args(err, email)
  */
 schema.statics.verifyEmailVerificationToken = function (token, callback) {
-  jwt.verify(token, JWT_SECRET, (err, email) => {
+  jwt.verify(token.toString(), JWT_SECRET, (err, email) => {
+    if (err) {
+      console.log(err);
+    }
     return callback(err, email);
   });
 };

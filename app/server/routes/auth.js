@@ -131,6 +131,9 @@ module.exports = function (router) {
     console.log('VERIFY USER TOKEN PAGE REACHED.');
     const token = req.params.token;
     UserController.verifyByToken(token, (err, user) => {
+      if (err) {
+        console.log(err);
+      }
       if (err || !user) {
         return res.status(400).send(err);
       }
