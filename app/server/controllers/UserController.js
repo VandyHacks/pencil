@@ -111,6 +111,11 @@ UserController.loginWithPassword = function (email, password, callback) {
           message: "That's not the right password."
         });
       }
+      if (user.status.name === 'unverified') {
+        return callback({
+          message: 'Please verify your email before logging in.'
+        });
+      }
 
       // yo dope nice login here's a token for your troubles
       const token = user.generateAuthToken();
