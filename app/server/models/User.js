@@ -245,7 +245,7 @@ schema.methods.generateEmailVerificationToken = function () {
 };
 
 schema.methods.generateAuthToken = function () {
-  return jwt.sign({ id: this._id }, JWT_SECRET);
+  return jwt.sign({ _id: this._id }, JWT_SECRET);
 };
 
 /**
@@ -259,7 +259,7 @@ schema.methods.generateAuthToken = function () {
  */
 schema.methods.generateTempAuthToken = function () {
   return jwt.sign({
-    id: this._id
+    _id: this._id
   }, JWT_SECRET, {
     expiresIn: '1h'
   });
