@@ -71,6 +71,9 @@ module.exports = function (router) {
 
     UserController.createUser(email, password, (err, user) => {
       if (err) {
+        if (err) {
+          console.log(err);
+        }
         return res.status(400).send(err);
       }
       return res.json(user);
@@ -82,6 +85,9 @@ module.exports = function (router) {
 
     UserController.sendPasswordResetEmail(email, (err) => {
       if (err) {
+        if (err) {
+          console.log(err);
+        }
         return res.status(400).send(err);
       }
       return res.json({
@@ -103,6 +109,9 @@ module.exports = function (router) {
 
     UserController.resetPassword(token, pass, (err, user) => {
       if (err || !user) {
+        if (err) {
+          console.log(err);
+        }
         return res.status(400).send(err);
       }
       return res.json(user);
@@ -121,6 +130,9 @@ module.exports = function (router) {
     if (id) {
       UserController.sendVerificationEmailById(id, (err, user) => {
         if (err || !user) {
+          if (err) {
+            console.log(err);
+          }
           return res.status(400).send();
         }
         return res.status(200).send();
