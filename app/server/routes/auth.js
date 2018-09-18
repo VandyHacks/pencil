@@ -28,6 +28,9 @@ module.exports = function (router) {
     if (token) {
       UserController.loginWithToken(token, (err, token, user) => {
         if (err || !user) {
+          if (err) {
+            console.log(err);
+          }
           return res.status(400).send(err);
         }
         return res.json({
@@ -38,6 +41,9 @@ module.exports = function (router) {
     } else {
       UserController.loginWithPassword(email, password, (err, token, user) => {
         if (err || !user) {
+          if (err) {
+            console.log(err);
+          }
           return res.status(400).send(err);
         }
         return res.json({

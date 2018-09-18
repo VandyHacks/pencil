@@ -9,6 +9,7 @@ angular.module('app')
       const authService = {};
 
       function loginSuccess(data, cb) {
+        console.log('Login success.');
         // Winner winner you get a token
         Session.create(data.token, data.user);
 
@@ -18,6 +19,7 @@ angular.module('app')
       }
 
       function loginFailure(data, cb) {
+        console.log('Login failed.');
         $state.go('login');
         if (cb) {
           cb(data);
