@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "async": "^2.6.1",
-    "aws-sdk": "^2.311.0",
+    "aws-sdk": "^2.319.0",
     "babel-core": "^6.25.0",
     "babel-preset-env": "^1.6.0",
     "bcrypt-nodejs": "0.0.3",
