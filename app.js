@@ -42,6 +42,9 @@ app.use(methodOverride());
 
 app.use(express.static(path.join(__dirname, '/app/client')));
 
+// sponsorship prospectus
+app.use('/sponsorship', express.static(path.join(__dirname, 'app/sponsorship.pdf')));
+
 // Routers =====================================================================
 
 const apiRouter = express.Router();
