@@ -59,7 +59,11 @@ const profile = {
     required: true,
     default: false
   },
-
+  volunteer: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   signatureCodeOfConduct: String
 
 };

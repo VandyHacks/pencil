@@ -19,6 +19,8 @@ angular.module('app')
 
       // Is the student from Vanderbilt?
       $scope.isVandyStudent = $scope.user.email.split('@')[1] === 'vanderbilt.edu';
+        // $scope.user.email.split('@')[1] === 'vandyhacks.org' ||
+        // $scope.user.profile.school === 'Vanderbilt University';
 
       // If so, default them to adult: true
       if ($scope.isVandyStudent) {
@@ -175,6 +177,7 @@ angular.module('app')
           return ethnicity === true; // At least one must be checked
         });
         // Semantic-UI form validation
+        // @ts-ignore
         $('.ui.form').form({
           fields: {
             name: {
@@ -316,6 +319,15 @@ angular.module('app')
                 {
                   type: 'checked',
                   prompt: 'You must be an adult.'
+                }
+              ]
+            },
+            volunteer: {
+              identifier: 'volunteer',
+              rules: [
+                {
+                  type: 'checked',
+                  prompt: 'You have volunteered.'
                 }
               ]
             }
