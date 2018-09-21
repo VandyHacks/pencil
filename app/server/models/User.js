@@ -63,8 +63,7 @@ const profile = {
     type: Boolean,
     required: false,
     default: false
-  }
-
+  },
   signatureCodeOfConduct: String
 
 };
