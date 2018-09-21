@@ -175,6 +175,7 @@ angular.module('app')
           return ethnicity === true; // At least one must be checked
         });
         // Semantic-UI form validation
+        // @ts-ignore
         $('.ui.form').form({
           fields: {
             name: {
@@ -316,6 +317,15 @@ angular.module('app')
                 {
                   type: 'checked',
                   prompt: 'You must be an adult.'
+                }
+              ]
+            },
+            volunteer: {
+              identifier: 'volunteer',
+              rules: [
+                {
+                  type: 'checked',
+                  prompt: 'You have volunteered.'
                 }
               ]
             }

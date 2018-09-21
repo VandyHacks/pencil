@@ -136,6 +136,19 @@
             <input type="text" name="website" placeholder="https://foobar.me" ng-model="user.profile.website">
           </div>
 
+          <div class="field"
+          ng-show="isVandyStudent">
+            <label> Volunteering </label>
+            <p>
+              Volunteers are extremely important for running VandyHacks, and do everything from 
+              serving meals to ensuring participants know what events are currently going on.
+            </p>
+            <div class="ui checkbox">
+              <input type="checkbox" name="volunteer" ng-model="user.profile.volunteer">
+              <label for="volunteer">I would like to be a volunteer.</label>
+            </div>
+          </div>
+
           <br>
           <div class="divided title">Legal</div>
           <br>
