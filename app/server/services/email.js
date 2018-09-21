@@ -39,12 +39,18 @@ function sendOne(templateName, options, data) {
     console.log(templateName);
     console.log(JSON.stringify(data, '', 2));
   }
-
   const emailTemplate = new EmailTemplate({
     views: {
       root: templatesDir,
       options: {
         extension: 'hbs'
+      }
+    },
+    juice: true,
+    juiceResources: {
+      preserveImportant: true,
+      webResources: {
+        relativeTo: path.resolve(templatesDir, '.', templateName)
       }
     },
     message: {
