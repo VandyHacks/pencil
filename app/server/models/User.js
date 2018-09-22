@@ -299,6 +299,7 @@ schema.statics.verifyEmailVerificationToken = function (token, callback) {
 schema.statics.verifyTempAuthToken = function (token, callback) {
   jwt.verify(token, JWT_SECRET, (err, payload) => {
     if (err || !payload) {
+      console.log(err);
       return callback(err);
     }
 
@@ -326,6 +327,7 @@ schema.statics.findOneByEmail = function (email) {
 schema.statics.getByToken = function (token, callback) {
   jwt.verify(token, JWT_SECRET, (err, id) => {
     if (err) {
+      console.log(err);
       return callback(err);
     }
     this.findOne({ _id: id }, callback);
