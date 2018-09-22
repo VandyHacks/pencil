@@ -19,8 +19,8 @@ angular.module('app')
 
       // Is the student from Vanderbilt?
       $scope.isVandyStudent = $scope.user.email.split('@')[1] === 'vanderbilt.edu';
-        // $scope.user.email.split('@')[1] === 'vandyhacks.org' ||
-        // $scope.user.profile.school === 'Vanderbilt University';
+      // $scope.user.email.split('@')[1] === 'vandyhacks.org' ||
+      // $scope.user.profile.school === 'Vanderbilt University';
 
       // If so, default them to adult: true
       if ($scope.isVandyStudent) {
