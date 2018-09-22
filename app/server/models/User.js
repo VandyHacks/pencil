@@ -279,21 +279,21 @@ schema.statics.generateHash = function (password) {
 
 /**
  * Verify an an email verification token.
- * @param  {[type]}   token token
+ * @param  {String}   token token
  * @param  {Function} cb    args(err, email)
  */
 schema.statics.verifyEmailVerificationToken = function (token, callback) {
-  jwt.verify(token.toString(), JWT_SECRET, (err, email) => {
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) {
       console.log(err);
     }
-    return callback(err, email);
+    return callback(err, decoded.email);
   });
 };
 
 /**
  * Verify a temporary authentication token.
- * @param  {[type]}   token    temporary auth token
+ * @param  {String}   token    temporary auth token
  * @param  {Function} callback args(err, id)
  */
 schema.statics.verifyTempAuthToken = function (token, callback) {
@@ -309,7 +309,7 @@ schema.statics.verifyTempAuthToken = function (token, callback) {
       });
     }
 
-    return callback(null, payload.id);
+    return callback(null, payload._id);
   });
 };
 
