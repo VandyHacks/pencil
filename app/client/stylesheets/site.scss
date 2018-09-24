@@ -100,7 +100,7 @@ input, textarea, select, .ui.selection, .ui.label {
   border-radius: 2px !important;
 }
 
-$btn-primary-hover-color: #394574;
+$btn-primary-hover-color: lighten($brand-primary, 10%);
 
 .ui.button, .sweet-alert button {
   font-family: $font-body;
