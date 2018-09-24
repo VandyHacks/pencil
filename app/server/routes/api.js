@@ -159,7 +159,7 @@ module.exports = function (router) {
       data.users.forEach(user => {
         if (user.profile.lastResumeName) {
           const resumePath = uploadHelper.getFilePathByExt(user.id, path.extname(user.profile.lastResumeName));
-          user.profile.resumePath = resumeURL + resumePath;
+          user.profile.resumePath = resumeURL + '/' + resumePath;
         }
       });
       defaultResponse(req, res)(null, data);
