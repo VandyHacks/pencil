@@ -158,7 +158,7 @@ module.exports = function (router) {
       data = JSON.parse(JSON.stringify(data));
       data.users.forEach(user => {
         if (user.profile.lastResumeName) {
-          const resumePath = uploadHelper.getFilePathByExt(user.id, path.extname(user.profile.lastResumeName));
+          const resumePath = uploadHelper.getFilePathByMime(user.id, path.extname(user.profile.lastResumeName));
           user.profile.resumePath = resumeURL + '/' + resumePath;
         }
       });
