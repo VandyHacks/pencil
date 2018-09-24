@@ -22,7 +22,7 @@ function getSignature(opts) {
 }
 
 function getFilePathByExt(id, extname) {
-  return 'resumes/' + sha1sum(id + secret) + extname.toLowerCase();
+  return sha1sum(id + secret) + extname.toLowerCase();
 }
 
 function getFilePathByMime(id, contentType) {
