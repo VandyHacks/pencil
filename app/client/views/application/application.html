@@ -111,7 +111,7 @@
               <div id="resume-upload">
                 <div class="upload-status"></div>
               </div>
-              <div class="curr-file">{{user.profile.lastResumeName || 'No file uploaded'}}</div>
+              <div class="curr-file">{{'user.profile.lastResumeName ? 'Resume uploaded.' : 'No file uploaded''}}</div>
             </div>
             <input class="ui input" name="lastResumeName" ng-model="user.profile.lastResumeName" style="display: none">
           </div>
