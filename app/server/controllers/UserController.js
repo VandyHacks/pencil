@@ -11,7 +11,7 @@ const UserController = {};
 
 const maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
 const minPasswordLength = 6;
-const maxPasswordLength = 4096;
+const maxPasswordLength = 60;
 
 /**
  * Determine whether or not a user can register.
