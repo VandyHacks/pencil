@@ -52,7 +52,7 @@ $login-sidebar-break: 769px;
   @media only screen and (min-width: $login-sidebar-break) {
       background: $login-bg; 
       background-position: $login-sidebar-width;
-      background-size: cover;
+      background-size: 100%;
       background-repeat: no-repeat;
       background-attachment: fixed;
       position: static;
