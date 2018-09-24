@@ -3,8 +3,6 @@ const EventController = require('../controllers/EventController');
 const SettingsController = require('../controllers/SettingsController');
 
 const multer = require('multer');
-// const request = require('request');
-const path = require('path');
 const uploadHelper = require('../services/uploadhelper');
 const cors = require('cors');
 const corsOpts = require('./cors');
@@ -96,36 +94,7 @@ module.exports = function (router) {
   function defaultResponse(req, res) {
     return function (err, data) {
       if (err) {
-        // SLACK ALERT!
-        /*
-        if (process.env.NODE_ENV === 'production' && process.env.LOG_ERRORS === 'false') {
-          request
-            .post(process.env.SLACK_HOOK, {
-              form: {
-                payload: JSON.stringify({
-                  'text':
-                  '``` \n' +
-                  'Request: \n ' +
-                  req.method + ' ' + req.url +
-                  '\n ------------------------------------ \n' +
-                  'Body: \n ' +
-                  JSON.stringify(req.body, null, 2) +
-                  '\n ------------------------------------ \n' +
-                  '\nError:\n' +
-                  JSON.stringify(err, null, 2) +
-                  '``` \n'
-                })
-              }
-            }, (err, response, body) => {
-              if (err) console.log('Failed to send error to Slack');
-              return res.status(500).send({
-                message: "Your error has been recorded, we'll get right on it!"
-              });
-            });
-        } else {
-          return res.status(500).send(err);
-        }
-        */
+        // placeholder
       } else {
         return res.json(data);
       }
@@ -158,8 +127,7 @@ module.exports = function (router) {
       data = JSON.parse(JSON.stringify(data));
       data.users.forEach(user => {
         if (user.profile.lastResumeName) {
-          const resumePath = uploadHelper.getFilePathByMime(user.id, path.extname(user.profile.lastResumeName));
-          user.profile.resumePath = resumeURL + '/' + resumePath;
+          user.profile.resumePath = resumeURL + '/' + user.profile.lastResumeName;
         }
       });
       defaultResponse(req, res)(null, data);
