@@ -46,7 +46,7 @@ function uploadToS3(filename, filedata, callback) {
         console.log(err);
         return callback(err);
       }
-      console.log('success: ');
+      console.log(`success: uploaded ${filename} to s3.`);
       return callback(null, data);
     });
   });

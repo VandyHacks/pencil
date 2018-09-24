@@ -369,6 +369,7 @@ UserController.updateLastResumeNameById = function (id, lastResumeName, callback
     }
   });
 
+  console.log(`Updating lastResumeName of ${id} to ${lastResumeName}`);
   User.findOneAndUpdate(
     {
       _id: id,
