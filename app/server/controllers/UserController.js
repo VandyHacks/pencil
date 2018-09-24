@@ -680,7 +680,10 @@ UserController.sendPasswordResetEmail = function (email, callback) {
       }
 
       const token = user.generateTempAuthToken();
-      Mailer.sendPasswordResetEmail(email, token, callback);
+      Mailer.sendPasswordResetEmail(email, token);
+      return callback(null, {
+        message: 'Password reset email sent.'
+      });
     });
 };
 

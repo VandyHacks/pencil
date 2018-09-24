@@ -85,13 +85,11 @@ module.exports = function (router) {
 
     UserController.sendPasswordResetEmail(email, (err) => {
       if (err) {
-        if (err) {
-          console.log(err);
-        }
+        console.log(err);
         return res.status(400).send(err);
       }
       return res.json({
-        message: 'Email Sent'
+        message: 'Password reset email sent.'
       });
     });
   });
