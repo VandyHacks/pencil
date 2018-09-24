@@ -369,8 +369,6 @@ UserController.updateLastResumeNameById = function (id, lastResumeName, callback
     }
   });
 
-  const uniquefilename = id + '_' + lastResumeName;
-
   User.findOneAndUpdate(
     {
       _id: id,
@@ -379,7 +377,7 @@ UserController.updateLastResumeNameById = function (id, lastResumeName, callback
     {
       $set: {
         'lastUpdated': Date.now(),
-        'profile.lastResumeName': uniquefilename
+        'profile.lastResumeName': lastResumeName
       }
     },
     {

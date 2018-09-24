@@ -250,7 +250,7 @@ module.exports = function (router) {
    */
   router.post('/users/:id/resume', isOwnerOrAdmin, resumeUpload.single('file'), (req, res) => {
     const file = req.file;
-    const id = req.params.id;
+    const id = req.params.id; // unique user_id
 
     const formData = uploadHelper.generateOpts(id, file.mimetype);
     formData.file = {
@@ -260,11 +260,14 @@ module.exports = function (router) {
         contentType: file.mimetype
       }
     };
-    uploadHelper.uploadToS3(file.originalname, file.buffer, (err, data) => {
+
+    const uniquefilename = id + '_' + file.originalname;
+
+    uploadHelper.uploadToS3(uniquefilename, file.buffer, (err, data) => {
       if (err) {
         defaultResponse(req, res)(err);
       } else {
-        UserController.updateLastResumeNameById(id, file.originalname, (err, data) => {
+        UserController.updateLastResumeNameById(id, uniquefilename, (err, data) => {
           if (err) {
             defaultResponse(req, res)(err);
           } else {
