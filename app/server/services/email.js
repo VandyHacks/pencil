@@ -11,10 +11,7 @@ const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 const EMAIL_PORT = process.env.EMAIL_PORT;
 const EMAIL_CONTACT = process.env.EMAIL_CONTACT;
-let EMAIL_HEADER_IMAGE = process.env.EMAIL_HEADER_IMAGE;
-if (EMAIL_HEADER_IMAGE.indexOf('https') === -1) {
-  EMAIL_HEADER_IMAGE = ROOT_URL + EMAIL_HEADER_IMAGE;
-}
+const EMAIL_HEADER_IMAGE = 'https://bit.ly/2QV3TpI'; // email-header.png
 
 const NODE_ENV = process.env.NODE_ENV;
 
