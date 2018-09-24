@@ -11,9 +11,7 @@ angular.module('app')
       const Settings = settings.data;
 
       $scope.regIsOpen = Utils.isRegOpen(Settings);
-
       $scope.user = currentUser.data;
-
       $scope.TEAM = TEAM;
 
       function _populateTeammates() {

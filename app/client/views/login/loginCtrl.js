@@ -21,6 +21,7 @@ angular.module('app')
 
       function onError(data) {
         $scope.error = data.message;
+        console.log('ERROR: ' + data.message);
       }
 
       function resetError() {
@@ -62,7 +63,15 @@ angular.module('app')
             type: 'success',
             confirmButtonColor: sweetAlertButtonColor
           });
-        }, onError);
+        }, (res) => {
+          sweetAlert({
+            title: 'Oops!',
+            text: 'No account was found for this email. Please create an account.',
+            type: 'error',
+            confirmButtonColor: sweetAlertButtonColor
+          });
+          onError(res);
+        });
       };
     }
   ]);

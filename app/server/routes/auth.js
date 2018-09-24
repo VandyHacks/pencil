@@ -71,9 +71,7 @@ module.exports = function (router) {
 
     UserController.createUser(email, password, (err, user) => {
       if (err) {
-        if (err) {
-          console.log(err);
-        }
+        console.log(err);
         return res.status(400).send(err);
       }
       return res.json(user);

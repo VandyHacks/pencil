@@ -653,7 +653,11 @@ UserController.sendVerificationEmailById = function (id, callback) {
     },
     (err, user) => {
       if (err || !user) {
-        return callback(err);
+        let errmsg = err;
+        if (!err) {
+          errmsg = 'ERROR: No user has this id, failed to send verification email.';
+        }
+        return callback(errmsg);
       }
       const token = user.generateEmailVerificationToken();
       Mailer.sendVerificationEmail(user.email, token, callback);
@@ -677,7 +681,8 @@ UserController.sendPasswordResetEmail = function (email, callback) {
     .findOneByEmail(email)
     .exec((err, user) => {
       if (err || !user) {
-        return callback(err);
+        const errmsg = 'ERROR: User tried to reset password without creating account first.';
+        return callback(errmsg);
       }
 
       const token = user.generateTempAuthToken();
