@@ -33,6 +33,8 @@
       <div class="ui divider"></div>
 
     </div>
+
+    </div>
     <div id="table-container" class="thirteen wide column">
       <div class="ui header">
         Users
@@ -95,6 +97,7 @@
           </div>
         </div>
       </div>
+      
 
       <table
         class="ui celled selectable compact users table">
@@ -105,7 +108,7 @@
             <th>School</th>
             <th>Grad</th>
             <th>V/S/A/C</th>
-            <th>Host</th>
+            <th>Volunteer</th>
             <th>$</th>
             <th></th>
             <th></th>
@@ -188,16 +191,12 @@
 
               <span ng-if="user.status.confirmed">
                 <i
-                  ng-if="user.confirmation.hostNeededFri"
+                  ng-if="user.profile.volunteer"
                   class="home icon">
                 </i>
                 <i
-                  ng-if="!user.confirmation.hostNeededFri && user.confirmation.hostNeededSat"
+                  ng-if="!user.profile.volunteer"
                   class="no icon">
-                </i>
-                <i
-                  ng-if="user.confirmation.hostNeededSat"
-                  class="home icon">
                 </i>
               </span>
 
@@ -259,8 +258,6 @@
           </tr>
         </tbody>
       </table>
-
-    </div>
   </div>
 
 </div>
