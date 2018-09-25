@@ -100,15 +100,16 @@ function calculateStats() {
         newStats.admitted += user.status.admitted ? 1 : 0;
 
         // Count confirmed
-        newStats.confirmed += user.status.confirmed ? 1 : 0;
+        const isConfirmed = user.status.confirmed;
+        newStats.confirmed += isConfirmed ? 1 : 0;
 
         // Count confirmed that are vandy
-        newStats.confirmedVandy += user.status.confirmed && email === 'vanderbilt.edu' ? 1 : 0;
+        newStats.confirmedVandy += isConfirmed && email === 'vanderbilt.edu' ? 1 : 0;
 
-        newStats.confirmedFemale += user.status.confirmed && user.profile.gender === 'F' ? 1 : 0;
-        newStats.confirmedMale += user.status.confirmed && user.profile.gender === 'M' ? 1 : 0;
-        newStats.confirmedOther += user.status.confirmed && user.profile.gender === 'O' ? 1 : 0;
-        newStats.confirmedNone += user.status.confirmed && user.profile.gender === 'N' ? 1 : 0;
+        newStats.confirmedFemale += isConfirmed && user.profile.gender === 'F' ? 1 : 0;
+        newStats.confirmedMale += isConfirmed && user.profile.gender === 'M' ? 1 : 0;
+        newStats.confirmedOther += isConfirmed && user.profile.gender === 'O' ? 1 : 0;
+        newStats.confirmedNone += isConfirmed && user.profile.gender === 'N' ? 1 : 0;
 
         // Count declined
         newStats.declined += user.status.declined ? 1 : 0;
@@ -134,7 +135,7 @@ function calculateStats() {
         }
         newStats.demo.schools[email].submitted += user.status.completedProfile ? 1 : 0;
         newStats.demo.schools[email].admitted += user.status.admitted ? 1 : 0;
-        newStats.demo.schools[email].confirmed += user.status.confirmed ? 1 : 0;
+        newStats.demo.schools[email].confirmed += isConfirmed ? 1 : 0;
         newStats.demo.schools[email].declined += user.status.declined ? 1 : 0;
 
         // Count graduation years
