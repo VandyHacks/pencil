@@ -38,7 +38,7 @@ angular.module('app')
           $scope.currentPage = data.page;
           $scope.pageSize = data.size;
           $scope.totalNumUsers = data.count;
-          // $scope.pages = data.totalPages; // not needed anymore...
+          $scope.pages = data.totalPages; // not needed anymore...
         }
         UserService
           .getPage($stateParams.page, $stateParams.size, $stateParams.queryText)

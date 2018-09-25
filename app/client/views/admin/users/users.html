@@ -19,25 +19,18 @@
 
       <div class="ui form">
         <div class="field">
+          Page Number:
           <div class="ui icon fluid input">
             <input type="text"
-                   placeholder="Page num"
+                   placeholder="0"
                    ng-model="pageNum"
                    ng-model-options="{debounce: 300}">
-              <i class="search icon"></i>
+              /{{pages-1}}
           </div>
         </div>
       </div>
 
       <div class="ui divider"></div>
-
-      <button
-        ng-repeat="page in pages"
-        ng-class="page === currentPage ? 'active pink' : ''"
-        ng-click="goToPage(page)"
-        class="ui icon basic page button">
-        {{page}}
-      </button>
 
     </div>
     <div id="table-container" class="thirteen wide column">
