@@ -493,14 +493,14 @@ module.exports = function (router) {
   /**
    * Get events list
    */
-  router.get('/events', cors(corsOpts), (req, res) => {
+  router.get('/events', (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
   });
 
   /**
    * Get event types
    */
-  router.get('/events/types', cors(corsOpts), (req, res) => {
+  router.get('/events/types', (req, res) => {
     EventController.getTypes(defaultResponse(req, res));
   });
 
