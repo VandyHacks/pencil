@@ -235,7 +235,7 @@ module.exports = function (router) {
       if (err) {
         defaultResponse(req, res)(err);
       } else {
-        UserController.updateLastResumeNameById(id, uniquefilename, (err, data) => {
+        UserController.updateLastResumeNameById(id, data.filename, (err, data) => {
           if (err) {
             defaultResponse(req, res)(err);
           } else {

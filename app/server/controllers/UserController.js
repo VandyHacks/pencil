@@ -342,9 +342,9 @@ UserController.updateProfileById = function (id, profile, callback) {
  * @param  {String}   lastResumeName  lastResumeName string
  * @param  {Function} callback        Callback with args (err, user)
  */
-UserController.updateLastResumeNameById = function (id, lastResumeName, callback) {
+UserController.updateLastResumeNameById = function (id, newResumeName, callback) {
   // Validate the lastResumeName
-  if (!lastResumeName || lastResumeName.length === 0) {
+  if (!newResumeName || newResumeName.length === 0) {
     return callback({ message: 'invalid lastResumeName' });
   }
 
@@ -369,7 +369,7 @@ UserController.updateLastResumeNameById = function (id, lastResumeName, callback
     }
   });
 
-  console.log(`Updating lastResumeName of ${id} to ${lastResumeName}`);
+  console.log(`Updating lastResumeName of ${id} to ${newResumeName}`);
   User.findOneAndUpdate(
     {
       _id: id,
@@ -378,7 +378,7 @@ UserController.updateLastResumeNameById = function (id, lastResumeName, callback
     {
       $set: {
         'lastUpdated': Date.now(),
-        'profile.lastResumeName': lastResumeName
+        'profile.lastResumeName': newResumeName
       }
     },
     {
