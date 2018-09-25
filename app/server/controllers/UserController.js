@@ -52,6 +52,7 @@ function canRegister(email, password, callback) {
         return callback(err);
       }
       const isEmailValid = validator.isEmail(email);
+      console.log(email, emails);
       for (const whitelistedSuffix of emails) {
         if (isEmailValid && email.endsWith(whitelistedSuffix)) {
           return callback(null, true);
