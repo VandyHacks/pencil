@@ -87,6 +87,9 @@ function calculateStats() {
         // vars
         const isConfirmed = user.status.confirmed;
         const gender = user.profile.gender;
+        const hostNeededFri = user.confirmation.hostNeededFri;
+        const hostNeededSat = user.confirmation.hostNeededSat;
+        const hostNeeded = hostNeededFri || hostNeededSat;
 
         // Grab the email extension
         const email = user.email.split('@')[1];
@@ -160,18 +163,14 @@ function calculateStats() {
         }
 
         // Host needed counts
-        newStats.hostNeededFri += user.confirmation.hostNeededFri ? 1 : 0;
-        newStats.hostNeededSat += user.confirmation.hostNeededSat ? 1 : 0;
-        newStats.hostNeededUnique += user.confirmation.hostNeededFri || user.confirmation.hostNeededSat ? 1 : 0;
+        newStats.hostNeededFri += hostNeededFri ? 1 : 0;
+        newStats.hostNeededSat += hostNeededSat ? 1 : 0;
+        newStats.hostNeededUnique += hostNeeded ? 1 : 0;
 
-        newStats.hostNeededFemale +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'F' ? 1 : 0;
-        newStats.hostNeededMale +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'M' ? 1 : 0;
-        newStats.hostNeededOther +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'O' ? 1 : 0;
-        newStats.hostNeededNone +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'N' ? 1 : 0;
+        newStats.hostNeededFemale += hostNeeded && gender === 'F' ? 1 : 0;
+        newStats.hostNeededMale += hostNeeded && gender === 'M' ? 1 : 0;
+        newStats.hostNeededOther += hostNeeded && gender === 'O' ? 1 : 0;
+        newStats.hostNeededNone += hostNeeded && gender === 'N' ? 1 : 0;
 
         // Dietary restrictions
         if (user.confirmation.dietaryRestrictions) {
@@ -231,7 +230,7 @@ function calculateStats() {
 
 // Calculate once every five minutes.
 calculateStats();
-setInterval(calculateStats, 300000);
+setInterval(calculateStats, 5 * 60 * 1000);
 
 const Stats = {};
 
