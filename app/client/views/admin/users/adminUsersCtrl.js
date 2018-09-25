@@ -224,6 +224,7 @@ angular.module('app')
       }
 
       function generateSections(user) {
+        const address = user.confirmation.address;
         return [
           {
             name: 'Basic Info',
@@ -351,15 +352,15 @@ angular.module('app')
                 value: user.confirmation.needsReimbursement && user.status.reimbursementGiven
               }, {
                 name: 'Address',
-                value: user.confirmation.address ? [
-                  user.confirmation.address.line1,
-                  user.confirmation.address.line2,
-                  user.confirmation.address.city,
+                value: address ? [
+                  address.line1,
+                  address.line2,
+                  address.city,
                   ',',
-                  user.confirmation.address.state,
-                  user.confirmation.address.zip,
+                  address.state,
+                  address.zip,
                   ',',
-                  user.confirmation.address.country
+                  address.country
                 ].join(' ') : ''
               }, {
                 name: 'Additional Notes',
