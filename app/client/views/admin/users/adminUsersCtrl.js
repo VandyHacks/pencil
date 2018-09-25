@@ -122,6 +122,12 @@ angular.module('app')
               .success((user) => {
                 $scope.users[index] = user;
                 swal('Accepted', user.profile.name + ' has been admitted.', 'success');
+              })
+              .error((error, status) => {
+                alert('WTF');
+                $scope.data.error = { message: error, status: status };
+                console.log($scope.data.error.status);
+                swal('Error', 'User has not submitted an application.', 'error');
               });
           });
         });

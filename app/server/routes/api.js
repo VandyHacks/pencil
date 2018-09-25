@@ -89,12 +89,16 @@ module.exports = function (router) {
   /**
    * Default response to send an error and the data.
    * @param  {[type]} res [description]
-   * @return {[type]}     [description]
+   * @return {[Function]}     [description]
    */
   function defaultResponse(req, res) {
     return function (err, data) {
-      if (err) {
-        // placeholder
+      if (err || !data) {
+        if (err) {
+          console.error(err);
+        }
+        console.log('data: ', data);
+        return res.status(400).send({ error: err });
       } else {
         return res.json(data);
       }

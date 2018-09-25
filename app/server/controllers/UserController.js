@@ -799,6 +799,7 @@ UserController.admitUser = function (id, user, callback) {
     User
       .findOneAndUpdate({
         _id: id,
+        'status.completedProfile': true,
         verified: true
       }, {
         $set: {
