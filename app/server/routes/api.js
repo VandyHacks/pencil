@@ -231,7 +231,7 @@ module.exports = function (router) {
 
     const uniquefilename = id + '_' + file.originalname;
 
-    uploadHelper.uploadToS3(uniquefilename, file.buffer, (err, data) => {
+    uploadHelper.uploadToS3(uniquefilename, file.buffer, file.mimetype, (err, data) => {
       if (err) {
         defaultResponse(req, res)(err);
       } else {

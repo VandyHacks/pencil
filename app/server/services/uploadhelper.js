@@ -29,7 +29,7 @@ function getFilePathByMime(id, contentType) {
   return getFilePathByExt(id, '.' + mime.getExtension(contentType));
 }
 
-function uploadToS3(filename, filedata, callback) {
+function uploadToS3(filename, filedata, filetype, callback) {
   const s3 = new AWS.S3({
     accessKeyId: IAM_USER_KEY,
     secretAccessKey: IAM_USER_SECRET,
@@ -39,7 +39,8 @@ function uploadToS3(filename, filedata, callback) {
     const params = {
       Bucket: BUCKET_NAME,
       Key: filename,
-      Body: filedata
+      Body: filedata,
+      ContentType: filetype
     };
     s3.upload(params, (err, data) => {
       if (err) {
