@@ -317,6 +317,9 @@ UserController.updateProfileById = function (id, profile, callback) {
       }
     });
 
+    // kinda hacky
+    profile.lastResumeName = id + '_' + profile.lastResumeName;
+
     User.findOneAndUpdate({
       _id: id,
       verified: true
