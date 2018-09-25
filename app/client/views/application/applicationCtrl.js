@@ -210,7 +210,7 @@ angular.module('app')
               identifier: 'year',
               rules: [
                 {
-                  type: 'integer[2018..2021]',
+                  type: 'integer[2018..2022]',
                   prompt: 'Please select your graduation year.'
                 }
               ]
