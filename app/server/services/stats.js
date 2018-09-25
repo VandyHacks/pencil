@@ -84,11 +84,15 @@ function calculateStats() {
       newStats.total = users.length;
 
       async.each(users, (user, callback) => {
+        // vars
+        const isConfirmed = user.status.confirmed;
+        const gender = user.profile.gender;
+
         // Grab the email extension
         const email = user.email.split('@')[1];
 
         // Add to the gender
-        newStats.demo.gender[user.profile.gender] += 1;
+        newStats.demo.gender[gender] += 1;
 
         // Count verified
         newStats.verified += user.verified ? 1 : 0;
@@ -100,16 +104,15 @@ function calculateStats() {
         newStats.admitted += user.status.admitted ? 1 : 0;
 
         // Count confirmed
-        const isConfirmed = user.status.confirmed;
         newStats.confirmed += isConfirmed ? 1 : 0;
 
         // Count confirmed that are vandy
         newStats.confirmedVandy += isConfirmed && email === 'vanderbilt.edu' ? 1 : 0;
 
-        newStats.confirmedFemale += isConfirmed && user.profile.gender === 'F' ? 1 : 0;
-        newStats.confirmedMale += isConfirmed && user.profile.gender === 'M' ? 1 : 0;
-        newStats.confirmedOther += isConfirmed && user.profile.gender === 'O' ? 1 : 0;
-        newStats.confirmedNone += isConfirmed && user.profile.gender === 'N' ? 1 : 0;
+        newStats.confirmedFemale += isConfirmed && gender === 'F' ? 1 : 0;
+        newStats.confirmedMale += isConfirmed && gender === 'M' ? 1 : 0;
+        newStats.confirmedOther += isConfirmed && gender === 'O' ? 1 : 0;
+        newStats.confirmedNone += isConfirmed && gender === 'N' ? 1 : 0;
 
         // Count declined
         newStats.declined += user.status.declined ? 1 : 0;
@@ -162,13 +165,13 @@ function calculateStats() {
         newStats.hostNeededUnique += user.confirmation.hostNeededFri || user.confirmation.hostNeededSat ? 1 : 0;
 
         newStats.hostNeededFemale +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'F' ? 1 : 0;
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'F' ? 1 : 0;
         newStats.hostNeededMale +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'M' ? 1 : 0;
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'M' ? 1 : 0;
         newStats.hostNeededOther +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'O' ? 1 : 0;
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'O' ? 1 : 0;
         newStats.hostNeededNone +=
-          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender === 'N' ? 1 : 0;
+          (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && gender === 'N' ? 1 : 0;
 
         // Dietary restrictions
         if (user.confirmation.dietaryRestrictions) {
