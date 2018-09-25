@@ -491,16 +491,16 @@ module.exports = function (router) {
   });
 
   /**
-   * Get events list
+   * Get events list (public)
    */
-  router.get('/events', (req, res) => {
+  router.get('/events', cors({ origin: false }), (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
   });
 
   /**
-   * Get event types
+   * Get event types (public)
    */
-  router.get('/events/types', (req, res) => {
+  router.get('/events/types', cors({ origin: false }), (req, res) => {
     EventController.getTypes(defaultResponse(req, res));
   });
 
