@@ -319,7 +319,9 @@ UserController.updateProfileById = function (id, profile, callback) {
     });
 
     // kinda hacky
-    profile.lastResumeName = id + '_' + profile.lastResumeName;
+    if (!profile.lastResumeName.startsWith(id + '_')) {
+      profile.lastResumeName = id + '_' + profile.lastResumeName;
+    }
 
     User.findOneAndUpdate({
       _id: id,
