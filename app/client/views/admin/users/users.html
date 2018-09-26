@@ -229,18 +229,21 @@
 
               <button
                 class="ui circular mini basic green icon button"
+                ng-disabled="!user.status.completedProfile"
                 ng-click="sendQrCode($event, user, $index)">
                 <i class="send outline icon"></i>
               </button>
 
               <button
                 class="accept ui circular mini basic green icon button"
+                ng-disabled="!user.status.completedProfile"
                 ng-click="acceptUser($event, user, $index)">
                 <i class="add user icon"></i>
               </button>
 
               <button
                 ng-click="toggleCheckIn($event, user, $index)"
+                ng-disabled="!user.status.completedProfile"
                 class="ui circular mini basic green icon button">
 
                 <i
