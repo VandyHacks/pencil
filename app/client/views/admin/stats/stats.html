@@ -154,27 +154,26 @@
         </div>
 
         <div class="ui divider"></div>
-
-        <div class="ui header">
-            Volunteers
-          </div>
-        <div class="ui list">
+        
+            <div class="item">
+            <div> Volunteers </div>
+            </div>
           <div class="item">
-            <div class="content">
+            <div>
               <strong> Volunteers (submitted): </strong> {{stats.volunteerSubmitted}}
             </div>
           </div>
           <div class="item">
-            <div class="content">
+            <div>
               <strong> Volunteers (accepted): </strong> {{stats.volunteerAdmitted}}
             </div>
           </div>
           <div class="item">
-            <div class="content">
+            <div>
               <strong> Volunteers (confirmed): </strong> {{stats.volunteerConfirmed}}
             </div>
           </div>
-        </div>
+          
         <div class="ui divider"></div>
 
         <div class="item">
@@ -183,11 +182,14 @@
             <strong>
               Dietary Restrictions:
             </strong>
-            <div
-              ng-repeat="restriction in stats.dietaryRestrictions | orderBy: '-count'">
-              {{restriction.name}} ({{restriction.count}})
-            </div>
+            
           </div>
+            <div class="item"
+              ng-repeat="restriction in stats.dietaryRestrictions | orderBy: '-count'">
+              <div>
+                {{restriction.name}}: {{restriction.count}}
+              </div>
+            </div>
         </div>
 
       </div>
