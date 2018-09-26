@@ -104,14 +104,14 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>E-mail address</th>
             <th>School</th>
             <th>Grad</th>
             <th>V/S/A/C</th>
             <th>Volunteer</th>
             <th>$</th>
-            <th></th>
-            <th></th>
+            <th>App</th>
+            <th>Actions</th>
+            <th>E-mail</th>
           </tr>
         </thead>
         <tbody>
@@ -121,16 +121,15 @@
             ng-class="rowClass(user)">
             <td>
               <strong>
-                {{user.profile.name}}
+                {{user.profile.name || 'null'}}
                 &nbsp;
 
               </strong>
             </td>
-            <td>{{user.email}}</td>
-            <td>{{user.profile.school}}</td>
+            <td>{{user.profile.school || 'null'}}</td>
             <td
               class="collapsing">
-              {{user.profile.graduationYear}}
+              {{user.profile.graduationYear || 'null'}}
             </td>
             <td
               class="collapsing">
@@ -185,7 +184,7 @@
 
             </td>
 
-            <!-- Host -->
+            <!-- Volunteer -->
             <td
               class="collapsing">
 
@@ -255,6 +254,7 @@
               </button>
 
             </td>
+            <td>{{user.email}}</td>
           </tr>
         </tbody>
       </table>
