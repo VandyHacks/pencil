@@ -19,25 +19,20 @@
 
       <div class="ui form">
         <div class="field">
+          Page Number:
           <div class="ui icon fluid input">
             <input type="text"
-                   placeholder="Page num"
+                   placeholder="0"
                    ng-model="pageNum"
                    ng-model-options="{debounce: 300}">
-              <i class="search icon"></i>
+              /{{pages-1}}
           </div>
         </div>
       </div>
 
       <div class="ui divider"></div>
 
-      <button
-        ng-repeat="page in pages"
-        ng-class="page === currentPage ? 'active pink' : ''"
-        ng-click="goToPage(page)"
-        class="ui icon basic page button">
-        {{page}}
-      </button>
+    </div>
 
     </div>
     <div id="table-container" class="thirteen wide column">
@@ -102,6 +97,7 @@
           </div>
         </div>
       </div>
+      
 
       <table
         class="ui celled selectable compact users table">
@@ -112,7 +108,7 @@
             <th>School</th>
             <th>Grad</th>
             <th>V/S/A/C</th>
-            <th>Host</th>
+            <th>Volunteer</th>
             <th>$</th>
             <th></th>
             <th></th>
@@ -195,16 +191,12 @@
 
               <span ng-if="user.status.confirmed">
                 <i
-                  ng-if="user.confirmation.hostNeededFri"
+                  ng-if="user.profile.volunteer"
                   class="home icon">
                 </i>
                 <i
-                  ng-if="!user.confirmation.hostNeededFri && user.confirmation.hostNeededSat"
+                  ng-if="!user.profile.volunteer"
                   class="no icon">
-                </i>
-                <i
-                  ng-if="user.confirmation.hostNeededSat"
-                  class="home icon">
                 </i>
               </span>
 
@@ -266,8 +258,6 @@
           </tr>
         </tbody>
       </table>
-
-    </div>
   </div>
 
 </div>

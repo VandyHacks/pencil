@@ -58,14 +58,10 @@ function calculateStats() {
 
     dietaryRestrictions: {},
 
-    hostNeededFri: 0,
-    hostNeededSat: 0,
-    hostNeededUnique: 0,
-
-    hostNeededFemale: 0,
-    hostNeededMale: 0,
-    hostNeededOther: 0,
-    hostNeededNone: 0,
+    volunteer: 0,
+    volunteerSubmitted: 0,
+    volunteerAdmitted: 0,
+    volunteerConfirmed: 0,
 
     reimbursementTotal: 0,
     reimbursementMissing: 0,
@@ -88,9 +84,6 @@ function calculateStats() {
         // vars
         const isConfirmed = user.status.confirmed;
         const gender = user.profile.gender;
-        const hostNeededFri = user.confirmation.hostNeededFri;
-        const hostNeededSat = user.confirmation.hostNeededSat;
-        const hostNeeded = hostNeededFri || hostNeededSat;
 
         // Grab the email extension
         const email = user.email.split('@')[1];
@@ -164,14 +157,12 @@ function calculateStats() {
         }
 
         // Host needed counts
-        newStats.hostNeededFri += hostNeededFri ? 1 : 0;
-        newStats.hostNeededSat += hostNeededSat ? 1 : 0;
-        newStats.hostNeededUnique += hostNeeded ? 1 : 0;
-
-        newStats.hostNeededFemale += hostNeeded && gender === 'F' ? 1 : 0;
-        newStats.hostNeededMale += hostNeeded && gender === 'M' ? 1 : 0;
-        newStats.hostNeededOther += hostNeeded && gender === 'O' ? 1 : 0;
-        newStats.hostNeededNone += hostNeeded && gender === 'N' ? 1 : 0;
+        if (user.profile.volunteer) {
+          newStats.volunteer += 1;
+          newStats.volunteerSubmitted += user.status.completedProfile ? 1 : 0;
+          newStats.volunteerAdmitted += user.status.admitted ? 1 : 0;
+          newStats.volunteerConfirmed += isConfirmed ? 1 : 0;
+        }
 
         // Dietary restrictions
         if (user.confirmation.dietaryRestrictions) {
