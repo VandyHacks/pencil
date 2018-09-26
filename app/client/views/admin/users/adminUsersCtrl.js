@@ -310,34 +310,6 @@ angular.module('app')
               }
             ]
           }, {
-            name: 'Hosting',
-            fields: [
-              {
-                name: 'Needs Hosting Friday',
-                value: user.confirmation.hostNeededFri,
-                type: 'boolean'
-              }, {
-                name: 'Needs Hosting Saturday',
-                value: user.confirmation.hostNeededSat,
-                type: 'boolean'
-              }, {
-                name: 'Gender Neutral',
-                value: user.confirmation.genderNeutral,
-                type: 'boolean'
-              }, {
-                name: 'Cat Friendly',
-                value: user.confirmation.catFriendly,
-                type: 'boolean'
-              }, {
-                name: 'Smoking Friendly',
-                value: user.confirmation.smokingFriendly,
-                type: 'boolean'
-              }, {
-                name: 'Hosting Notes',
-                value: user.confirmation.hostNotes
-              }
-            ]
-          }, {
             name: 'Travel',
             fields: [
               {
