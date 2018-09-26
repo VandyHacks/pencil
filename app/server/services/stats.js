@@ -159,7 +159,7 @@ function calculateStats() {
         // Host needed counts
         if (user.profile.volunteer) {
           newStats.volunteer += 1;
-          newStats.volunteerSubmitted += user.status.submitted ? 1 : 0;
+          newStats.volunteerSubmitted += user.status.completedProfile ? 1 : 0;
           newStats.volunteerAdmitted += user.status.admitted ? 1 : 0;
           newStats.volunteerConfirmed += isConfirmed ? 1 : 0;
         }
