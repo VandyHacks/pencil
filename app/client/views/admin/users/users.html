@@ -1,7 +1,7 @@
 <div class="ui segment">
 
   <div class="ui stackable grid">
-    <div class="three wide column">
+    <div>
       <div class="ui header">
         Search
       </div>
@@ -15,9 +15,6 @@
               <i class="search icon"></i>
           </div>
         </div>
-      </div>
-
-      <div class="ui form">
         <div class="field">
           Page Number:
           <div class="ui icon fluid input">
@@ -28,7 +25,12 @@
               /{{pages-1}}
           </div>
         </div>
+        <div class="ui checkbox">
+          <input type="checkbox" id="showUnsubmitted" ng-model="showUnsubmitted">
+          <label for="showUnsubmitted">Show unsubmitted users</label>
+        </div>
       </div>
+      
 
       <div class="ui divider"></div>
 

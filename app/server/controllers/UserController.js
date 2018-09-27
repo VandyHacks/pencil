@@ -206,7 +206,7 @@ UserController.getAll = function (callback) {
 UserController.getPage = function (query, callback) {
   const page = query.page;
   const size = parseInt(query.size);
-  const findQuery = this.makeQuery(query.text);
+  const findQuery = this.makeQuery(query.text, query.showUnsubmitted);
 
   User
     .find(findQuery)
@@ -237,17 +237,20 @@ UserController.getPage = function (query, callback) {
 };
 
 // Makes a query with a search text
-UserController.makeQuery = function (searchText) {
-  const findQuery = {};
+UserController.makeQuery = function (searchText, showUnsubmitted) {
+  const findQuery = { $and: [{}] };
   if (searchText && searchText.length > 0) {
     const queries = [];
     const re = new RegExp(searchText, 'i');
     queries.push({ email: re });
     queries.push({ 'profile.name': re });
-    queries.push({ 'teamCode': re });
+    // queries.push({ 'teamCode': re });
     queries.push({ 'profile.school': re });
     queries.push({ 'profile.graduationYear': re });
-    findQuery.$or = queries;
+    findQuery.$and = [ { $or: queries } ];
+  }
+  if (showUnsubmitted === 'false') {
+    findQuery.$and.push({ 'status.completedProfile': true });
   }
   return findQuery;
 };

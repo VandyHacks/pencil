@@ -27,6 +27,10 @@ angular.module('app')
         $stateParams.queryText = queryText;
         refreshPage();
       });
+      $scope.$watch('showUnsubmitted', (showUnsubmitted) => {
+        $stateParams.showUnsubmitted = showUnsubmitted;
+        refreshPage();
+      });
       $scope.$watch('pageNum', (pageNum) => {
         $stateParams.page = pageNum;
         refreshPage();
@@ -38,10 +42,11 @@ angular.module('app')
           $scope.currentPage = data.page;
           $scope.pageSize = data.size;
           $scope.totalNumUsers = data.count;
-          $scope.pages = data.totalPages; // not needed anymore...
+          $scope.pages = data.totalPages;
         }
+        const showUnsubmitted = $stateParams.showUnsubmitted || false;
         UserService
-          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText)
+          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText, showUnsubmitted)
           .success((data) => {
             updatePageData(data);
           });

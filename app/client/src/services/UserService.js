@@ -23,10 +23,11 @@ angular.module('app')
           return $http.get(base);
         },
 
-        getPage: function (page, size, text) {
+        getPage: function (page, size, text, showUnsubmitted) {
           return $http.get(users + '?' + $.param(
             {
-              text: text,
+              text,
+              showUnsubmitted,
               page: page || 0,
               size: size || 50
             })
