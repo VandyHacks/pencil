@@ -245,7 +245,7 @@
 
               <button
                 ng-click="toggleCheckIn($event, user, $index)"
-                ng-disabled="!user.status.completedProfile"
+                ng-disabled="!user.status.completedProfile || !user.status.admitted"
                 class="ui circular mini basic green icon button">
 
                 <i
