@@ -28,7 +28,7 @@ angular.module('app')
             page = 0;
           }
           if (!size || size < 0) {
-            size = 50;
+            size = 25;
           }
           return $http.get(users + '?' + $.param(
             {
