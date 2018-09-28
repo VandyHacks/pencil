@@ -187,20 +187,11 @@
             </td>
 
             <!-- Volunteer -->
-            <td
-              class="collapsing">
-
-              <span ng-if="user.status.confirmed">
-                <i
-                  ng-if="user.profile.volunteer"
-                  class="circle icon">
-                </i>
-                <i
-                  ng-if="!user.profile.volunteer"
-                  class="no icon">
-                </i>
-              </span>
-
+            <td class="collapsing">
+              <i
+                ng-if="user.profile.volunteer"
+                class="circle icon">
+              </i>
             </td>
 
             <td
