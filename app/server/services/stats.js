@@ -27,6 +27,8 @@ function calculateStats() {
       }
     },
 
+    majors: {},
+
     teams: {},
     verified: 0,
     submitted: 0,
@@ -123,6 +125,16 @@ function calculateStats() {
 
         // Count the number of people who want hardware
         newStats.wantsHardware += user.confirmation.wantsHardware ? 1 : 0;
+
+        if (user.profile.majors) {
+          user.profile.majors.split(',').forEach(major => {
+            major = String(major);
+            if (!newStats.majors[major]) {
+              newStats.majors[major] = 0;
+            }
+            newStats.majors[major] += 1;
+          });
+        }
 
         // Count schools
         if (!newStats.demo.schools[email]) {

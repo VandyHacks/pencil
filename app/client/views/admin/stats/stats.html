@@ -251,6 +251,17 @@
       </div>
     </div>
     <div class="ui divider"></div>
+    <h3>Majors: </h3>
+    <div>
+      Computer Science: {{stats.majors['Computer Science']}}
+    </div>
+    <div>
+      Computer Engineering: {{stats.majors['Computer Engineering']}}
+    </div>
+    <div>
+      Mathematics: {{stats.majors['Mathematics']}}
+    </div>
+    <div class="ui divider"></div>
     <h3>Schools (top {{stats.demo.topSchools.length}})</h3>
     <div class="ui list">
       <div class="item" ng-repeat="school in stats.demo.topSchools | orderBy: '-count'">
