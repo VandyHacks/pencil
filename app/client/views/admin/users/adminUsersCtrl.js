@@ -32,7 +32,7 @@ angular.module('app')
         refreshPage();
       });
       $scope.$watch('pageNum', (pageNum) => {
-        $stateParams.page = pageNum;
+        $stateParams.page = pageNum - 1; // convert to zero-index
         refreshPage();
       });
 
