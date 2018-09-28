@@ -201,6 +201,9 @@ function calculateStats() {
             });
           });
         newStats.demo.schools = schools;
+        const TOP_SCHOOL_LIMIT = 10;
+        newStats.demo.topSchools = schools.filter(s => s.stats.submitted >= TOP_SCHOOL_LIMIT);
+        newStats.demo.nonTopSchools = schools.filter(s => s.stats.submitted < TOP_SCHOOL_LIMIT);
 
         // Likewise, transform the teams into an array of objects
         // var teams = [];

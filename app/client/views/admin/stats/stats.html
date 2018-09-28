@@ -251,8 +251,9 @@
       </div>
     </div>
     <div class="ui divider"></div>
+    <h3>Schools (top {{stats.demo.topSchools.length}})</h3>
     <div class="ui list">
-      <div class="item" ng-repeat="school in stats.demo.schools | orderBy: '-count'">
+      <div class="item" ng-repeat="school in stats.demo.topSchools | orderBy: '-count'">
         <div>
           <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.total * 100 | number: 1}}%)
           <div class="ui purple mini label">
@@ -271,6 +272,29 @@
         </div>
       </div>
     </div>
+
+
+    <button ng-click="showMore = !showMore">Show {{stats.demo.nonTopSchools.length}} more</button>
+    <table ng-show="showMore" class="ui celled selectable compact users table">
+      <thead>
+        <tr>
+          <th>School</th>
+          <th>Stats</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="item" ng-repeat="school in stats.demo.nonTopSchools | orderBy: '-count'">
+          <td>
+            <strong>
+              {{school.email}}
+            </strong>
+          </td>
+          <td>{{school.stats.submitted}}, {{school.stats.admitted}}, {{school.stats.confirmed}},
+            {{school.stats.declined}}</td>
+        </tr>
+      </tbody>
+    </table>
+
   </div>
 
   <!--   <div
