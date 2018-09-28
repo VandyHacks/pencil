@@ -24,12 +24,18 @@ angular.module('app')
         },
 
         getPage: function (page, size, text, showUnsubmitted) {
+          if (!page || page < 0) {
+            page = 0;
+          }
+          if (!size || size < 0) {
+            size = 25;
+          }
           return $http.get(users + '?' + $.param(
             {
               text,
               showUnsubmitted,
-              page: page || 0,
-              size: size || 50
+              page,
+              size
             })
           );
         },

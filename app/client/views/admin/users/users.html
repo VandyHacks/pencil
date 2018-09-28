@@ -19,10 +19,10 @@
           Page Number:
           <div class="ui icon fluid input">
             <input type="text"
-                   placeholder="0"
+                   placeholder="1"
                    ng-model="pageNum"
                    ng-model-options="{debounce: 300}">
-              /{{pages-1}}
+              /{{pages}}
           </div>
         </div>
         <div class="ui checkbox">
@@ -187,20 +187,11 @@
             </td>
 
             <!-- Volunteer -->
-            <td
-              class="collapsing">
-
-              <span ng-if="user.status.confirmed">
-                <i
-                  ng-if="user.profile.volunteer"
-                  class="home icon">
-                </i>
-                <i
-                  ng-if="!user.profile.volunteer"
-                  class="no icon">
-                </i>
-              </span>
-
+            <td class="collapsing">
+              <i
+                ng-if="user.profile.volunteer"
+                class="circle icon">
+              </i>
             </td>
 
             <td
