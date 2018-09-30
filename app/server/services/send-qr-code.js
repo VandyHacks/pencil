@@ -1,7 +1,8 @@
 const mailgun = require('mailgun-js')({ apiKey: process.env.MG_API_KEY, domain: 'vandyhacks.org' });
-const qr = require('qr-image');
 
-const getQr = data => qr.imageSync(data, { type: 'png', size: 10, margin: 4 });
+const getCode = id => {
+  // TODO: get unique code from db for user id
+};
 
 const baseData = () => {
   return {
@@ -13,17 +14,17 @@ const baseData = () => {
 module.exports = (email, id) => {
   mailgun.messages().send(Object.assign(baseData(), {
     to: email,
-    text: `We're excited to have you at VandyHacks V! Please download the attached QR code to your phone before you arrive this evening; it'll be required to check into the event, any workshops, and any meals throughout the weekend. If you don't have it downloaded prior to check-in, you may be asked to go through the line again, so please come prepared!
+    text: `We're excited to have you at VandyHacks V! 
+    
+    Please keep track of your following unique code: ${getCode(id)}
+    
+    Please present this code to us to check into the event. 
+    In addition, you may need this code for any workshops, and any meals throughout the weekend.
 
 See you soon!
 
 All the best,
-The VandyHacks Team`,
-    attachment: new mailgun.Attachment({
-      data: getQr(id),
-      filename: 'vh-checkin-code.png',
-      contentType: 'image/png'
-    })
+The VandyHacks Team`
   }), (err, body) => {
     if (err) {
       console.log(err);

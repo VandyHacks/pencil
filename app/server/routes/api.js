@@ -37,7 +37,7 @@ module.exports = function (router) {
 
   /**
    * Using event secret provided, check that secret is
-   * the correct one (for qr-scanner)
+   * the correct one (for nfc-scanner)
    */
   function isValidSecret(req, res, next) {
     if (!req.header('x-event-secret')) {

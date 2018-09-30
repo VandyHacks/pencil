@@ -397,7 +397,7 @@ UserController.updateLastResumeNameById = function (id, newResumeName, callback)
 };
 
 /**
- * Send a user the QR code email
+ * Send a user the unique code email
  */
 UserController.sendCodeEmailById = function (id, callback) {
   User.findById(id, (err, user) => {

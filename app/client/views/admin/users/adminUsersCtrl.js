@@ -184,7 +184,7 @@ angular.module('app')
 
         swal({
           title: 'Whoa, wait a minute!',
-          text: 'You are about to send a QR code to  ' + user.profile.name + '!',
+          text: 'You are about to send a unique code to  ' + user.profile.name + '!',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#DD6B55',
@@ -195,7 +195,7 @@ angular.module('app')
             .sendCode(user._id)
             .success((user) => {
               $scope.users[index] = user;
-              swal('Sent', user.profile.name + ' has been sent a QR code.', 'success');
+              swal('Sent', user.profile.name + ' has been sent a unique code.', 'success');
             });
         });
       };
