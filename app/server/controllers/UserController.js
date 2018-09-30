@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Settings = require('../models/Settings');
 const Mailer = require('../services/email');
 const Stats = require('../services/stats');
-const sendCode = require('../services/send-qr-code');
+const sendCode = require('../services/send-unique-code');
 
 const validator = require('validator');
 const moment = require('moment');
