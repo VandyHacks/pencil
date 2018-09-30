@@ -345,9 +345,9 @@ module.exports = function (router) {
     UserController.checkInById(id, user, defaultResponse(req, res));
   });
 
-  router.post('/users/:id/sendqrcode', isAdmin, (req, res) => {
+  router.post('/users/:id/sendCode', isAdmin, (req, res) => {
     const id = req.params.id;
-    UserController.sendQrCodeEmailById(id, defaultResponse(req, res));
+    UserController.sendCodeEmailById(id, defaultResponse(req, res));
   });
 
   /**

@@ -99,8 +99,8 @@ angular.module('app')
           return $http.post(base + id + '/checkin');
         },
 
-        sendQrCode: function (id) {
-          return $http.post(base + id + '/sendqrcode');
+        sendCode: function (id) {
+          return $http.post(base + id + '/sendCode');
         },
 
         checkOut: function (id) {

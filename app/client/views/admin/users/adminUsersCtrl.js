@@ -179,7 +179,7 @@ angular.module('app')
         });
       };
 
-      $scope.sendQrCode = function ($event, user, index) {
+      $scope.sendCode = function ($event, user, index) {
         $event.stopPropagation();
 
         swal({
@@ -192,7 +192,7 @@ angular.module('app')
           closeOnConfirm: false
         }, () => {
           UserService
-            .sendQrCode(user._id)
+            .sendCode(user._id)
             .success((user) => {
               $scope.users[index] = user;
               swal('Sent', user.profile.name + ' has been sent a QR code.', 'success');

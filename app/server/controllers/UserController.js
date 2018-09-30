@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Settings = require('../models/Settings');
 const Mailer = require('../services/email');
 const Stats = require('../services/stats');
-const sendQrCode = require('../services/send-qr-code');
+const sendCode = require('../services/send-qr-code');
 
 const validator = require('validator');
 const moment = require('moment');
@@ -399,13 +399,13 @@ UserController.updateLastResumeNameById = function (id, newResumeName, callback)
 /**
  * Send a user the QR code email
  */
-UserController.sendQrCodeEmailById = function (id, callback) {
+UserController.sendCodeEmailById = function (id, callback) {
   User.findById(id, (err, user) => {
     if (err || !user) {
       return callback(err);
     }
 
-    sendQrCode(user.email, id);
+    sendCode(user.email, id);
     callback(null, user);
   });
 };
@@ -449,7 +449,7 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
     },
     (err, user) => {
       if (err) callback(err);
-      sendQrCode(user.email, id);
+      sendCode(user.email, id);
       callback(null, user);
     });
   });
