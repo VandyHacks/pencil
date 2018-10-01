@@ -144,6 +144,26 @@ module.exports = function (router) {
     }
   });
 
+  router.get('/users/condensed', isAdmin, (req, res) => {
+    const addFields = function (err, data) {
+      if (err) {
+        defaultResponse(req, res)(err);
+        return;
+      }
+      data = JSON.parse(JSON.stringify(data));
+      data.users = data.users.map(user => () => {
+        return {
+          name: user.name,
+          school: user.school,
+          id: user.id,
+          code: UserController.getMockCode(user.id)
+        };
+      });
+      defaultResponse(req, res)(null, data);
+    };
+    UserController.getAll(addFields);
+  });
+
   /**
    * [ADMIN ONLY]
    */

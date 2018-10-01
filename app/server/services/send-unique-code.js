@@ -1,7 +1,9 @@
 const mailgun = require('mailgun-js')({ apiKey: process.env.MG_API_KEY, domain: 'vandyhacks.org' });
+const UserController = require('./server/UserController');
 
 const getCode = id => {
-  // TODO: get unique code from db for user id
+  // TODO: replace this with actual short code lol
+  return UserController.getMockCode(id);
 };
 
 const baseData = () => {
@@ -18,7 +20,7 @@ module.exports = (email, id) => {
     
     Please keep track of your following unique code: ${getCode(id)}
     
-    Please present this code to us to check into the event. 
+    Please present this code to us to check into the event.
     In addition, you may need this code for any workshops, and any meals throughout the weekend.
 
 See you soon!
