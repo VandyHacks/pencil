@@ -386,10 +386,7 @@ module.exports = function (router) {
   });
 
   /**
-   * Set NFC code for User
-   * {
-   *   user: [String]
-   * }
+   * Associates a NFC code for a User. ADMIN ONLY
    */
   router.put('/users/:id/NFC', isAdmin, (req, res) => {
     const id = req.params.id;

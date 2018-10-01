@@ -877,7 +877,7 @@ UserController.getStats = function (callback) {
 /**
  * [ADMIN ONLY]
  *
- * Given a NFC code and id, set NFC code for user.
+ * Associates a NFC code with user id
  * @param  {String}   id       Id of the user joining
  * @param  {String}   code     NFC code
  * @param  {Function} callback args(err, users)
