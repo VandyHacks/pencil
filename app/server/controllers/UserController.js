@@ -877,15 +877,15 @@ UserController.getStats = function (callback) {
 /**
  * [ADMIN ONLY]
  *
- * Given a wristband code and id, set wristband code for user.
+ * Given a NFC code and id, set NFC code for user.
  * @param  {String}   id       Id of the user joining
- * @param  {String}   code     Wristband code
+ * @param  {String}   code     NFC code
  * @param  {Function} callback args(err, users)
  */
-UserController.setWristband = function (id, code, callback) {
+UserController.setNFC = function (id, code, callback) {
   if (!code) {
     return callback({
-      message: 'Please provide a wristband code.'
+      message: 'Please provide a NFC code.'
     });
   }
 
@@ -900,7 +900,7 @@ UserController.setWristband = function (id, code, callback) {
     verified: true
   }, {
     $set: {
-      wristbandCode: code
+      NFC_code: code
     }
   }, {
     new: true

@@ -345,7 +345,7 @@ module.exports = function (router) {
   });
 
   /**
-   * Admit a user. ADMIN ONLY, DUH
+   * Admit a user. ADMIN ONLY
    *
    * Also attaches the user who did the admitting, for liabaility.
    */
@@ -386,17 +386,17 @@ module.exports = function (router) {
   });
 
   /**
-   * Set wristband code for User
+   * Set NFC code for User
    * {
    *   user: [String]
    * }
    */
-  router.put('/users/:id/wristband', isAdmin, (req, res) => {
+  router.put('/users/:id/NFC', isAdmin, (req, res) => {
     const id = req.params.id;
     const code = req.body.code;
 
     // Should we record what admin set the code?
-    UserController.setWristband(id, code, defaultResponse(req, res));
+    UserController.setNFC(id, code, defaultResponse(req, res));
   });
 
   // ---------------------------------------------
