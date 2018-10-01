@@ -144,6 +144,12 @@ module.exports = function (router) {
     }
   });
 
+  /**
+   * [ADMIN ONLY]
+   *
+   * GET - Get all users, with condensed information
+   * Used for NFC front-end site, to reduce frequent server requests
+   */
   router.get('/users/condensed', isAdmin, (req, res) => {
     const addFields = function (err, data) {
       if (err) {
@@ -357,7 +363,7 @@ module.exports = function (router) {
   });
 
   /**
-   * Check in a user. ADMIN ONLY, DUH
+   * Check in a user. ADMIN ONLY
    */
   router.post('/users/:id/checkin', isAdmin, (req, res) => {
     const id = req.params.id;
@@ -371,7 +377,7 @@ module.exports = function (router) {
   });
 
   /**
-   * Check in a user. ADMIN ONLY, DUH
+   * Check in a user. ADMIN ONLY
    */
   router.post('/users/:id/checkout', isAdmin, (req, res) => {
     const id = req.params.id;
