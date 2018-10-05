@@ -550,7 +550,6 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts));
   router.get('/events/:eventid/admit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.params.attendeeid;
@@ -561,7 +560,6 @@ module.exports = function (router) {
   /**
    * Remove user from event
    */
-  router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts));
   router.get('/events/:eventid/unadmit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.params.attendeeid;
@@ -572,7 +570,6 @@ module.exports = function (router) {
   /**
    * Check whether a given user is admitted an event
    */
-  router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts));
   router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const user = req.params.attendeeid;
     const event = req.params.eventid;
