@@ -157,14 +157,12 @@ module.exports = function (router) {
         return;
       }
       data = JSON.parse(JSON.stringify(data));
-      data.users = data.users.map(user => () => {
-        return {
-          name: user.name,
-          school: user.school,
-          id: user.id,
-          code: UserController.getMockCode(user.id)
-        };
-      });
+      data.users = data.users.map(user => ({
+        name: user.name,
+        school: user.school,
+        id: user.id,
+        code: UserController.getMockCode(user.id)
+      }));
       defaultResponse(req, res)(null, data);
     };
     UserController.getAll(addFields);
