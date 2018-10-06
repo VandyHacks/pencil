@@ -222,7 +222,7 @@
 
               <button
                 class="ui circular mini basic green icon button"
-                ng-disabled="!user.status.completedProfile"
+                ng-disabled="!user.status.completedProfile || !user.status.admitted"
                 ng-click="sendQrCode($event, user, $index)">
                 <i class="send outline icon"></i>
               </button>
