@@ -1,8 +1,8 @@
 const mailgun = require('mailgun-js')({ apiKey: process.env.MG_API_KEY, domain: 'vandyhacks.org' });
-const UserController = require('../controllers/UserController');
 
 const getCode = id => {
   // TODO: replace this with actual short code lol
+  const UserController = require('../controllers/UserController'); // prevents circular dep
   return UserController.getMockCode(id);
 };
 

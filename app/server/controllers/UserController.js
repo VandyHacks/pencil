@@ -908,17 +908,20 @@ UserController.setNFC = function (id, code, callback) {
   callback);
 };
 
-/* this is the same hashcode that java uses */
-const hashCode = function (str) {
-  let hash = 0; let i; let chr;
-  if (str.length === 0) return hash;
-  for (i = 0; i < str.length; i++) {
-    chr = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
+UserController.getMockCode = function (id) {
+  /* this is the same hashcode that java uses */
+  const hashCode = function (str) {
+    let hash = 0; let i; let chr;
+    if (str.length === 0) return hash;
+    for (i = 0; i < str.length; i++) {
+      chr = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  };
+
+  return hashCode(String(id)) % 10000;
 };
-UserController.getMockCode = id => hashCode(String(id)) % 10000;
 
 module.exports = UserController;
