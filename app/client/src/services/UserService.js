@@ -23,7 +23,7 @@ angular.module('app')
           return $http.get(base);
         },
 
-        getPage: function (page, size, text, showUnsubmitted) {
+        getPage: function (page, size, text, showUnsubmitted, showAdmitted) {
           if (!page || page < 0) {
             page = 0;
           }
@@ -34,6 +34,7 @@ angular.module('app')
             {
               text,
               showUnsubmitted,
+              showAdmitted,
               page,
               size
             })

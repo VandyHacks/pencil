@@ -27,8 +27,12 @@ angular.module('app')
         $stateParams.queryText = queryText;
         refreshPage();
       });
-      $scope.$watch('showUnsubmitted', (showUnsubmitted) => {
-        $stateParams.showUnsubmitted = showUnsubmitted;
+      $scope.$watch('showUnsubmitted', (val) => {
+        $stateParams.showUnsubmitted = val;
+        refreshPage();
+      });
+      $scope.$watch('showAdmitted', (val) => {
+        $stateParams.showAdmitted = val;
         refreshPage();
       });
       $scope.$watch('pageNum', (pageNum) => {
@@ -45,8 +49,9 @@ angular.module('app')
           $scope.pages = data.totalPages;
         }
         const showUnsubmitted = $stateParams.showUnsubmitted || false;
+        const showAdmitted = $stateParams.showAdmitted || false;
         UserService
-          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText, showUnsubmitted)
+          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText, showUnsubmitted, showAdmitted)
           .success((data) => {
             updatePageData(data);
           });
