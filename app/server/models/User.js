@@ -188,10 +188,9 @@ const schema = new mongoose.Schema({
     max: 140
   },
 
-  /*    No more wristband code :(  */
-  // wristbandCode: {
-  //   type: String
-  // },
+  NFC_code: {
+    type: String
+  },
 
   verified: {
     type: Boolean,

@@ -37,7 +37,7 @@ module.exports = function (router) {
 
   /**
    * Using event secret provided, check that secret is
-   * the correct one (for qr-scanner)
+   * the correct one (for nfc-scanner)
    */
   function isValidSecret(req, res, next) {
     if (!req.header('x-event-secret')) {
@@ -142,6 +142,30 @@ module.exports = function (router) {
     } else {
       UserController.getAll(addFields);
     }
+  });
+
+  /**
+   * [ADMIN ONLY]
+   *
+   * GET - Get all users, with condensed information
+   * Used for NFC front-end site, to reduce frequent server requests
+   */
+  router.get('/users/condensed', isAdmin, (req, res) => {
+    const addFields = function (err, data) {
+      if (err) {
+        defaultResponse(req, res)(err);
+        return;
+      }
+      data = JSON.parse(JSON.stringify(data));
+      data.users = data.users.map(user => ({
+        name: user.name,
+        school: user.school,
+        id: user.id,
+        code: UserController.getMockCode(user.id)
+      }));
+      defaultResponse(req, res)(null, data);
+    };
+    UserController.getAll(addFields);
   });
 
   /**
@@ -319,7 +343,7 @@ module.exports = function (router) {
   });
 
   /**
-   * Admit a user. ADMIN ONLY, DUH
+   * Admit a user. ADMIN ONLY
    *
    * Also attaches the user who did the admitting, for liabaility.
    */
@@ -337,26 +361,26 @@ module.exports = function (router) {
   });
 
   /**
-   * Check in a user. ADMIN ONLY, DUH
+   * Check in a user. ADMIN ONLY
    */
 
-  router.post('/users/:id/sendqrcode', isAdmin, (req, res) => {
+  router.post('/users/:id/sendCode', isAdmin, (req, res) => {
     const id = req.params.id;
-    UserController.sendQrCodeEmailById(id, defaultResponse(req, res));
+    UserController.sendCodeEmailById(id, defaultResponse(req, res));
   });
 
   /**
-   * Set wristband code for User
+   * Associates a NFC code for a User. ADMIN ONLY
    * {
    *   user: [String]
    * }
    */
-  router.put('/users/:id/wristband', isAdmin, (req, res) => {
+  router.put('/users/:id/NFC', isAdmin, (req, res) => {
     const id = req.params.id;
     const code = req.body.code;
 
     // Should we record what admin set the code?
-    UserController.setWristband(id, code, defaultResponse(req, res));
+    UserController.setNFC(id, code, defaultResponse(req, res));
   });
 
   // ---------------------------------------------
@@ -513,7 +537,6 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
-  router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts));
   router.get('/events/:eventid/admit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.params.attendeeid;
@@ -521,7 +544,9 @@ module.exports = function (router) {
     EventController.addAttendee(event, attendee, defaultResponse(req, res));
   });
 
-  router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts));
+  /**
+   * Remove user from event
+   */
   router.get('/events/:eventid/unadmit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.params.attendeeid;
@@ -529,7 +554,9 @@ module.exports = function (router) {
     EventController.removeAttendee(event, attendee, defaultResponse(req, res));
   });
 
-  router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts));
+  /**
+   * Check whether a given user is admitted an event
+   */
   router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const user = req.params.attendeeid;
     const event = req.params.eventid;

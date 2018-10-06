@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Settings = require('../models/Settings');
 const Mailer = require('../services/email');
 const Stats = require('../services/stats');
-const sendQrCode = require('../services/send-qr-code');
+const sendCode = require('../services/send-unique-code');
 
 const validator = require('validator');
 const moment = require('moment');
@@ -400,15 +400,15 @@ UserController.updateLastResumeNameById = function (id, newResumeName, callback)
 };
 
 /**
- * Send a user the QR code email
+ * Send a user the unique code email
  */
-UserController.sendQrCodeEmailById = function (id, callback) {
+UserController.sendCodeEmailById = function (id, callback) {
   User.findById(id, (err, user) => {
     if (err || !user) {
       return callback(err);
     }
 
-    sendQrCode(user.email, id);
+    sendCode(user.email, id);
     callback(null, user);
   });
 };
@@ -452,7 +452,7 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
     },
     (err, user) => {
       if (err) callback(err);
-      sendQrCode(user.email, id);
+      sendCode(user.email, id);
       callback(null, user);
     });
   });
@@ -835,15 +835,15 @@ UserController.getStats = function (callback) {
 /**
  * [ADMIN ONLY]
  *
- * Given a wristband code and id, set wristband code for user.
+ * Associates a NFC code with user id
  * @param  {String}   id       Id of the user joining
- * @param  {String}   code     Wristband code
+ * @param  {String}   code     NFC code
  * @param  {Function} callback args(err, users)
  */
-UserController.setWristband = function (id, code, callback) {
+UserController.setNFC = function (id, code, callback) {
   if (!code) {
     return callback({
-      message: 'Please provide a wristband code.'
+      message: 'Please provide a NFC code.'
     });
   }
 
@@ -858,12 +858,28 @@ UserController.setWristband = function (id, code, callback) {
     verified: true
   }, {
     $set: {
-      wristbandCode: code
+      NFC_code: code
     }
   }, {
     new: true
   },
   callback);
+};
+
+UserController.getMockCode = function (id) {
+  /* this is the same hashcode that java uses */
+  const hashCode = function (str) {
+    let hash = 0; let i; let chr;
+    if (str.length === 0) return hash;
+    for (i = 0; i < str.length; i++) {
+      chr = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  };
+
+  return hashCode(String(id)) % 10000;
 };
 
 module.exports = UserController;

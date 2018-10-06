@@ -56,7 +56,7 @@ module.exports = function (router) {
 
   /**
    * Register a user with a username (email) and password.
-   * If it already exists, then don't register, duh.
+   * If it already exists, then don't register
    *
    * body {
    *  email: email,
@@ -159,7 +159,6 @@ module.exports = function (router) {
   /**
    * Verify an apicode before checking attendees into an event
    */
-  router.options('/eventcode', cors(corsOpts));
   router.post('/eventcode', cors(corsOpts), (req, res, next) => {
     const token = req.body.token;
     console.log(req.body);

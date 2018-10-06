@@ -96,8 +96,8 @@ angular.module('app')
           return $http.post(base + 'admitall', JSON.stringify({ querytext: querytext }));
         },
 
-        sendQrCode: function (id) {
-          return $http.post(base + id + '/sendqrcode');
+        sendCode: function (id) {
+          return $http.post(base + id + '/sendCode');
         }
 
       };
