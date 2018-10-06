@@ -68,9 +68,7 @@ function calculateStats() {
     reimbursementTotal: 0,
     reimbursementMissing: 0,
 
-    wantsHardware: 0,
-
-    checkedIn: 0
+    wantsHardware: 0
   };
 
   User
@@ -185,9 +183,6 @@ function calculateStats() {
             newStats.dietaryRestrictions[restriction] += 1;
           });
         }
-
-        // Count checked in
-        newStats.checkedIn += user.status.checkedIn ? 1 : 0;
 
         callback(); // let async know we've finished
       }, () => {

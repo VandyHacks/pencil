@@ -29,6 +29,11 @@
           <input type="checkbox" id="showUnsubmitted" ng-model="showUnsubmitted">
           <label for="showUnsubmitted">Show unsubmitted users</label>
         </div>
+        <br>
+        <div class="ui checkbox">
+          <input type="checkbox" id="showAdmitted" ng-model="showAdmitted">
+          <label for="showAdmitted">Show admitted users</label>
+        </div>
       </div>
       
 
@@ -41,7 +46,7 @@
       <div class="ui header">
         Users
       </div>
-      <button type="button" ng-click="initiateAcceptAll(users)">MASS ACCEPT</button>
+      <button type="button" ng-click="initiateAcceptAll(users)" disabled="true">MASS ACCEPT</button>
       <div class="ui long user modal">
         <i class="close icon"></i>
         <div class="header">
@@ -222,7 +227,7 @@
 
               <button
                 class="ui circular mini basic green icon button"
-                ng-disabled="!user.status.completedProfile"
+                ng-disabled="!user.status.completedProfile || !user.status.admitted"
                 ng-click="sendCode($event, user, $index)">
                 <i class="send outline icon"></i>
               </button>
@@ -232,21 +237,6 @@
                 ng-disabled="!user.status.completedProfile || user.status.admitted"
                 ng-click="acceptUser($event, user, $index)">
                 <i class="add user icon"></i>
-              </button>
-
-              <button
-                ng-click="toggleCheckIn($event, user, $index)"
-                ng-disabled="!user.status.completedProfile || !user.status.admitted"
-                class="ui circular mini basic green icon button">
-
-                <i
-                  ng-if="!user.status.checkedIn"
-                  class="flag outline icon"></i>
-
-                <i
-                  ng-if="user.status.checkedIn"
-                  class="green flag icon"></i>
-
               </button>
 
             </td>

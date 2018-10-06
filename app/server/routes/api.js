@@ -365,11 +365,6 @@ module.exports = function (router) {
   /**
    * Check in a user. ADMIN ONLY
    */
-  router.post('/users/:id/checkin', isAdmin, (req, res) => {
-    const id = req.params.id;
-    const user = req.user;
-    UserController.checkInById(id, user, defaultResponse(req, res));
-  });
 
   router.post('/users/:id/sendCode', isAdmin, (req, res) => {
     const id = req.params.id;
@@ -377,16 +372,10 @@ module.exports = function (router) {
   });
 
   /**
-   * Check in a user. ADMIN ONLY
-   */
-  router.post('/users/:id/checkout', isAdmin, (req, res) => {
-    const id = req.params.id;
-    const user = req.user;
-    UserController.checkOutById(id, user, defaultResponse(req, res));
-  });
-
-  /**
    * Associates a NFC code for a User. ADMIN ONLY
+   * {
+   *   user: [String]
+   * }
    */
   router.put('/users/:id/NFC', isAdmin, (req, res) => {
     const id = req.params.id;

@@ -352,10 +352,6 @@ schema.statics.validateProfile = function (profile, cb) {
  * This provides a verbose explanation of their furthest state.
  */
 schema.virtual('status.name').get(function () {
-  if (this.status.checkedIn) {
-    return 'checked in';
-  }
-
   if (this.status.declined) {
     return 'declined';
   }
