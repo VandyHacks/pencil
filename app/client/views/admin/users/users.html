@@ -234,21 +234,6 @@
                 <i class="add user icon"></i>
               </button>
 
-              <button
-                ng-click="toggleCheckIn($event, user, $index)"
-                ng-disabled="!user.status.completedProfile || !user.status.admitted"
-                class="ui circular mini basic green icon button">
-
-                <i
-                  ng-if="!user.status.checkedIn"
-                  class="flag outline icon"></i>
-
-                <i
-                  ng-if="user.status.checkedIn"
-                  class="green flag icon"></i>
-
-              </button>
-
             </td>
             <td>{{user.email}}</td>
           </tr>

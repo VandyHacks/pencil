@@ -339,24 +339,10 @@ module.exports = function (router) {
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
-  router.post('/users/:id/checkin', isAdmin, (req, res) => {
-    const id = req.params.id;
-    const user = req.user;
-    UserController.checkInById(id, user, defaultResponse(req, res));
-  });
 
   router.post('/users/:id/sendqrcode', isAdmin, (req, res) => {
     const id = req.params.id;
     UserController.sendQrCodeEmailById(id, defaultResponse(req, res));
-  });
-
-  /**
-   * Check in a user. ADMIN ONLY, DUH
-   */
-  router.post('/users/:id/checkout', isAdmin, (req, res) => {
-    const id = req.params.id;
-    const user = req.user;
-    UserController.checkOutById(id, user, defaultResponse(req, res));
   });
 
   /**

@@ -69,38 +69,6 @@ angular.module('app')
         });
       };
 
-      $scope.toggleCheckIn = function ($event, user, index) {
-        $event.stopPropagation();
-
-        if (!user.status.checkedIn) {
-          swal({
-            title: 'Whoa, wait a minute!',
-            text: 'You are about to check in ' + user.profile.name + '!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, check them in.',
-            closeOnConfirm: false
-          },
-          () => {
-            UserService
-              .checkIn(user._id)
-              .success((user) => {
-                $scope.users[index] = user;
-                swal('Accepted', user.profile.name + ' has been checked in.', 'success');
-              });
-          }
-          );
-        } else {
-          UserService
-            .checkOut(user._id)
-            .success((user) => {
-              $scope.users[index] = user;
-              swal('Accepted', user.profile.name + ' has been checked out.', 'success');
-            });
-        }
-      };
-
       $scope.acceptUser = function ($event, user, index) {
         $event.stopPropagation();
 
@@ -240,9 +208,6 @@ angular.module('app')
               }, {
                 name: 'Confirm By',
                 value: formatTime(user.status.confirmBy) || 'N/A'
-              }, {
-                name: 'Checked In',
-                value: formatTime(user.status.checkInTime) || 'N/A'
               }, {
                 name: 'Email',
                 value: user.email
