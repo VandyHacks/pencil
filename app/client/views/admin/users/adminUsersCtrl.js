@@ -86,25 +86,15 @@ angular.module('app')
           confirmButtonText: 'Yes, accept them.',
           closeOnConfirm: false
         }, () => {
-          swal({
-            title: 'Are you sure?',
-            text: 'This action cannot be undone, and will be logged.',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, accept this user.',
-            closeOnConfirm: false
-          }, () => {
-            UserService
-              .admitUser(user._id)
-              .success((user) => {
-                $scope.users[index] = user;
-                swal('Accepted', user.profile.name + ' has been admitted.', 'success');
-              })
-              .error(() => {
-                swal('Error', 'User has not submitted an application.', 'error');
-              });
-          });
+          UserService
+            .admitUser(user._id)
+            .success((user) => {
+              $scope.users[index] = user;
+              swal('Accepted', user.profile.name + ' has been admitted.', 'success');
+            })
+            .error(() => {
+              swal('Error', 'User has not submitted an application.', 'error');
+            });
         });
       };
 
