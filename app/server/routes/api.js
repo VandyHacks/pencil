@@ -150,7 +150,7 @@ module.exports = function (router) {
    * GET - Get all users, with condensed information
    * Used for NFC front-end site, to reduce frequent server requests
    */
-  router.get('/users/condensed', isAdmin, (req, res) => {
+  router.get('/users/condensed', isValidSecret, (req, res) => {
     const addFields = function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
