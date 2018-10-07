@@ -170,7 +170,8 @@ module.exports = function (router) {
       }));
       defaultResponse(req, res)(null, data);
     };
-    UserController.getAll(addFields);
+    // get all submitted users
+    UserController.getAll(true, addFields);
   });
 
   /**
