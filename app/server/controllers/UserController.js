@@ -193,8 +193,12 @@ UserController.getByToken = function (token, callback) {
  * It's going to be a lot of data, so make sure you want to do this.
  * @param  {Function} callback args(err, user)
  */
-UserController.getAll = function (callback) {
-  return User.find({}, (err, data) => {
+UserController.getAll = function (onlySubmitted, callback) {
+  let findQuery = {};
+  if (onlySubmitted === true) {
+    findQuery = { 'status.completedProfile': true };
+  }
+  return User.find(findQuery, (err, data) => {
     const result = { users: data };
     return callback(err, result);
   });
