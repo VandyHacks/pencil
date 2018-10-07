@@ -191,6 +191,7 @@ UserController.getByToken = function (token, callback) {
 /**
  * Get all users.
  * It's going to be a lot of data, so make sure you want to do this.
+ * @param {Boolean} onlySubmitted
  * @param  {Function} callback args(err, user)
  */
 UserController.getAll = function (onlySubmitted, callback) {

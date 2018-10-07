@@ -140,7 +140,8 @@ module.exports = function (router) {
     if (query.page && query.size) {
       UserController.getPage(query, addFields);
     } else {
-      UserController.getAll(addFields);
+      // should realistically never happen
+      UserController.getAll(false, addFields);
     }
   });
 
