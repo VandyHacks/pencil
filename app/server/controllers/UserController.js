@@ -194,7 +194,10 @@ UserController.getByToken = function (token, callback) {
  * @param  {Function} callback args(err, user)
  */
 UserController.getAll = function (callback) {
-  User.find({}, callback);
+  return User.find({}, (err, data) => {
+    const result = { users: data };
+    return callback(err, result);
+  });
 };
 
 /**

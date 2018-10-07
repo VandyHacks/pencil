@@ -157,6 +157,10 @@ module.exports = function (router) {
         return;
       }
       data = JSON.parse(JSON.stringify(data));
+      if (!data || !data.users) {
+        defaultResponse(req, res)({ message: 'No users found.' });
+        return;
+      }
       data.users = data.users.map(user => ({
         name: user.name,
         school: user.school,
