@@ -162,8 +162,8 @@ module.exports = function (router) {
         return;
       }
       data.users = data.users.map(user => ({
-        name: user.name,
-        school: user.school,
+        name: user.profile.name || 'Unknown',
+        school: user.profile.school || 'Unknown',
         id: user.id,
         code: UserController.getMockCode(user.id)
       }));
