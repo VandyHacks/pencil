@@ -865,8 +865,8 @@ UserController.setNFC = function (id, code, callback) {
     _id: id,
     verified: true
   }, {
-    $set: {
-      NFC_code: code
+    $push: {
+      NFC_codes: code
     }
   }, {
     new: true

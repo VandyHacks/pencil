@@ -188,8 +188,8 @@ const schema = new mongoose.Schema({
     max: 140
   },
 
-  NFC_code: {
-    type: String
+  NFC_codes: {
+    type: [String]
   },
 
   verified: {
