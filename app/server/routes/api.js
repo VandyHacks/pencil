@@ -128,7 +128,7 @@ module.exports = function (router) {
         defaultResponse(req, res)(err);
         return;
       }
-      data = JSON.parse(JSON.stringify(data));
+      data = await JSON.parse(JSON.stringify(data));
       await data.users.forEach(user => {
         if (user.profile.lastResumeName) {
           user.profile.resumePath = resumeURL + '/' + user.profile.lastResumeName;
@@ -157,7 +157,7 @@ module.exports = function (router) {
         defaultResponse(req, res)(err);
         return;
       }
-      data = JSON.parse(JSON.stringify(data));
+      data = await JSON.parse(JSON.stringify(data));
       if (!data || !data.users) {
         defaultResponse(req, res)({ message: 'No users found.' });
         return;
