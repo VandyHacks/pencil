@@ -382,7 +382,7 @@ module.exports = function (router) {
    *   user: [String]
    * }
    */
-  router.put('/users/:id/NFC', isAdmin, (req, res) => {
+  router.put('/users/:id/NFC', isValidSecret, (req, res) => {
     const id = req.params.id;
     const code = req.body.code;
 
