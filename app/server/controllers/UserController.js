@@ -714,47 +714,6 @@ UserController.sendPasswordResetEmail = function (email, callback) {
 };
 
 /**
- * UNUSED
- *
- * Change a user's password, given their old password.
- * @param  {[type]}   id          User id
- * @param  {[type]}   oldPassword old password
- * @param  {[type]}   newPassword new password
- * @param  {Function} callback    args(err, user)
- */
-UserController.changePassword = function (id, oldPassword, newPassword, callback) {
-  if (!id || !oldPassword || !newPassword) {
-    return callback({
-      message: 'Bad arguments.'
-    });
-  }
-
-  User
-    .findById(id)
-    .select('password')
-    .exec((err, user) => {
-      if (err) callback(err);
-
-      if (user.checkPassword(oldPassword)) {
-        User.findOneAndUpdate({
-          _id: id
-        }, {
-          $set: {
-            password: User.generateHash(newPassword)
-          }
-        }, {
-          new: true
-        },
-        callback);
-      } else {
-        return callback({
-          message: 'Incorrect password'
-        });
-      }
-    });
-};
-
-/**
  * Reset a user's password to a given password, given a authentication token.
  * @param  {String}   token       Authentication token
  * @param  {String}   password    New Password

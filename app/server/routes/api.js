@@ -331,28 +331,6 @@ module.exports = function (router) {
   });
 
   /**
-   * Update a user's password.
-   * {
-   *   oldPassword: STRING,
-   *   newPassword: STRING
-   * }
-   */
-  router.put('/users/:id/password', isOwnerOrAdmin, (req, res) => {
-    return res.status(304).send();
-    // Currently disable.
-    // var id = req.params.id;
-    // var old = req.body.oldPassword;
-    // var pass = req.body.newPassword;
-
-    // UserController.changePassword(id, old, pass, function(err, user){
-    //   if (err || !user){
-    //     return res.status(400).send(err);
-    //   }
-    //   return res.json(user);
-    // });
-  });
-
-  /**
    * Admit a user. ADMIN ONLY
    *
    * Also attaches the user who did the admitting, for liabaility.
