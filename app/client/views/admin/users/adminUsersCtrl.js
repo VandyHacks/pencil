@@ -142,27 +142,6 @@ angular.module('app')
         });
       };
 
-      $scope.sendCode = function ($event, user, index) {
-        $event.stopPropagation();
-
-        swal({
-          title: 'Whoa, wait a minute!',
-          text: 'You are about to send a unique code to  ' + user.profile.name + '!',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#DD6B55',
-          confirmButtonText: 'Yes, send a code.',
-          closeOnConfirm: false
-        }, () => {
-          UserService
-            .sendCode(user._id)
-            .success((user) => {
-              $scope.users[index] = user;
-              swal('Sent', user.profile.name + ' has been sent a unique code.', 'success');
-            });
-        });
-      };
-
       function formatTime(time) {
         if (time) {
           return moment(time).format('MMMM Do YYYY, h:mm:ss a');

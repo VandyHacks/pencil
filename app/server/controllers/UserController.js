@@ -2,7 +2,6 @@ const User = require('../models/User');
 const Settings = require('../models/Settings');
 const Mailer = require('../services/email');
 const Stats = require('../services/stats');
-const sendCode = require('../services/send-unique-code');
 
 const validator = require('validator');
 const moment = require('moment');
@@ -408,20 +407,6 @@ UserController.updateLastResumeNameById = function (id, newResumeName, callback)
 };
 
 /**
- * Send a user the unique code email
- */
-UserController.sendCodeEmailById = function (id, callback) {
-  User.findById(id, (err, user) => {
-    if (err || !user) {
-      return callback(err);
-    }
-
-    sendCode(user.email, id);
-    callback(null, user);
-  });
-};
-
-/**
  * Update a user's confirmation object, given an id and a confirmation.
  *
  * @param  {String}   id            Id of the user
@@ -460,7 +445,6 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
     },
     (err, user) => {
       if (err) callback(err);
-      sendCode(user.email, id);
       callback(null, user);
     });
   });
