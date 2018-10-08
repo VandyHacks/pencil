@@ -123,13 +123,13 @@ module.exports = function (router) {
     const query = req.query;
     const resumeURL = 'https://s3.amazonaws.com/' + process.env.BUCKET_NAME;
 
-    const addFields = function (err, data) {
+    const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
         return;
       }
-      data = JSON.parse(JSON.stringify(data));
-      data.users.forEach(user => {
+      data = await JSON.parse(JSON.stringify(data));
+      await data.users.forEach(user => {
         if (user.profile.lastResumeName) {
           user.profile.resumePath = resumeURL + '/' + user.profile.lastResumeName;
         }
@@ -140,7 +140,8 @@ module.exports = function (router) {
     if (query.page && query.size) {
       UserController.getPage(query, addFields);
     } else {
-      UserController.getAll(addFields);
+      // should realistically never happen
+      UserController.getAll(false, addFields);
     }
   });
 
@@ -151,23 +152,26 @@ module.exports = function (router) {
    * Used for NFC front-end site, to reduce frequent server requests
    */
   router.get('/users/condensed', isValidSecret, (req, res) => {
-    const addFields = function (err, data) {
+    const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
         return;
       }
-      data = JSON.parse(JSON.stringify(data));
+      data = await JSON.parse(JSON.stringify(data));
       if (!data || !data.users) {
         defaultResponse(req, res)({ message: 'No users found.' });
         return;
       }
-      data.users = data.users.map(user => ({
-        name: user.profile.name || 'Unknown',
-        school: user.profile.school || 'Unknown',
-        email: user.email || 'Unknown',
-        id: user.id,
-        code: UserController.getMockCode(user.id)
-      }));
+      const usermap = (arr) => {
+        return arr.map(user => ({
+          name: user.profile.name || 'Unknown',
+          school: user.profile.school || 'Unknown',
+          email: user.email || 'Unknown',
+          id: user.id,
+          code: UserController.getMockCode(user.id)
+        }));
+      };
+      data.users = await usermap(data.users);
       defaultResponse(req, res)(null, data);
     };
     // get all submitted users
@@ -327,28 +331,6 @@ module.exports = function (router) {
   });
 
   /**
-   * Update a user's password.
-   * {
-   *   oldPassword: STRING,
-   *   newPassword: STRING
-   * }
-   */
-  router.put('/users/:id/password', isOwnerOrAdmin, (req, res) => {
-    return res.status(304).send();
-    // Currently disable.
-    // var id = req.params.id;
-    // var old = req.body.oldPassword;
-    // var pass = req.body.newPassword;
-
-    // UserController.changePassword(id, old, pass, function(err, user){
-    //   if (err || !user){
-    //     return res.status(400).send(err);
-    //   }
-    //   return res.json(user);
-    // });
-  });
-
-  /**
    * Admit a user. ADMIN ONLY
    *
    * Also attaches the user who did the admitting, for liabaility.
@@ -381,7 +363,7 @@ module.exports = function (router) {
    *   user: [String]
    * }
    */
-  router.put('/users/:id/NFC', isAdmin, (req, res) => {
+  router.put('/users/:id/NFC', isValidSecret, (req, res) => {
     const id = req.params.id;
     const code = req.body.code;
 
