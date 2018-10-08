@@ -151,6 +151,7 @@ module.exports = function (router) {
    * GET - Get all users, with condensed information
    * Used for NFC front-end site, to reduce frequent server requests
    */
+  router.options('/users/condensed', cors(corsOpts)); // for CORS preflight
   router.get('/users/condensed', isValidSecret, (req, res) => {
     const addFields = async function (err, data) {
       if (err) {
@@ -525,6 +526,7 @@ module.exports = function (router) {
   /**
    * Add user to event
    */
+  router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.params.attendeeid;
@@ -535,6 +537,7 @@ module.exports = function (router) {
   /**
    * Remove user from event
    */
+  router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/unadmit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const event = req.params.eventid;
     const attendee = req.params.attendeeid;
@@ -545,6 +548,7 @@ module.exports = function (router) {
   /**
    * Check whether a given user is admitted an event
    */
+  router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
     const user = req.params.attendeeid;
     const event = req.params.eventid;
