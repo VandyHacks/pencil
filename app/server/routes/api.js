@@ -123,13 +123,13 @@ module.exports = function (router) {
     const query = req.query;
     const resumeURL = 'https://s3.amazonaws.com/' + process.env.BUCKET_NAME;
 
-    const addFields = function (err, data) {
+    const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
         return;
       }
       data = JSON.parse(JSON.stringify(data));
-      data.users.forEach(user => {
+      await data.users.forEach(user => {
         if (user.profile.lastResumeName) {
           user.profile.resumePath = resumeURL + '/' + user.profile.lastResumeName;
         }
@@ -152,7 +152,7 @@ module.exports = function (router) {
    * Used for NFC front-end site, to reduce frequent server requests
    */
   router.get('/users/condensed', isValidSecret, (req, res) => {
-    const addFields = function (err, data) {
+    const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
         return;
@@ -162,13 +162,16 @@ module.exports = function (router) {
         defaultResponse(req, res)({ message: 'No users found.' });
         return;
       }
-      data.users = data.users.map(user => ({
-        name: user.profile.name || 'Unknown',
-        school: user.profile.school || 'Unknown',
-        email: user.email || 'Unknown',
-        id: user.id,
-        code: UserController.getMockCode(user.id)
-      }));
+      const usermap = (arr) => {
+        return arr.map(user => ({
+          name: user.profile.name || 'Unknown',
+          school: user.profile.school || 'Unknown',
+          email: user.email || 'Unknown',
+          id: user.id,
+          code: UserController.getMockCode(user.id)
+        }));
+      };
+      data.users = await usermap(data.users);
       defaultResponse(req, res)(null, data);
     };
     // get all submitted users
