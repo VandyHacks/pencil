@@ -169,8 +169,7 @@ module.exports = function (router) {
           name: user.profile.name || 'Unknown',
           school: user.profile.school || 'Unknown',
           email: user.email || 'Unknown',
-          id: user.id,
-          code: UserController.getMockCode(user.id)
+          id: user.id
         }));
       };
       data.users = await usermap(data.users);
