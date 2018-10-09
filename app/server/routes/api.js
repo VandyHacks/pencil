@@ -153,7 +153,7 @@ module.exports = function (router) {
    * Used for NFC front-end site, to reduce frequent server requests
    */
   router.options('/users/condensed', cors(corsOpts)); // for CORS preflight
-  router.get('/users/condensed', isValidSecret, (req, res) => {
+  router.get('/users/condensed', cors(corsOpts), isValidSecret, (req, res) => {
     const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
@@ -497,14 +497,14 @@ module.exports = function (router) {
   /**
    * Get events list (public)
    */
-  router.get('/events', cors({ origin: false }), (req, res) => {
+  router.get('/events', cors({ origin: true }), (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
   });
 
   /**
    * Get event types (public)
    */
-  router.get('/events/types', cors({ origin: false }), (req, res) => {
+  router.get('/events/types', cors({ origin: true }), (req, res) => {
     EventController.getTypes(defaultResponse(req, res));
   });
 
