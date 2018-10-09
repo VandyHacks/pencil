@@ -189,8 +189,17 @@ UserController.createUser = function (email, password, callback) {
  * @param {Function} callback
  */
 UserController.getIDfromNFC = function (nfcCode, callback) {
+  // the find query finds all users that has ever had that nfc code
   return User.find({ NFC_codes: { nfcCode } }, (err, data) => {
-    const result = { id: data[0].id };
+    if (err) {
+      return callback(err, null);
+    }
+    if (!data) {
+      return callback({ error: 'No users found.' }, null);
+    }
+    // actually find who had that wristband last (currently)
+    const users = data.filter(user => user.NFC_codes[user.NFC_codes.length - 1] === nfcCode);
+    const result = { id: users[0].id };
     return callback(err, result);
   });
 };
