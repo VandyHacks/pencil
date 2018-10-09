@@ -183,6 +183,23 @@ UserController.createUser = function (email, password, callback) {
   });
 };
 
+/**
+ * Returns the ID of the user corresponding to an NFC code
+ * @param {String} nfcCode
+ * @param {Function} callback
+ */
+UserController.getIDfromNFC = function (nfcCode, callback) {
+  return User.find({ NFC_codes: { nfcCode } }, (err, data) => {
+    const result = { id: data[0].id };
+    return callback(err, result);
+  });
+};
+
+/**
+ * Returns a user given an auth token
+ * @param {String} token
+ * @param {Function} callback
+ */
 UserController.getByToken = function (token, callback) {
   User.getByToken(token, callback);
 };

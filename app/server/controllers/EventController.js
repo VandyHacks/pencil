@@ -62,10 +62,10 @@ EventController.addAttendee = function (event, attendee, callback) {
     }
 
     Event.update({
-      _id: event, open: true, 'attendees.attendee': { $ne: attendee }
+      _id: event, open: true
     }, {
       $push: {
-        attendees: { attendee } // unique? maybe
+        attendees: { attendee }
       }
     }, {
       new: true
@@ -84,7 +84,7 @@ EventController.removeAttendee = (event, attendee, callback) => {
   Event.update({
     _id: event
   }, {
-    $pull: {
+    $pull: { // if no such attendee, this does nothing
       attendees: { attendee }
     }
   },
