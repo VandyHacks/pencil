@@ -74,6 +74,12 @@ EventController.addAttendee = function (id, attendee, callback) {
   });
 };
 
+/**
+ * Set user as not attending the event
+ * @param  {String}   id       Event id
+ * @param  {String}   attendee User id
+ * @param  {Function} callback args(err, event)
+ */
 EventController.removeAttendee = (event, attendee, callback) => {
   Event.update({
     _id: event
