@@ -2,7 +2,6 @@ const User = require('../models/User');
 const Settings = require('../models/Settings');
 const Mailer = require('../services/email');
 const Stats = require('../services/stats');
-const sendCode = require('../services/send-unique-code');
 
 const validator = require('validator');
 const moment = require('moment');
@@ -184,6 +183,35 @@ UserController.createUser = function (email, password, callback) {
   });
 };
 
+/**
+ * Returns the ID of the user corresponding to an NFC code
+ * @param {String} nfcCode
+ * @param {Function} callback
+ */
+UserController.getIDfromNFC = function (nfcCode, callback) {
+  // the find query finds all users that has ever had that nfc code
+  return User.find({ NFC_codes: nfcCode }, (err, data) => {
+    if (err) {
+      return callback(err, null);
+    }
+    if (!data) {
+      return callback({ error: 'No users found.' }, null);
+    }
+    // actually find who had that wristband last (currently)
+    const users = data.filter(user => user.NFC_codes[user.NFC_codes.length - 1] === nfcCode);
+    if (users.length === 0) {
+      return callback({ error: 'No users found.' }, null);
+    }
+    const result = { id: users[0].id };
+    return callback(err, result);
+  });
+};
+
+/**
+ * Returns a user given an auth token
+ * @param {String} token
+ * @param {Function} callback
+ */
 UserController.getByToken = function (token, callback) {
   User.getByToken(token, callback);
 };
@@ -408,20 +436,6 @@ UserController.updateLastResumeNameById = function (id, newResumeName, callback)
 };
 
 /**
- * Send a user the unique code email
- */
-UserController.sendCodeEmailById = function (id, callback) {
-  User.findById(id, (err, user) => {
-    if (err || !user) {
-      return callback(err);
-    }
-
-    sendCode(user.email, id);
-    callback(null, user);
-  });
-};
-
-/**
  * Update a user's confirmation object, given an id and a confirmation.
  *
  * @param  {String}   id            Id of the user
@@ -460,7 +474,6 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
     },
     (err, user) => {
       if (err) callback(err);
-      sendCode(user.email, id);
       callback(null, user);
     });
   });
@@ -831,22 +844,6 @@ UserController.setNFC = function (id, code, callback) {
     new: true
   },
   callback);
-};
-
-UserController.getMockCode = function (id) {
-  /* this is the same hashcode that java uses */
-  const hashCode = function (str) {
-    let hash = 0; let i; let chr;
-    if (str.length === 0) return hash;
-    for (i = 0; i < str.length; i++) {
-      chr = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-  };
-
-  return hashCode(String(id)) % 10000;
 };
 
 module.exports = UserController;

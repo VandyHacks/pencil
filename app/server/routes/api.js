@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 const UserController = require('../controllers/UserController');
 const EventController = require('../controllers/EventController');
 const SettingsController = require('../controllers/SettingsController');
@@ -152,7 +153,7 @@ module.exports = function (router) {
    * Used for NFC front-end site, to reduce frequent server requests
    */
   router.options('/users/condensed', cors(corsOpts)); // for CORS preflight
-  router.get('/users/condensed', isValidSecret, (req, res) => {
+  router.get('/users/condensed', cors(corsOpts), isValidSecret, (req, res) => {
     const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
@@ -496,14 +497,14 @@ module.exports = function (router) {
   /**
    * Get events list (public)
    */
-  router.get('/events', cors({ origin: false }), (req, res) => {
+  router.get('/events', cors({ origin: true }), (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
   });
 
   /**
    * Get event types (public)
    */
-  router.get('/events/types', cors({ origin: false }), (req, res) => {
+  router.get('/events/types', cors({ origin: true }), (req, res) => {
     EventController.getTypes(defaultResponse(req, res));
   });
 
@@ -523,15 +524,30 @@ module.exports = function (router) {
     EventController.getAttendeeDump(id, defaultResponse(req, res));
   });
 
+  function doEventAction(eventid, attendeeid, idtype, action, responseCallback) {
+    // type is either 'id' or 'nfc', default is 'id'
+    const getIDAsync = idtype === 'nfc'
+      ? promisify(UserController.getIDfromNFC)(attendeeid)
+      : Promise.resolve({ id: attendeeid });
+
+    getIDAsync
+      .then(data => {
+        console.log(data);
+        attendeeid = data.id;
+        action(eventid, attendeeid, responseCallback);
+      })
+      .catch(err => {
+        responseCallback(err, null);
+      });
+  }
+
   /**
    * Add user to event
    */
   router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const event = req.params.eventid;
-    const attendee = req.params.attendeeid;
-
-    EventController.addAttendee(event, attendee, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.addAttendee, defaultResponse(req, res));
   });
 
   /**
@@ -539,10 +555,8 @@ module.exports = function (router) {
    */
   router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/unadmit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const event = req.params.eventid;
-    const attendee = req.params.attendeeid;
-
-    EventController.removeAttendee(event, attendee, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.removeAttendee, defaultResponse(req, res));
   });
 
   /**
@@ -550,10 +564,8 @@ module.exports = function (router) {
    */
   router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const user = req.params.attendeeid;
-    const event = req.params.eventid;
-
-    EventController.admittedToEvent(user, event, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.admittedToEvent, defaultResponse(req, res));
   });
 
   /**
