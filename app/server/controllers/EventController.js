@@ -159,7 +159,7 @@ EventController.getAttendeeDump = (id, callback) => {
     .exec(callback);
 };
 
-EventController.admittedToEvent = (user, event, callback) => {
+EventController.admittedToEvent = (event, user, callback) => {
   Event.findById(event, (err, event) => {
     if (err) {
       return callback(err);

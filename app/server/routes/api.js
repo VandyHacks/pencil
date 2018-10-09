@@ -1,3 +1,4 @@
+const util = require('util');
 const UserController = require('../controllers/UserController');
 const EventController = require('../controllers/EventController');
 const SettingsController = require('../controllers/SettingsController');
@@ -523,19 +524,29 @@ module.exports = function (router) {
     EventController.getAttendeeDump(id, defaultResponse(req, res));
   });
 
+  async function doEventAction(eventid, attendeeid, idtype, action, responseCallback) {
+    // type is either 'id' or 'nfc', default is 'id'
+    const getIDAsync = idtype === 'nfc'
+      ? util.promisify(UserController.getIDfromNFC)
+      : Promise.resolve({ id: attendeeid });
+
+    await getIDAsync(attendeeid)
+      .then(data => {
+        attendeeid = data.id;
+        action(eventid, attendeeid, responseCallback);
+      })
+      .catch(err => {
+        responseCallback(err, null);
+      });
+  }
+
   /**
    * Add user to event
    */
   router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const event = req.params.eventid;
-    let attendee = req.params.attendeeid;
-
-    // type is either 'id' or 'nfc', default is 'id'
-    if (req.query.type === 'nfc') {
-      attendee = UserController.getIDfromNFC(attendee);
-    }
-    EventController.addAttendee(event, attendee, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.addAttendee, defaultResponse(res, req));
   });
 
   /**
@@ -543,14 +554,8 @@ module.exports = function (router) {
    */
   router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/unadmit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const event = req.params.eventid;
-    let attendee = req.params.attendeeid;
-
-    // type is either 'id' or 'nfc', default is 'id'
-    if (req.query.type === 'nfc') {
-      attendee = UserController.getIDfromNFC(attendee);
-    }
-    EventController.removeAttendee(event, attendee, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.removeAttendee, defaultResponse(res, req));
   });
 
   /**
@@ -558,14 +563,8 @@ module.exports = function (router) {
    */
   router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const event = req.params.eventid;
-    let attendee = req.params.attendeeid;
-
-    // type is either 'id' or 'nfc', default is 'id'
-    if (req.query.type === 'nfc') {
-      attendee = UserController.getIDfromNFC(attendee);
-    }
-    EventController.admittedToEvent(attendee, event, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.admittedToEvent, defaultResponse(res, req));
   });
 
   /**
