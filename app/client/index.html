@@ -18,10 +18,17 @@
     <script src="plugins/raven-js/dist/raven.min.js"></script>
     <script src="plugins/raven-js/dist/plugins/angular.min.js"></script>
     <script>
-      Raven
-        .config('https://a987cc875bda41b6a6fceb76eda529a1@sentry.io/201945')
-        .addPlugin(Raven.Plugins.Angular)
-        .install();
+        Raven
+          .config('https://a987cc875bda41b6a6fceb76eda529a1@sentry.io/201945', {
+            shouldSendCallback: function () {
+              // only enable Sentry logging in Prod.
+              const report = window.location.hostname.endsWith('vandyhacks.org');
+              return report;
+            }
+          })
+          .addPlugin(Raven.Plugins.Angular)
+          .install();
+        console.log(`Sentry is ${Raven.installed ? '' : 'not'} enabled.`);
     </script>
 
     <!-- Angular app -->
