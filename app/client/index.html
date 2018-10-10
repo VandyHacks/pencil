@@ -28,7 +28,7 @@
           })
           .addPlugin(Raven.Plugins.Angular)
           .install();
-        console.log(`Sentry is ${Raven.installed ? '' : 'not'} enabled.`);
+        console.log(`Sentry is ${Raven.isSetup() ? '' : 'not'} enabled.`);
     </script>
 
     <!-- Angular app -->

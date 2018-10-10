@@ -228,7 +228,7 @@ module.exports = function (router) {
       })
         .then(res => res.json())
         .then(data => {
-          const users = data.filter(e => e.email === email);
+          const users = data.filter(e => e.email === email && e.signature_field.length > 0);
           defaultResponse(req, res)(null, users);
         })
         .catch(err => console.log(err));
