@@ -7,6 +7,10 @@ const multer = require('multer');
 const uploadHelper = require('../services/uploadhelper');
 const cors = require('cors');
 const corsOpts = require('./cors');
+const fetch = require('node-fetch');
+const querystring = require('querystring');
+
+const REDCAP_API_TOKEN = process.env.REDCAP_API_TOKEN;
 
 module.exports = function (router) {
   function getToken(req) {
@@ -194,6 +198,41 @@ module.exports = function (router) {
   router.get('/users/:id', isOwnerOrAdmin, (req, res) => {
     const id = req.params.id;
     UserController.getById(id, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * GET - Checks whether a specific user signed the Redcap waiver form.
+   */
+  router.get('/users/:id/signedwaiver', (req, res) => {
+    const id = req.params.id;
+    // find user
+    UserController.getById(id, (err, data) => {
+      if (err) {
+        defaultResponse(req, res)(err, null);
+      }
+      // get email
+      const email = data.email;
+      const params = {
+        token: REDCAP_API_TOKEN,
+        content: 'record',
+        format: 'json',
+        type: 'flat'
+      };
+      // check that they actually signed
+      fetch('https://redcap.vanderbilt.edu/api/', {
+        method: 'POST',
+        body: querystring.stringify(params),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      })
+        .then(res => res.json())
+        .then(data => {
+          const users = data.filter(e => e.email === email);
+          defaultResponse(req, res)(null, users);
+        })
+        .catch(err => console.log(err));
+    });
   });
 
   /**

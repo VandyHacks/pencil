@@ -17,7 +17,9 @@ angular.module('app')
 
       _setupForm();
 
-      $scope.fileName = user._id + '_' + user.profile.name.split(' ').join('_');
+      $scope.fileName = user._id + '_' + (user.profile.name || '').split(' ').join('_');
+
+      $scope.waiverLinkClicked = false;
 
       // -------------------------------
       // All this just for dietary restriction checkboxes fml
@@ -54,24 +56,47 @@ angular.module('app')
         });
         confirmation.dietaryRestrictions = drs;
 
+        // make sure they even clicked the link (reduces Redcap API requests)
+        if (!$scope.waiverLinkClicked) {
+          sweetAlert('Uh oh!', 'Please sign the waiver form!', 'error');
+          return;
+        }
+
+        // make sure they actually signed the waiver form using Redcap API (proxy through server)
+
         UserService
-          .updateConfirmation(user._id, confirmation)
+          .checkSignedWaiver()
           .success((data) => {
-            sweetAlert({
-              title: 'Woo!',
-              text: "You're confirmed!",
-              type: 'success',
-              confirmButtonColor: '#e76482'
-            }, () => {
-              $state.go('app.dashboard');
-            });
+            // if signed form, proceed
+            UserService
+              .updateConfirmation(user._id, confirmation)
+              .success((data) => {
+                sweetAlert({
+                  title: 'Woo!',
+                  text: "You're confirmed!",
+                  type: 'success',
+                  confirmButtonColor: '#e76482'
+                }, () => {
+                  $state.go('app.dashboard');
+                });
+              })
+              .error((res) => {
+                sweetAlert('Uh oh!', 'Something went wrong during confirmation.', 'error');
+              });
           })
           .error((res) => {
-            sweetAlert('Uh oh!', 'Something went wrong.', 'error');
+            // if didn't sign form
+            sweetAlert('Uh oh!', 'Please sign the waiver form completely.', 'error');
           });
       }
 
       function _setupForm() {
+        $('#waiverlink').click(() => {
+          $scope.waiverLinkClicked = true;
+          console.log('clicked');
+          return true; // act normal
+        });
+
         // Semantic-UI form validation
         $('.ui.form').form({
           fields: {
@@ -130,6 +155,15 @@ angular.module('app')
                 {
                   type: 'empty',
                   prompt: 'Please enter the country you are traveling from.'
+                }
+              ]
+            },
+            waiversigned: {
+              identifier: 'waiversigned',
+              rules: [
+                {
+                  type: 'checked',
+                  prompt: 'Please confirm that you have signed the waiver form.'
                 }
               ]
             },

@@ -15,6 +15,10 @@ angular.module('app')
           return $http.get(base + Session.getUserId());
         },
 
+        checkSignedWaiver: function () {
+          return $http.get(base + Session.getUserId() + '/signedwaiver');
+        },
+
         get: function (id) {
           return $http.get(base + id);
         },
