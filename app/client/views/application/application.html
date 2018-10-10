@@ -137,8 +137,12 @@
             <input type="text" name="website" placeholder="https://foobar.me" ng-model="user.profile.website">
           </div>
 
+          <br>
+          <div class="divided title" ng-if="isVandyStudent">Volunteering</div>
+          <br>
+
           <div class="field" ng-if="isVandyStudent">
-            <label> Volunteering </label>
+            <label> Become a volunteer! (optional) </label>
             <p>
               Get a behind the scenes look at the event! Help with tasks like checkin, food, swag, and more. Vanderbilt students only.
             </p>
@@ -148,10 +152,14 @@
             </div>
           </div>
 
+          <br>
+          <div class="divided title">Mentoring</div>
+          <br>
+
           <div class="field">
-            <label> Mentoring </label>
+            <label> Become a mentor! (optional) </label>
             <p>
-              Become a mentor! Help out other hackers!
+              Have some sweet skills and want to be available to field some technical questions from hackers? Become a mentor!
             </p>
             <div class="ui checkbox">
               <input type="checkbox" name="mentor" ng-model="user.profile.mentor">
