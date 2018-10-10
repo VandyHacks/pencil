@@ -18,7 +18,7 @@
             <p>
               We are required to collect phone numbers of attendees in case of an emergency.
             </p>
-            <input type="tel" name="phone" ng-model="user.confirmation.phoneNumber" placeholder="(123) 555-1234" required>
+            <input id="phonenum" type="tel" name="phone" ng-model="user.confirmation.phoneNumber" placeholder="(123) 555-1234" maxlength="20" required>
           </div>
 
           <div class="field">
@@ -149,7 +149,7 @@
             <p>
               If there's anything else you need to let us know, tell us here!
             </p>
-            <textarea name="notes" ng-model="user.confirmation.notes">
+            <textarea name="notes" ng-model="user.confirmation.notes" maxlength="500">
             </textarea>
           </div>
 

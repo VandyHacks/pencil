@@ -57,6 +57,23 @@ angular.module('app')
         });
         confirmation.dietaryRestrictions = drs;
 
+        function normalizePhoneNumber(phoneNumberString) {
+          const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+          const match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+          if (match) {
+            const intlCode = (match[1] ? '+1 ' : '');
+            return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+          }
+          return null;
+        }
+        const normalizedNum = normalizePhoneNumber($('#phonenum')[0].value.trim());
+        // quick valid phonenum check: correct # of digits, contains no letters
+        if (!normalizedNum) {
+          sweetAlert('Uh oh!', 'Please enter a valid phone number.', 'error');
+          return;
+        }
+        console.log(normalizedNum);
+
         // make sure they even clicked the link (reduces Redcap API requests)
         if (!$scope.waiverLinkClicked) {
           sweetAlert('Uh oh!', 'Please sign the waiver form!', 'error');
@@ -86,8 +103,8 @@ angular.module('app')
               });
           })
           .error((res) => {
-            // if didn't sign form
-            sweetAlert('Uh oh!', 'Please sign the waiver form completely.', 'error');
+            // if didn't sign form or filled out wrongly
+            sweetAlert('Uh oh!', 'Please sign the waiver form completely and use your school email.', 'error');
           });
       }
 
@@ -174,8 +191,8 @@ angular.module('app')
               rules: [
                 {
                   type: 'maxLength',
-                  value: 2500,
-                  prompt: 'Your additional notes cannot be longer than 2500 characters.'
+                  value: 500,
+                  prompt: 'Your additional notes cannot be longer than 500 characters.'
                 }
               ]
             }
