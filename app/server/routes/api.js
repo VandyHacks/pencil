@@ -229,9 +229,16 @@ module.exports = function (router) {
         .then(res => res.json())
         .then(data => {
           const users = data.filter(e => e.email === email && e.signature_field.length > 0);
-          defaultResponse(req, res)(null, users);
+          if (users.length > 0) {
+            defaultResponse(req, res)(null, users);
+          } else {
+            defaultResponse(req, res)({ error: 'No matching signed waivers found.' }, null);
+          }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+          defaultResponse(req, res)(err, null);
+        });
     });
   });
 

@@ -17,7 +17,8 @@ angular.module('app')
 
       _setupForm();
 
-      $scope.fileName = user._id + '_' + (user.profile.name || '').split(' ').join('_');
+      const name = user.profile && user.profile.name ? user.profile.name : '';
+      $scope.fileName = user._id + '_' + name.split(' ').join('_');
 
       $scope.waiverLinkClicked = false;
 
