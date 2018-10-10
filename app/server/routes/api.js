@@ -396,15 +396,6 @@ module.exports = function (router) {
   });
 
   /**
-   * Check in a user. ADMIN ONLY
-   */
-
-  router.post('/users/:id/sendCode', isAdmin, (req, res) => {
-    const id = req.params.id;
-    UserController.sendCodeEmailById(id, defaultResponse(req, res));
-  });
-
-  /**
    * Associates a NFC code for a User. ADMIN ONLY
    * {
    *   user: [String]

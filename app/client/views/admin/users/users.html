@@ -117,7 +117,7 @@
             <th>Volunteer</th>
             <th>$</th>
             <th>App</th>
-            <th>Actions</th>
+            <th>Accept</th>
             <th>E-mail</th>
           </tr>
         </thead>
@@ -224,13 +224,6 @@
 
             <td
               class="right aligned collapsing">
-
-              <button
-                class="ui circular mini basic green icon button"
-                ng-disabled="!user.status.completedProfile || !user.status.admitted"
-                ng-click="sendCode($event, user, $index)">
-                <i class="send outline icon"></i>
-              </button>
 
               <button
                 class="accept ui circular mini basic green icon button"
