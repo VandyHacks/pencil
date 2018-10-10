@@ -64,6 +64,11 @@ const profile = {
     required: false,
     default: false
   },
+  mentor: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   signatureCodeOfConduct: String
 
 };

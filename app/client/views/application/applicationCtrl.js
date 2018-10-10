@@ -324,12 +324,11 @@ angular.module('app')
             },
             volunteer: {
               identifier: 'volunteer',
-              rules: [
-                {
-                  type: 'checked',
-                  prompt: 'You have volunteered.'
-                }
-              ]
+              rules: []
+            },
+            mentor: {
+              identifier: 'mentor',
+              rules: []
             }
           }
         });

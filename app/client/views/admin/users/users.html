@@ -115,6 +115,7 @@
             <th>Grad</th>
             <th>V/S/A/C</th>
             <th>Volunteer</th>
+            <th>Mentor</th>
             <th>$</th>
             <th>App</th>
             <th>Actions</th>
@@ -195,6 +196,14 @@
             <td class="collapsing">
               <i
                 ng-if="user.profile.volunteer"
+                class="circle icon">
+              </i>
+            </td>
+
+            <!-- Mentor -->
+            <td class="collapsing">
+              <i
+                ng-if="user.profile.mentor"
                 class="circle icon">
               </i>
             </td>
