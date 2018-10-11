@@ -31,8 +31,6 @@ angular.module('app')
       populateSchools();
       _setupForm();
 
-      // setInterval(console.log('100 sec'), 1000);
-
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
       // -------------------------------
