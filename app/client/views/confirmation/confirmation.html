@@ -18,7 +18,7 @@
             <p>
               We are required to collect phone numbers of attendees in case of an emergency.
             </p>
-            <input type="tel" name="phone" ng-model="user.confirmation.phoneNumber" placeholder="(123) 555-1234" required>
+            <input id="phonenum" type="tel" name="phone" ng-model="user.confirmation.phoneNumber" placeholder="(123) 555-1234" maxlength="20" required>
           </div>
 
           <div class="field">
@@ -64,6 +64,7 @@
           </div>
 
           <br>
+          <br>
           <div class="divided title">Travel</div>
           <br>
 
@@ -72,13 +73,12 @@
               Our reimbursement policy is as follows:
             </p>
             <ul>
-              <li> Bus: We will be offering buses to Purdue, University of Illinois at Urbana-Champaign, Georgia Institute of
-                Technology and University of Florida. We may offer some sort of bussing to the Chicagoland area, pending
-                application numbers. If you can find your own way to any of the stops, you can board the bus. We will require
+              <li> Bus: We will be offering buses to Illinois Institute of Technology, Purdue, University of Illinois at Urbana-Champaign, Georgia Institute of
+                Technology, University of Florida, and Washington University in St. Louis. If you can find your own way to any of the stops, you can board the bus. We will require
                 reservation of bus seats ahead of time (this will be released prior to the event). </li>
               <li> Car: We will generally reimburse all gas costs for cars containing <strong>3 or more</strong> hackers. We may
                 offer partial reimbursement to cars containing fewer hackers. </li>
-              <li> Flight: We will generally not be reimbursing flights. However, we may consider <em>on a case by case basis</em>                small reimbursements (~$50) similar to the reimbursement hackers that drive would receive. Contact us for
+              <li> Flight & Greyhounds: Reimbursement is generally $75-$100, and  However, we may consider <em>on a case by case basis</em>                small reimbursements (~$50) similar to the reimbursement hackers that drive would receive. Contact us for
                 more information. </li>
             </ul>
             <p>
@@ -122,6 +122,23 @@
           </div>
 
           <br>
+          <br>
+          <div class="divided title">Waiver</div>
+          <br>
+          <div class="field">
+            
+            <label>We require that all attendees sign the liability waiver.</label>
+            <p>
+            Please sign it at <a id="waiverlink" target="_blank" href="https://redcap.vanderbilt.edu/surveys/?s=F973TXHXRC">https://redcap.vanderbilt.edu/surveys/?s=F973TXHXRC</a>.
+            <p>
+            <div class="ui checkbox">
+              <input type="checkbox" name="waiversigned" ng-model="waiversigned" required>
+              <label> I hereby confirm that I have signed the above waiver form. </label>
+            </div>
+          </div>
+
+          <br>
+          <br>
           <div class="divided title">Everything Else</div>
           <br>
 
@@ -132,7 +149,7 @@
             <p>
               If there's anything else you need to let us know, tell us here!
             </p>
-            <textarea name="notes" ng-model="user.confirmation.notes">
+            <textarea name="notes" ng-model="user.confirmation.notes" maxlength="500">
             </textarea>
           </div>
 

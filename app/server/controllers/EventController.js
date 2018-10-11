@@ -51,7 +51,7 @@ EventController.createEvent = (name, open, eventType, callback) => {
  * @param  {String}   attendee User id
  * @param  {Function} callback args(err, event)
  */
-EventController.addAttendee = function (id, attendee, callback) {
+EventController.addAttendee = function (event, attendee, callback) {
   UserController.getById(attendee, (err, user) => {
     if (err) {
       return callback(err);
@@ -62,10 +62,10 @@ EventController.addAttendee = function (id, attendee, callback) {
     }
 
     Event.update({
-      _id: id, open: true, 'attendees.attendee': { $ne: attendee }
+      _id: event, open: true
     }, {
-      $addToSet: {
-        attendees: { attendee } // unique? maybe
+      $push: {
+        attendees: { attendee }
       }
     }, {
       new: true
@@ -74,11 +74,17 @@ EventController.addAttendee = function (id, attendee, callback) {
   });
 };
 
+/**
+ * Set user as not attending the event
+ * @param  {String}   id       Event id
+ * @param  {String}   attendee User id
+ * @param  {Function} callback args(err, event)
+ */
 EventController.removeAttendee = (event, attendee, callback) => {
   Event.update({
     _id: event
   }, {
-    $pull: {
+    $pull: { // if no such attendee, this does nothing
       attendees: { attendee }
     }
   },
@@ -153,7 +159,7 @@ EventController.getAttendeeDump = (id, callback) => {
     .exec(callback);
 };
 
-EventController.admittedToEvent = (user, event, callback) => {
+EventController.admittedToEvent = (event, user, callback) => {
   Event.findById(event, (err, event) => {
     if (err) {
       return callback(err);

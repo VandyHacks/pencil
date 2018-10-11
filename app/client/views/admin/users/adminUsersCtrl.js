@@ -27,8 +27,12 @@ angular.module('app')
         $stateParams.queryText = queryText;
         refreshPage();
       });
-      $scope.$watch('showUnsubmitted', (showUnsubmitted) => {
-        $stateParams.showUnsubmitted = showUnsubmitted;
+      $scope.$watch('showUnsubmitted', (val) => {
+        $stateParams.showUnsubmitted = val;
+        refreshPage();
+      });
+      $scope.$watch('showAdmitted', (val) => {
+        $stateParams.showAdmitted = val;
         refreshPage();
       });
       $scope.$watch('pageNum', (pageNum) => {
@@ -45,8 +49,9 @@ angular.module('app')
           $scope.pages = data.totalPages;
         }
         const showUnsubmitted = $stateParams.showUnsubmitted || false;
+        const showAdmitted = $stateParams.showAdmitted || false;
         UserService
-          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText, showUnsubmitted)
+          .getPage($stateParams.page, $stateParams.size, $stateParams.queryText, showUnsubmitted, showAdmitted)
           .success((data) => {
             updatePageData(data);
           });
@@ -69,38 +74,6 @@ angular.module('app')
         });
       };
 
-      $scope.toggleCheckIn = function ($event, user, index) {
-        $event.stopPropagation();
-
-        if (!user.status.checkedIn) {
-          swal({
-            title: 'Whoa, wait a minute!',
-            text: 'You are about to check in ' + user.profile.name + '!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, check them in.',
-            closeOnConfirm: false
-          },
-          () => {
-            UserService
-              .checkIn(user._id)
-              .success((user) => {
-                $scope.users[index] = user;
-                swal('Accepted', user.profile.name + ' has been checked in.', 'success');
-              });
-          }
-          );
-        } else {
-          UserService
-            .checkOut(user._id)
-            .success((user) => {
-              $scope.users[index] = user;
-              swal('Accepted', user.profile.name + ' has been checked out.', 'success');
-            });
-        }
-      };
-
       $scope.acceptUser = function ($event, user, index) {
         $event.stopPropagation();
 
@@ -113,25 +86,15 @@ angular.module('app')
           confirmButtonText: 'Yes, accept them.',
           closeOnConfirm: false
         }, () => {
-          swal({
-            title: 'Are you sure?',
-            text: 'This action cannot be undone, and will be logged.',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, accept this user.',
-            closeOnConfirm: false
-          }, () => {
-            UserService
-              .admitUser(user._id)
-              .success((user) => {
-                $scope.users[index] = user;
-                swal('Accepted', user.profile.name + ' has been admitted.', 'success');
-              })
-              .error(() => {
-                swal('Error', 'User has not submitted an application.', 'error');
-              });
-          });
+          UserService
+            .admitUser(user._id)
+            .success((user) => {
+              $scope.users[index] = user;
+              swal('Accepted', user.profile.name + ' has been admitted.', 'success');
+            })
+            .error(() => {
+              swal('Error', 'User has not submitted an application.', 'error');
+            });
         });
       };
 
@@ -179,27 +142,6 @@ angular.module('app')
         });
       };
 
-      $scope.sendQrCode = function ($event, user, index) {
-        $event.stopPropagation();
-
-        swal({
-          title: 'Whoa, wait a minute!',
-          text: 'You are about to send a QR code to  ' + user.profile.name + '!',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#DD6B55',
-          confirmButtonText: 'Yes, send a code.',
-          closeOnConfirm: false
-        }, () => {
-          UserService
-            .sendQrCode(user._id)
-            .success((user) => {
-              $scope.users[index] = user;
-              swal('Sent', user.profile.name + ' has been sent a QR code.', 'success');
-            });
-        });
-      };
-
       function formatTime(time) {
         if (time) {
           return moment(time).format('MMMM Do YYYY, h:mm:ss a');
@@ -240,9 +182,6 @@ angular.module('app')
               }, {
                 name: 'Confirm By',
                 value: formatTime(user.status.confirmBy) || 'N/A'
-              }, {
-                name: 'Checked In',
-                value: formatTime(user.status.checkInTime) || 'N/A'
               }, {
                 name: 'Email',
                 value: user.email

@@ -1,6 +1,6 @@
 const corsOptions = {
   origin: function (origin, callback) {
-    if (origin === undefined || origin.endsWith('.vandyhacks.org') || origin.endsWith('connect-backend--vhf2018-qr-scanner.netlify.com')) {
+    if (origin === undefined || origin.endsWith('.vandyhacks.org')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

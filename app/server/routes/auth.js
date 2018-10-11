@@ -56,7 +56,7 @@ module.exports = function (router) {
 
   /**
    * Register a user with a username (email) and password.
-   * If it already exists, then don't register, duh.
+   * If it already exists, then don't register
    *
    * body {
    *  email: email,

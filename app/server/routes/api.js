@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 const UserController = require('../controllers/UserController');
 const EventController = require('../controllers/EventController');
 const SettingsController = require('../controllers/SettingsController');
@@ -6,6 +7,10 @@ const multer = require('multer');
 const uploadHelper = require('../services/uploadhelper');
 const cors = require('cors');
 const corsOpts = require('./cors');
+const fetch = require('node-fetch');
+const querystring = require('querystring');
+
+const REDCAP_API_TOKEN = process.env.REDCAP_API_TOKEN;
 
 module.exports = function (router) {
   function getToken(req) {
@@ -37,7 +42,7 @@ module.exports = function (router) {
 
   /**
    * Using event secret provided, check that secret is
-   * the correct one (for qr-scanner)
+   * the correct one (for nfc-scanner)
    */
   function isValidSecret(req, res, next) {
     if (!req.header('x-event-secret')) {
@@ -123,13 +128,13 @@ module.exports = function (router) {
     const query = req.query;
     const resumeURL = 'https://s3.amazonaws.com/' + process.env.BUCKET_NAME;
 
-    const addFields = function (err, data) {
+    const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
         return;
       }
-      data = JSON.parse(JSON.stringify(data));
-      data.users.forEach(user => {
+      data = await JSON.parse(JSON.stringify(data));
+      await data.users.forEach(user => {
         if (user.profile.lastResumeName) {
           user.profile.resumePath = resumeURL + '/' + user.profile.lastResumeName;
         }
@@ -140,8 +145,42 @@ module.exports = function (router) {
     if (query.page && query.size) {
       UserController.getPage(query, addFields);
     } else {
-      UserController.getAll(addFields);
+      // should realistically never happen
+      UserController.getAll(false, addFields);
     }
+  });
+
+  /**
+   * [ADMIN ONLY]
+   *
+   * GET - Get all users, with condensed information
+   * Used for NFC front-end site, to reduce frequent server requests
+   */
+  router.options('/users/condensed', cors(corsOpts)); // for CORS preflight
+  router.get('/users/condensed', cors(corsOpts), isValidSecret, (req, res) => {
+    const addFields = async function (err, data) {
+      if (err) {
+        defaultResponse(req, res)(err);
+        return;
+      }
+      data = await JSON.parse(JSON.stringify(data));
+      if (!data || !data.users) {
+        defaultResponse(req, res)({ message: 'No users found.' });
+        return;
+      }
+      const usermap = (arr) => {
+        return arr.map(user => ({
+          name: user.profile.name || 'Unknown',
+          school: user.profile.school || 'Unknown',
+          email: user.email || 'Unknown',
+          id: user.id
+        }));
+      };
+      data.users = await usermap(data.users);
+      defaultResponse(req, res)(null, data);
+    };
+    // get all submitted users
+    UserController.getAll(true, addFields);
   });
 
   /**
@@ -159,6 +198,48 @@ module.exports = function (router) {
   router.get('/users/:id', isOwnerOrAdmin, (req, res) => {
     const id = req.params.id;
     UserController.getById(id, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * GET - Checks whether a specific user signed the Redcap waiver form.
+   */
+  router.get('/users/:id/signedwaiver', (req, res) => {
+    const id = req.params.id;
+    // find user
+    UserController.getById(id, (err, data) => {
+      if (err) {
+        defaultResponse(req, res)(err, null);
+      }
+      // get email
+      const email = data.email;
+      const params = {
+        token: REDCAP_API_TOKEN,
+        content: 'record',
+        format: 'json',
+        type: 'flat'
+      };
+      // check that they actually signed
+      fetch('https://redcap.vanderbilt.edu/api/', {
+        method: 'POST',
+        body: querystring.stringify(params),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      })
+        .then(res => res.json())
+        .then(data => {
+          const users = data.filter(e => e.email === email && e.signature_field.length > 0);
+          if (users.length > 0) {
+            defaultResponse(req, res)(null, users);
+          } else {
+            defaultResponse(req, res)({ error: 'No matching signed waivers found.' }, null);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          defaultResponse(req, res)(err, null);
+        });
+    });
   });
 
   /**
@@ -297,29 +378,7 @@ module.exports = function (router) {
   });
 
   /**
-   * Update a user's password.
-   * {
-   *   oldPassword: STRING,
-   *   newPassword: STRING
-   * }
-   */
-  router.put('/users/:id/password', isOwnerOrAdmin, (req, res) => {
-    return res.status(304).send();
-    // Currently disable.
-    // var id = req.params.id;
-    // var old = req.body.oldPassword;
-    // var pass = req.body.newPassword;
-
-    // UserController.changePassword(id, old, pass, function(err, user){
-    //   if (err || !user){
-    //     return res.status(400).send(err);
-    //   }
-    //   return res.json(user);
-    // });
-  });
-
-  /**
-   * Admit a user. ADMIN ONLY, DUH
+   * Admit a user. ADMIN ONLY
    *
    * Also attaches the user who did the admitting, for liabaility.
    */
@@ -337,40 +396,18 @@ module.exports = function (router) {
   });
 
   /**
-   * Check in a user. ADMIN ONLY, DUH
-   */
-  router.post('/users/:id/checkin', isAdmin, (req, res) => {
-    const id = req.params.id;
-    const user = req.user;
-    UserController.checkInById(id, user, defaultResponse(req, res));
-  });
-
-  router.post('/users/:id/sendqrcode', isAdmin, (req, res) => {
-    const id = req.params.id;
-    UserController.sendQrCodeEmailById(id, defaultResponse(req, res));
-  });
-
-  /**
-   * Check in a user. ADMIN ONLY, DUH
-   */
-  router.post('/users/:id/checkout', isAdmin, (req, res) => {
-    const id = req.params.id;
-    const user = req.user;
-    UserController.checkOutById(id, user, defaultResponse(req, res));
-  });
-
-  /**
-   * Set wristband code for User
+   * Associates a NFC code for a User. ADMIN ONLY
    * {
    *   user: [String]
    * }
    */
-  router.put('/users/:id/wristband', isAdmin, (req, res) => {
+  router.options('/users/:id/NFC', cors(corsOpts)); // for CORS preflight
+  router.put('/users/:id/NFC', cors(corsOpts), isValidSecret, (req, res) => {
     const id = req.params.id;
     const code = req.body.code;
 
     // Should we record what admin set the code?
-    UserController.setWristband(id, code, defaultResponse(req, res));
+    UserController.setNFC(id, code, defaultResponse(req, res));
   });
 
   // ---------------------------------------------
@@ -497,14 +534,14 @@ module.exports = function (router) {
   /**
    * Get events list (public)
    */
-  router.get('/events', cors({ origin: false }), (req, res) => {
+  router.get('/events', cors({ origin: true }), (req, res) => {
     EventController.getEvents(defaultResponse(req, res));
   });
 
   /**
    * Get event types (public)
    */
-  router.get('/events/types', cors({ origin: false }), (req, res) => {
+  router.get('/events/types', cors({ origin: true }), (req, res) => {
     EventController.getTypes(defaultResponse(req, res));
   });
 
@@ -524,31 +561,48 @@ module.exports = function (router) {
     EventController.getAttendeeDump(id, defaultResponse(req, res));
   });
 
+  function doEventAction(eventid, attendeeid, idtype, action, responseCallback) {
+    // type is either 'id' or 'nfc', default is 'id'
+    const getIDAsync = idtype === 'nfc'
+      ? promisify(UserController.getIDfromNFC)(attendeeid)
+      : Promise.resolve({ id: attendeeid });
+
+    getIDAsync
+      .then(data => {
+        console.log(data);
+        attendeeid = data.id;
+        action(eventid, attendeeid, responseCallback);
+      })
+      .catch(err => {
+        responseCallback(err, null);
+      });
+  }
+
   /**
    * Add user to event
    */
-  router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts));
+  router.options('/events/:eventid/admit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const event = req.params.eventid;
-    const attendee = req.params.attendeeid;
-
-    EventController.addAttendee(event, attendee, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.addAttendee, defaultResponse(req, res));
   });
 
-  router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts));
+  /**
+   * Remove user from event
+   */
+  router.options('/events/:eventid/unadmit/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/unadmit/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const event = req.params.eventid;
-    const attendee = req.params.attendeeid;
-
-    EventController.removeAttendee(event, attendee, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.removeAttendee, defaultResponse(req, res));
   });
 
-  router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts));
+  /**
+   * Check whether a given user is admitted an event
+   */
+  router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts)); // for CORS preflight
   router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const user = req.params.attendeeid;
-    const event = req.params.eventid;
-
-    EventController.admittedToEvent(user, event, defaultResponse(req, res));
+    const { eventid, attendeeid } = req.params;
+    doEventAction(eventid, attendeeid, req.query.type, EventController.admittedToEvent, defaultResponse(req, res));
   });
 
   /**

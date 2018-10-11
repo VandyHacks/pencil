@@ -43,10 +43,6 @@
         background: $status-confirmed-color;
       }
 
-      &.checked.in {
-        background: $status-checkedin-color;
-      }
-
       &.declined {
         background: $status-declined-color;
       }
