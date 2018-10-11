@@ -98,15 +98,10 @@ angular.module('app')
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .success((data) => {
-            sweetAlert({
-              title: 'Awesome!',
-              text: 'Your application has been automatically saved.',
-              type: 'success',
-              confirmButtonColor: sweetAlertButtonColor
-            });
+            console.log('Application automatically saved!');
           })
           .error((res) => {
-            sweetAlert('Uh oh!', 'Something went wrong.', 'error');
+            console.log('Error!');
           });
       }
 
