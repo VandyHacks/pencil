@@ -58,7 +58,7 @@ angular.module('app')
 
       $scope.ethnicities = ethnicities;
 
-      function _updateUser(e) {
+      function _save(e) {
         // Get the ethnicities as an array
         const ethnicities = [];
         Object.keys($scope.ethnicities).forEach((key) => {
@@ -71,7 +71,10 @@ angular.module('app')
         // Jank way to do data binding for semantic ui dropdown
         $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
         if (!$scope.autoFilledSchool) $scope.user.profile.school = $('#schoolDropdown').dropdown('get value');
+      }
 
+      function _updateUser(e) {
+        _save();
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .success((data) => {
@@ -90,20 +93,8 @@ angular.module('app')
       }
 
       function _autosaveUser(e) {
-        // Get the ethnicities as an array
-        const ethnicities = [];
-        Object.keys($scope.ethnicities).forEach((key) => {
-          if ($scope.ethnicities[key]) {
-            ethnicities.push(key);
-          }
-        });
-        $scope.user.profile.ethnicities = ethnicities;
+        _save();
         $scope.user.profile.manualSubmit = false;
-
-        // Jank way to do data binding for semantic ui dropdown
-        $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
-        if (!$scope.autoFilledSchool) $scope.user.profile.school = $('#schoolDropdown').dropdown('get value');
-
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .success((data) => {
