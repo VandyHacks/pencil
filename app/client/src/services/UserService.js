@@ -15,6 +15,10 @@ angular.module('app')
           return $http.get(base + Session.getUserId());
         },
 
+        checkSignedWaiver: function () {
+          return $http.get(base + Session.getUserId() + '/signedwaiver');
+        },
+
         get: function (id) {
           return $http.get(base + id);
         },
@@ -23,7 +27,7 @@ angular.module('app')
           return $http.get(base);
         },
 
-        getPage: function (page, size, text, showUnsubmitted) {
+        getPage: function (page, size, text, showUnsubmitted, showAdmitted) {
           if (!page || page < 0) {
             page = 0;
           }
@@ -34,6 +38,7 @@ angular.module('app')
             {
               text,
               showUnsubmitted,
+              showAdmitted,
               page,
               size
             })
@@ -93,20 +98,7 @@ angular.module('app')
 
         admitAll: function (querytext) {
           return $http.post(base + 'admitall', JSON.stringify({ querytext: querytext }));
-        },
-
-        checkIn: function (id) {
-          return $http.post(base + id + '/checkin');
-        },
-
-        sendQrCode: function (id) {
-          return $http.post(base + id + '/sendqrcode');
-        },
-
-        checkOut: function (id) {
-          return $http.post(base + id + '/checkout');
         }
-
       };
     }
   ]);

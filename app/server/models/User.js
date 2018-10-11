@@ -188,10 +188,9 @@ const schema = new mongoose.Schema({
     max: 140
   },
 
-  /*    No more wristband code :(  */
-  // wristbandCode: {
-  //   type: String
-  // },
+  NFC_codes: {
+    type: [String]
+  },
 
   verified: {
     type: Boolean,
@@ -353,10 +352,6 @@ schema.statics.validateProfile = function (profile, cb) {
  * This provides a verbose explanation of their furthest state.
  */
 schema.virtual('status.name').get(function () {
-  if (this.status.checkedIn) {
-    return 'checked in';
-  }
-
   if (this.status.declined) {
     return 'declined';
   }

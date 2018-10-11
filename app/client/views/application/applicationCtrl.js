@@ -31,6 +31,8 @@ angular.module('app')
       populateSchools();
       _setupForm();
 
+      // setInterval(console.log('100 sec'), 1000);
+
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
       // -------------------------------
@@ -82,6 +84,36 @@ angular.module('app')
               confirmButtonColor: sweetAlertButtonColor
             }, () => {
               $state.go('app.dashboard');
+            });
+          })
+          .error((res) => {
+            sweetAlert('Uh oh!', 'Something went wrong.', 'error');
+          });
+      }
+
+      function _autosaveUser(e) {
+        // Get the ethnicities as an array
+        const ethnicities = [];
+        Object.keys($scope.ethnicities).forEach((key) => {
+          if ($scope.ethnicities[key]) {
+            ethnicities.push(key);
+          }
+        });
+        $scope.user.profile.ethnicities = ethnicities;
+        $scope.user.profile.manualSubmit = false;
+
+        // Jank way to do data binding for semantic ui dropdown
+        $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
+        if (!$scope.autoFilledSchool) $scope.user.profile.school = $('#schoolDropdown').dropdown('get value');
+
+        UserService
+          .updateProfile(Session.getUserId(), $scope.user.profile)
+          .success((data) => {
+            sweetAlert({
+              title: 'Awesome!',
+              text: 'Your application has been automatically saved.',
+              type: 'success',
+              confirmButtonColor: sweetAlertButtonColor
             });
           })
           .error((res) => {
@@ -171,6 +203,19 @@ angular.module('app')
           }
         });
         updateDropzoneText(defaultMsg);
+
+        $scope.callAtInterval = function () {
+          _autosaveUser();
+          $scope.user.profile.manualSubmit = false;
+        };
+
+        const save = setInterval(() => {
+          if ($scope.user.profile.manualSubmit || $scope.user.status.completedProfile) {
+            clearInterval(save);
+          } else {
+            $scope.callAtInterval();
+          }
+        }, 30000);
 
         // custom form validation rule
         $.fn.form.settings.rules.ethnicityChecked = value => Object.values($scope.ethnicities).some(ethnicity => {
@@ -338,6 +383,7 @@ angular.module('app')
       $scope.submitForm = function () {
         $('.ui.form').form('validate form');
         if ($('.ui.form').form('is valid')) {
+          $scope.user.profile.manualSubmit = true;
           _updateUser();
         }
       };

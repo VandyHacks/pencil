@@ -2,7 +2,6 @@ const User = require('../models/User');
 const Settings = require('../models/Settings');
 const Mailer = require('../services/email');
 const Stats = require('../services/stats');
-const sendQrCode = require('../services/send-qr-code');
 
 const validator = require('validator');
 const moment = require('moment');
@@ -184,6 +183,35 @@ UserController.createUser = function (email, password, callback) {
   });
 };
 
+/**
+ * Returns the ID of the user corresponding to an NFC code
+ * @param {String} nfcCode
+ * @param {Function} callback
+ */
+UserController.getIDfromNFC = function (nfcCode, callback) {
+  // the find query finds all users that has ever had that nfc code
+  return User.find({ NFC_codes: nfcCode }, (err, data) => {
+    if (err) {
+      return callback(err, null);
+    }
+    if (!data) {
+      return callback({ error: 'No users found.' }, null);
+    }
+    // actually find who had that wristband last (currently)
+    const users = data.filter(user => user.NFC_codes[user.NFC_codes.length - 1] === nfcCode);
+    if (users.length === 0) {
+      return callback({ error: 'No users found.' }, null);
+    }
+    const result = { id: users[0].id };
+    return callback(err, result);
+  });
+};
+
+/**
+ * Returns a user given an auth token
+ * @param {String} token
+ * @param {Function} callback
+ */
 UserController.getByToken = function (token, callback) {
   User.getByToken(token, callback);
 };
@@ -191,10 +219,18 @@ UserController.getByToken = function (token, callback) {
 /**
  * Get all users.
  * It's going to be a lot of data, so make sure you want to do this.
+ * @param {Boolean} onlySubmitted
  * @param  {Function} callback args(err, user)
  */
-UserController.getAll = function (callback) {
-  User.find({}, callback);
+UserController.getAll = function (onlySubmitted, callback) {
+  let findQuery = {};
+  if (onlySubmitted === true) {
+    findQuery = { 'status.completedProfile': true };
+  }
+  return User.find(findQuery, (err, data) => {
+    const result = { users: data };
+    return callback(err, result);
+  });
 };
 
 /**
@@ -206,7 +242,7 @@ UserController.getAll = function (callback) {
 UserController.getPage = function (query, callback) {
   const page = query.page;
   const size = parseInt(query.size);
-  const findQuery = this.makeQuery(query.text, query.showUnsubmitted);
+  const findQuery = this.makeQuery(query.text, query.showUnsubmitted, query.showAdmitted);
 
   User
     .find(findQuery)
@@ -237,7 +273,7 @@ UserController.getPage = function (query, callback) {
 };
 
 // Makes a query with a search text
-UserController.makeQuery = function (searchText, showUnsubmitted) {
+UserController.makeQuery = function (searchText, showUnsubmitted, showAdmitted) {
   const findQuery = { $and: [{}] };
   if (searchText && searchText.length > 0) {
     const queries = [];
@@ -251,6 +287,9 @@ UserController.makeQuery = function (searchText, showUnsubmitted) {
   }
   if (showUnsubmitted === 'false') {
     findQuery.$and.push({ 'status.completedProfile': true });
+  }
+  if (showAdmitted === 'false') {
+    findQuery.$and.push({ 'status.admitted': false });
   }
   return findQuery;
 };
@@ -334,7 +373,7 @@ UserController.updateProfileById = function (id, profile, callback) {
       $set: {
         'lastUpdated': Date.now(),
         'profile': profile,
-        'status.completedProfile': true
+        'status.completedProfile': profile.manualSubmit
       }
     },
     {
@@ -397,20 +436,6 @@ UserController.updateLastResumeNameById = function (id, newResumeName, callback)
 };
 
 /**
- * Send a user the QR code email
- */
-UserController.sendQrCodeEmailById = function (id, callback) {
-  User.findById(id, (err, user) => {
-    if (err || !user) {
-      return callback(err);
-    }
-
-    sendQrCode(user.email, id);
-    callback(null, user);
-  });
-};
-
-/**
  * Update a user's confirmation object, given an id and a confirmation.
  *
  * @param  {String}   id            Id of the user
@@ -449,7 +474,6 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
     },
     (err, user) => {
       if (err) callback(err);
-      sendQrCode(user.email, id);
       callback(null, user);
     });
   });
@@ -703,47 +727,6 @@ UserController.sendPasswordResetEmail = function (email, callback) {
 };
 
 /**
- * UNUSED
- *
- * Change a user's password, given their old password.
- * @param  {[type]}   id          User id
- * @param  {[type]}   oldPassword old password
- * @param  {[type]}   newPassword new password
- * @param  {Function} callback    args(err, user)
- */
-UserController.changePassword = function (id, oldPassword, newPassword, callback) {
-  if (!id || !oldPassword || !newPassword) {
-    return callback({
-      message: 'Bad arguments.'
-    });
-  }
-
-  User
-    .findById(id)
-    .select('password')
-    .exec((err, user) => {
-      if (err) callback(err);
-
-      if (user.checkPassword(oldPassword)) {
-        User.findOneAndUpdate({
-          _id: id
-        }, {
-          $set: {
-            password: User.generateHash(newPassword)
-          }
-        }, {
-          new: true
-        },
-        callback);
-      } else {
-        return callback({
-          message: 'Incorrect password'
-        });
-      }
-    });
-};
-
-/**
  * Reset a user's password to a given password, given a authentication token.
  * @param  {String}   token       Authentication token
  * @param  {String}   password    New Password
@@ -823,51 +806,6 @@ UserController.admitUser = function (id, user, callback) {
 
 /**
  * [ADMIN ONLY]
- *
- * Check in a user.
- * @param  {String}   userId   User id of the user getting checked in.
- * @param  {String}   user     User checking in this person.
- * @param  {Function} callback args(err, user)
- */
-UserController.checkInById = function (id, user, callback) {
-  User.findOneAndUpdate({
-    _id: id,
-    verified: true
-  }, {
-    $set: {
-      'status.checkedIn': true,
-      'status.checkInTime': Date.now()
-    }
-  }, {
-    new: true
-  },
-  callback);
-};
-
-/**
- * [ADMIN ONLY]
- *
- * Check out a user.
- * @param  {String}   userId   User id of the user getting checked out.
- * @param  {String}   user     User checking in this person.
- * @param  {Function} callback args(err, user)
- */
-UserController.checkOutById = function (id, user, callback) {
-  User.findOneAndUpdate({
-    _id: id,
-    verified: true
-  }, {
-    $set: {
-      'status.checkedIn': false
-    }
-  }, {
-    new: true
-  },
-  callback);
-};
-
-/**
- * [ADMIN ONLY]
  */
 
 UserController.getStats = function (callback) {
@@ -877,15 +815,15 @@ UserController.getStats = function (callback) {
 /**
  * [ADMIN ONLY]
  *
- * Given a wristband code and id, set wristband code for user.
+ * Associates a NFC code with user id
  * @param  {String}   id       Id of the user joining
- * @param  {String}   code     Wristband code
+ * @param  {String}   code     NFC code
  * @param  {Function} callback args(err, users)
  */
-UserController.setWristband = function (id, code, callback) {
+UserController.setNFC = function (id, code, callback) {
   if (!code) {
     return callback({
-      message: 'Please provide a wristband code.'
+      message: 'Please provide a NFC code.'
     });
   }
 
@@ -899,8 +837,8 @@ UserController.setWristband = function (id, code, callback) {
     _id: id,
     verified: true
   }, {
-    $set: {
-      wristbandCode: code
+    $push: {
+      NFC_codes: code
     }
   }, {
     new: true
