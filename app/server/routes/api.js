@@ -401,6 +401,7 @@ module.exports = function (router) {
    *   user: [String]
    * }
    */
+  router.options('/users/:id/NFC', cors(corsOpts)); // for CORS preflight
   router.put('/users/:id/NFC', cors(corsOpts), isValidSecret, (req, res) => {
     const id = req.params.id;
     const code = req.body.code;
