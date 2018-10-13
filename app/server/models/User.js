@@ -87,6 +87,8 @@ const confirmation = {
     country: String
   },
 
+  lightningTalker: Boolean,
+
   notes: {
     type: String,
     min: 0,

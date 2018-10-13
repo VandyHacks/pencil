@@ -114,8 +114,9 @@
             <th>School</th>
             <th>Grad</th>
             <th>V/S/A/C</th>
-            <th>Volunteer</th>
+            <th>Vol.</th>
             <th>$</th>
+            <th>L.Talk</th>
             <th>App</th>
             <th>Accept</th>
             <th>E-mail</th>
@@ -209,6 +210,16 @@
                 <i
                   ng-if="user.confirmation.needsReimbursement && user.status.reimbursementGiven"
                   class="green money icon">
+                </i>
+              </span>
+            </td>
+
+            <td
+              class="collapsing">
+              <span ng-if="user.status.confirmed">
+                <i
+                  ng-if="user.confirmation.lightningTalker"
+                  class="green circle icon">
                 </i>
               </span>
             </td>
