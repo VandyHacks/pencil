@@ -186,6 +186,11 @@ angular.module('app')
                 }
               ]
             },
+            lightningTalker: {
+              identifier: 'lightningTalker',
+              optional: true,
+              rules: []
+            },
             notes: {
               identifier: 'notes',
               optional: true,
