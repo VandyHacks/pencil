@@ -88,7 +88,7 @@ UserController.loginWithPassword = function (email, password, callback) {
     });
   }
 
-  if (!validator.isEmail(email)) {
+  if (!email || typeof email !== 'string' || !validator.isEmail(email)) {
     return callback({
       message: 'Invalid email'
     });
