@@ -4,6 +4,8 @@ angular.module('app')
     '$rootScope',
     '$state',
     '$http',
+    '$interval',
+    '$location',
     'currentUser',
     'MAJORS',
     'EMAILS_TO_SCHOOLS',
@@ -11,7 +13,7 @@ angular.module('app')
     'settings',
     'Session',
     'UserService',
-    function ($scope, $rootScope, $state, $http, currentUser, possibleMajors, emailsToSchools, possibleSchools, Settings, Session, UserService) {
+    function ($scope, $rootScope, $state, $http, $interval, $location, currentUser, possibleMajors, emailsToSchools, possibleSchools, Settings, Session, UserService) {
       const sweetAlertButtonColor = '';
 
       // Set up the user
@@ -192,10 +194,12 @@ angular.module('app')
           $scope.user.profile.manualSubmit = false;
         };
 
-        const save = setInterval(() => {
-          if ($scope.user.profile.manualSubmit || $scope.user.status.completedProfile) {
-            clearInterval(save);
+        const save = $interval(() => {
+          if ($scope.user.profile.manualSubmit || $scope.user.status.completedProfile || $location.path() !== '/application') {
+            console.log('autosave disabled');
+            $interval.cancel(save);
           } else {
+            console.log('autosave triggered');
             $scope.callAtInterval();
           }
         }, 30000);
