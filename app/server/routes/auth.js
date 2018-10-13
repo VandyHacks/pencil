@@ -25,32 +25,24 @@ module.exports = function (router) {
     const password = req.body.password;
     const token = req.body.token;
 
+    const loginCallback = (err, token, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).send(err);
+      }
+      if (!user) {
+        return res.status(400).send('User not found.');
+      }
+      return res.json({
+        token: token,
+        user: user
+      });
+    };
+
     if (token) {
-      UserController.loginWithToken(token, (err, token, user) => {
-        if (err || !user) {
-          if (err) {
-            console.log(err);
-          }
-          return res.status(400).send(err);
-        }
-        return res.json({
-          token: token,
-          user: user
-        });
-      });
+      UserController.loginWithToken(token, loginCallback);
     } else {
-      UserController.loginWithPassword(email, password, (err, token, user) => {
-        if (err || !user) {
-          if (err) {
-            console.log(err);
-          }
-          return res.status(400).send(err);
-        }
-        return res.json({
-          token: token,
-          user: user
-        });
-      });
+      UserController.loginWithPassword(email, password, loginCallback);
     }
   });
 
@@ -73,6 +65,9 @@ module.exports = function (router) {
       if (err) {
         console.log(err);
         return res.status(400).send(err);
+      }
+      if (!user) {
+        return res.status(400).send('User not found.');
       }
       return res.json(user);
     });
@@ -104,11 +99,12 @@ module.exports = function (router) {
     const token = req.body.token;
 
     UserController.resetPassword(token, pass, (err, user) => {
-      if (err || !user) {
-        if (err) {
-          console.log(err);
-        }
+      if (err) {
+        console.log(err);
         return res.status(400).send(err);
+      }
+      if (!user) {
+        return res.status(400).send('User not found.');
       }
       return res.json(user);
     });
@@ -123,35 +119,34 @@ module.exports = function (router) {
    */
   router.post('/verify/resend', (req, res, next) => {
     const id = req.body.id;
-    if (id) {
-      UserController.sendVerificationEmailById(id, (err, user) => {
-        if (err || !user) {
-          if (err) {
-            console.log(err);
-          }
-          return res.status(400).send();
-        }
-        return res.status(200).send();
-      });
-    } else {
+    if (!id) {
       return res.status(400).send();
     }
+    UserController.sendVerificationEmailById(id, (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).send(err);
+      }
+      if (!user) {
+        return res.status(400).send('User not found.');
+      }
+      return res.status(200).send();
+    });
   });
 
   /**
    * Verify a user with a given token.
    */
   router.get('/verify/:token', (req, res, next) => {
-    console.log('VERIFY USER TOKEN PAGE REACHED.');
     const token = req.params.token;
     UserController.verifyByToken(token, (err, user) => {
       if (err) {
         console.log(err);
-      }
-      if (err || !user) {
         return res.status(400).send(err);
       }
-
+      if (!user) {
+        return res.status(400).send('User not found.');
+      }
       return res.json(user);
     });
   });
