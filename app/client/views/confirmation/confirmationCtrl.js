@@ -74,8 +74,8 @@ angular.module('app')
         }
         console.log(normalizedNum);
 
-        // make sure they even clicked the link (reduces Redcap API requests)
-        if (!$scope.waiverLinkClicked) {
+        // make sure they even clicked the link the first time they confirm (reduces Redcap API requests)
+        if (!$scope.waiverLinkClicked && !user.status.confirmed) {
           sweetAlert('Uh oh!', 'Please sign the waiver form!', 'error');
           return;
         }
@@ -116,6 +116,7 @@ angular.module('app')
         });
 
         // Semantic-UI form validation
+        // @ts-ignore
         $('.ui.form').form({
           fields: {
             phone: {
