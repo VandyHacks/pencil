@@ -145,7 +145,6 @@ angular.module('app')
             'application/msword', // doc
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
             'application/vnd.oasis.opendocument.text', // odt
-            'application/x-iwork-pages-sffpages', // pages
             'application/pdf' // pdf
           ].join(','),
           createImageThumbnails: false,
