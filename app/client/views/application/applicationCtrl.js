@@ -101,7 +101,7 @@ angular.module('app')
             console.log('Application automatically saved!');
           })
           .error((res) => {
-            console.log('Error!');
+            console.log('Error autosaving application.');
           });
       }
 
