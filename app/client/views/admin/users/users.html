@@ -204,8 +204,12 @@
             <!-- Mentor -->
             <td class="collapsing">
               <i
-                ng-if="user.profile.mentor"
-                class="circle icon">
+                ng-if="user.profile.mentor_applied"
+                class="green circle icon">
+              </i>
+              <i
+                ng-if="user.profile.mentor_accepted"
+                class="green check circle icon">
               </i>
             </td>
 

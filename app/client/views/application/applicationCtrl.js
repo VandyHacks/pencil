@@ -325,7 +325,7 @@ angular.module('app')
               identifier: 'volunteer',
               rules: []
             },
-            mentor: {
+            mentor_applied: {
               identifier: 'mentor',
               rules: []
             }

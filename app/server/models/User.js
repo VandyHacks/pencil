@@ -64,7 +64,12 @@ const profile = {
     required: false,
     default: false
   },
-  mentor: {
+  mentor_applied: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  mentor_accepted: {
     type: Boolean,
     required: false,
     default: false
