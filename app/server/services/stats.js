@@ -59,6 +59,9 @@ function calculateStats() {
 
     dietaryRestrictions: {},
 
+    smsPermission: 0,
+    lightningTalks: 0,
+
     volunteer: 0,
     volunteerSubmitted: 0,
     volunteerAdmitted: 0,
@@ -112,6 +115,12 @@ function calculateStats() {
 
         // Count declined
         newStats.declined += user.status.declined ? 1 : 0;
+
+        // Count sms permissions
+        newStats.smsPermission += user.confirmation.smsPermission ? 1 : 0;
+
+        // Count lightning talk volunteers
+        newStats.lightningTalks += user.confirmation.lightningTalker ? 1 : 0;
 
         // Count the number of people who need reimbursements
         newStats.reimbursementTotal += user.confirmation.needsReimbursement ? 1 : 0;
