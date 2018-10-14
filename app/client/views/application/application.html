@@ -167,6 +167,34 @@
             </div>
           </div>
 
+          <div ng-if="user.profile.mentor_applied">
+            <div class="field">
+              <label>
+                Briefly describe any teaching experience you have.
+              </label>
+              <textarea name="mentor_essay1" ng-model="user.profile.mentor_application.essay1">
+              </textarea>
+            </div>
+            <div class="grouped fields">
+              <label> What area(s) do you feel comfortable mentoring in? Check all that apply. </label>
+              <div class="field" ng-repeat="(key, value) in mentorSubjects">
+  
+                <div class="ui checkbox">
+                  <input type="checkbox" ng-model="mentorSubjects[key]" name="mentorSubjects" />
+                  <label>{{key}}</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="field">
+              <label>
+                Please describe your experience in the areas checked above.
+              </label>
+              <textarea name="mentor_essay2" ng-model="user.profile.mentor_application.essay2">
+              </textarea>
+            </div>
+          </div>
+
           <br>
           <div class="divided title">Legal</div>
           <br>

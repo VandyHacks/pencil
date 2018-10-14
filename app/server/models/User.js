@@ -74,6 +74,9 @@ const profile = {
     required: false,
     default: false
   },
+  mentor_application: {
+
+  },
   signatureCodeOfConduct: String
 
 };

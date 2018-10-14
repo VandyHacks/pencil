@@ -328,6 +328,18 @@ angular.module('app')
             mentor_applied: {
               identifier: 'mentor',
               rules: []
+            },
+            'mentor_application.essay1': {
+              identifier: 'mentor_essay1',
+              rules: []
+            },
+            'mentor_application.essay2': {
+              identifier: 'mentor_essay2',
+              rules: []
+            },
+            'mentor_application.mentorSubjects': {
+              identifier: 'mentorSubjects',
+              rules: []
             }
           }
         });
