@@ -239,6 +239,9 @@ angular.module('app')
                 name: 'Phone Number',
                 value: user.confirmation.phoneNumber
               }, {
+                name: 'Permission to send SMS',
+                value: user.confirmation.smsPermission
+              }, {
                 name: 'Dietary Restrictions',
                 value: user.confirmation.dietaryRestrictions.join(', ')
               }, {
@@ -251,6 +254,9 @@ angular.module('app')
               }, {
                 name: 'Hardware Requested',
                 value: user.confirmation.hardware
+              }, {
+                name: 'Lightning Talk',
+                value: user.confirmation.lightningTalker
               }
             ]
           }, {

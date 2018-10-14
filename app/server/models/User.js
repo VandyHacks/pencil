@@ -71,6 +71,8 @@ const profile = {
 // Only after confirmed
 const confirmation = {
   phoneNumber: String,
+  smsPermission: Boolean,
+
   dietaryRestrictions: [String],
   shirtSize: {
     type: String,
