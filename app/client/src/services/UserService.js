@@ -92,8 +92,8 @@ angular.module('app')
           return $http.get(base + 'stats');
         },
 
-        admitUser: function (id) {
-          return $http.post(base + id + '/admit');
+        admitUser: function (id, acceptAsMentor) {
+          return $http.post(base + id + '/admit' + '?mentor=' + acceptAsMentor);
         },
 
         admitAll: function (querytext) {

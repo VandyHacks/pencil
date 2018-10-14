@@ -303,7 +303,8 @@ UserController.admitAll = function (searchText, callback) {
       if (err || !users) {
         return callback(err);
       }
-      users.forEach(u => UserController.admitUser(u._id, u, (err, data) => {
+      // does not automatically accept ppl as mentors
+      users.forEach(u => UserController.admitUser(u._id, u, false, (err, data) => {
         if (err) {
           console.log(err);
         }
@@ -761,7 +762,7 @@ UserController.resetPassword = function (token, password, callback) {
  * @param  {String}   user     User doing the admitting
  * @param  {Function} callback args(err, user)
  */
-UserController.admitUser = function (id, user, callback) {
+UserController.admitUser = function (id, user, admitAsMentor, callback) {
   Settings.getRegistrationTimes((err, times) => {
     if (err) callback(err);
     User
@@ -774,7 +775,8 @@ UserController.admitUser = function (id, user, callback) {
           'status.admitted': true,
           'status.admittedBy': user.email,
           'status.admittedOn': Date.now(),
-          'status.confirmBy': times.timeConfirm
+          'status.confirmBy': times.timeConfirm,
+          'mentor_accepted': admitAsMentor
         }
       }, {
         new: true

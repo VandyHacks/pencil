@@ -203,14 +203,14 @@
 
             <!-- Mentor -->
             <td class="collapsing">
-              <i
-                ng-if="user.profile.mentor_applied"
-                class="green circle icon">
-              </i>
-              <i
-                ng-if="user.profile.mentor_accepted"
-                class="green check circle icon">
-              </i>
+              <button
+                class="accept ui circular mini basic blue icon button"
+                ng-if="user.profile.mentor_applied && !user.profile.mentor_accepted"
+                ng-disabled="!user.status.completedProfile"
+                ng-click="acceptUser($event, user, true, $index)">
+                <i class="blue plus circle icon"></i>
+              </button>
+              <i ng-if="user.profile.mentor_accepted" class="blue handshake icon"></i>
             </td>
 
             <td
@@ -248,15 +248,14 @@
 
             <td
               class="right aligned collapsing">
-
               <button
                 class="accept ui circular mini basic green icon button"
                 ng-disabled="!user.status.completedProfile || user.status.admitted"
-                ng-click="acceptUser($event, user, $index)">
+                ng-click="acceptUser($event, user, false, $index)">
                 <i class="add user icon"></i>
               </button>
-
             </td>
+
             <td>{{user.email}}</td>
           </tr>
         </tbody>

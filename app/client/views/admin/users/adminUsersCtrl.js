@@ -74,12 +74,14 @@ angular.module('app')
         });
       };
 
-      $scope.acceptUser = function ($event, user, index) {
+      $scope.acceptUser = function ($event, user, acceptAsMentor, index) {
         $event.stopPropagation();
+
+        const endText = acceptAsMentor ? ' as a MENTOR. This will also admit them as a hacker.' : '!';
 
         swal({
           title: 'Whoa, wait a minute!',
-          text: 'You are about to accept ' + user.profile.name + '!',
+          text: 'You are about to accept ' + user.profile.name + endText,
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#DD6B55',
@@ -87,7 +89,7 @@ angular.module('app')
           closeOnConfirm: false
         }, () => {
           UserService
-            .admitUser(user._id)
+            .admitUser(user._id, acceptAsMentor)
             .success((user) => {
               $scope.users[index] = user;
               swal('Accepted', user.profile.name + ' has been admitted.', 'success');
