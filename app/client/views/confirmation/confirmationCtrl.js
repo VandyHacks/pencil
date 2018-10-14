@@ -115,6 +115,9 @@ angular.module('app')
           return true; // act normal
         });
 
+        // default sms permission
+        $scope.user.confirmation.smsPermission = true;
+
         // Semantic-UI form validation
         // @ts-ignore
         $('.ui.form').form({
@@ -127,6 +130,10 @@ angular.module('app')
                   prompt: 'Please enter a phone number.'
                 }
               ]
+            },
+            smsPermission: {
+              identifier: 'smsPermission',
+              rules: []
             },
             shirt: {
               identifier: 'shirt',

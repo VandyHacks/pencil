@@ -20,27 +20,31 @@
             </p>
             <input id="phonenum" type="tel" name="phone" ng-model="user.confirmation.phoneNumber" placeholder="(123) 555-1234" maxlength="20" required>
           </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" ng-model="user.confirmation.smsPermission"/>
+              <label>I would like to receive important notifications during VandyHacks.</label>
+            </div>
+          </div>
 
+          <br>
           <div class="field">
             <label> Dietary Restrictions </label>
-
             <p>
               If your restriction is not included here, please let us know in the additional notes section.
             </p>
-
           </div>
 
           <div class="inline fields">
             <div class="field" ng-repeat="(key, value) in dietaryRestrictions">
-
               <div class="ui checkbox">
                 <input type="checkbox" ng-model="dietaryRestrictions[key]" />
                 <label>{{key}}</label>
               </div>
-
             </div>
           </div>
 
+          <br>
           <div class="field">
             <label> Shirt Size (required) </label>
             <p>
