@@ -278,6 +278,10 @@ angular.module('app')
                   type: 'minLength',
                   value: 20,
                   prompt: 'Please answer the essay question.'
+                },
+                {
+                  type: 'empty',
+                  prompt: 'Please answer the essay question.'
                 }
               ]
             },
