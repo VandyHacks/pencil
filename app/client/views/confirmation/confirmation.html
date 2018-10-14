@@ -20,27 +20,31 @@
             </p>
             <input id="phonenum" type="tel" name="phone" ng-model="user.confirmation.phoneNumber" placeholder="(123) 555-1234" maxlength="20" required>
           </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" ng-model="user.confirmation.smsPermission"/>
+              <label>I would like to receive important notifications during VandyHacks.</label>
+            </div>
+          </div>
 
+          <br>
           <div class="field">
             <label> Dietary Restrictions </label>
-
             <p>
               If your restriction is not included here, please let us know in the additional notes section.
             </p>
-
           </div>
 
           <div class="inline fields">
             <div class="field" ng-repeat="(key, value) in dietaryRestrictions">
-
               <div class="ui checkbox">
                 <input type="checkbox" ng-model="dietaryRestrictions[key]" />
                 <label>{{key}}</label>
               </div>
-
             </div>
           </div>
 
+          <br>
           <div class="field">
             <label> Shirt Size (required) </label>
             <p>
@@ -78,7 +82,7 @@
                 reservation of bus seats ahead of time (this will be released prior to the event). </li>
               <li> Car: We will generally reimburse all gas costs for cars containing <strong>3 or more</strong> hackers. We may
                 offer partial reimbursement to cars containing fewer hackers. </li>
-              <li> Flight & Greyhounds: Reimbursement is generally $75-$100, and  However, we may consider <em>on a case by case basis</em>                small reimbursements (~$50) similar to the reimbursement hackers that drive would receive. Contact us for
+              <li> Flight & Greyhounds: Reimbursement is generally $75-$100. However, we may consider <em>on a case by case basis</em> small reimbursements (~$50) comparable to the reimbursement hackers who drive would receive. Contact us for
                 more information. </li>
             </ul>
             <p>
@@ -140,6 +144,17 @@
           <br>
           <br>
           <div class="divided title">Everything Else</div>
+          <br>
+          <div class="field">
+            <label>Lightning Talks</label>
+            <p>
+              Have something you'd really like to share at our event? Give a short five-minute talk!
+            </p>
+            <div class="ui checkbox">
+              <input type="checkbox" name="lightningTalker" ng-model="user.confirmation.lightningTalker" required>
+              <label> I would like to give a lightning talk. </label>
+            </div>
+          </div>
           <br>
 
           <div class="field">

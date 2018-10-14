@@ -98,12 +98,7 @@ angular.module('app')
 
         admitAll: function (querytext) {
           return $http.post(base + 'admitall', JSON.stringify({ querytext: querytext }));
-        },
-
-        sendCode: function (id) {
-          return $http.post(base + id + '/sendCode');
         }
-
       };
     }
   ]);

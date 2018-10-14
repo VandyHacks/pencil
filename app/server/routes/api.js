@@ -396,21 +396,13 @@ module.exports = function (router) {
   });
 
   /**
-   * Check in a user. ADMIN ONLY
-   */
-
-  router.post('/users/:id/sendCode', isAdmin, (req, res) => {
-    const id = req.params.id;
-    UserController.sendCodeEmailById(id, defaultResponse(req, res));
-  });
-
-  /**
    * Associates a NFC code for a User. ADMIN ONLY
    * {
    *   user: [String]
    * }
    */
-  router.put('/users/:id/NFC', isValidSecret, (req, res) => {
+  router.options('/users/:id/NFC', cors(corsOpts)); // for CORS preflight
+  router.put('/users/:id/NFC', cors(corsOpts), isValidSecret, (req, res) => {
     const id = req.params.id;
     const code = req.body.code;
 

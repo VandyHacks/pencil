@@ -76,6 +76,8 @@ const profile = {
 // Only after confirmed
 const confirmation = {
   phoneNumber: String,
+  smsPermission: Boolean,
+
   dietaryRestrictions: [String],
   shirtSize: {
     type: String,
@@ -91,6 +93,8 @@ const confirmation = {
     zip: String,
     country: String
   },
+
+  lightningTalker: Boolean,
 
   notes: {
     type: String,

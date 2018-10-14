@@ -117,7 +117,7 @@ angular.module('app')
 
         swal({
           title: 'Whoa, wait a minute!',
-          text: `You are about to accept ${numusers} people!\n` + userListString,
+          text: `You are about to accept ${numusers} people! (This has no effect on unsubmitted users). \n` + userListString,
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#DD6B55',
@@ -239,6 +239,9 @@ angular.module('app')
                 name: 'Phone Number',
                 value: user.confirmation.phoneNumber
               }, {
+                name: 'Permission to send SMS',
+                value: user.confirmation.smsPermission
+              }, {
                 name: 'Dietary Restrictions',
                 value: user.confirmation.dietaryRestrictions.join(', ')
               }, {
@@ -251,6 +254,9 @@ angular.module('app')
               }, {
                 name: 'Hardware Requested',
                 value: user.confirmation.hardware
+              }, {
+                name: 'Lightning Talk',
+                value: user.confirmation.lightningTalker
               }
             ]
           }, {

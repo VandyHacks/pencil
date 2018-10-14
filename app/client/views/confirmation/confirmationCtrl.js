@@ -74,8 +74,8 @@ angular.module('app')
         }
         console.log(normalizedNum);
 
-        // make sure they even clicked the link (reduces Redcap API requests)
-        if (!$scope.waiverLinkClicked) {
+        // make sure they even clicked the link the first time they confirm (reduces Redcap API requests)
+        if (!$scope.waiverLinkClicked && !user.status.confirmed) {
           sweetAlert('Uh oh!', 'Please sign the waiver form!', 'error');
           return;
         }
@@ -115,7 +115,11 @@ angular.module('app')
           return true; // act normal
         });
 
+        // default sms permission
+        $scope.user.confirmation.smsPermission = true;
+
         // Semantic-UI form validation
+        // @ts-ignore
         $('.ui.form').form({
           fields: {
             phone: {
@@ -126,6 +130,10 @@ angular.module('app')
                   prompt: 'Please enter a phone number.'
                 }
               ]
+            },
+            smsPermission: {
+              identifier: 'smsPermission',
+              rules: []
             },
             shirt: {
               identifier: 'shirt',
@@ -184,6 +192,11 @@ angular.module('app')
                   prompt: 'Please confirm that you have signed the waiver form.'
                 }
               ]
+            },
+            lightningTalker: {
+              identifier: 'lightningTalker',
+              optional: true,
+              rules: []
             },
             notes: {
               identifier: 'notes',
