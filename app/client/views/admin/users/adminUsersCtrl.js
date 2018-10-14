@@ -117,7 +117,7 @@ angular.module('app')
 
         swal({
           title: 'Whoa, wait a minute!',
-          text: `You are about to accept ${numusers} people!\n` + userListString,
+          text: `You are about to accept ${numusers} people! (This has no effect on unsubmitted users). \n` + userListString,
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#DD6B55',
