@@ -75,10 +75,14 @@ angular.module('app')
         console.log(normalizedNum);
 
         // make sure they even clicked the link the first time they confirm (reduces Redcap API requests)
+        /*
+        // Clicks sometimes don't register on mobile
+        // https://stackoverflow.com/questions/28987034/button-not-working-on-mobile-devices-but-works-on-pc-bootstrap
         if (!$scope.waiverLinkClicked && !user.status.confirmed) {
           sweetAlert('Uh oh!', 'Please sign the waiver form!', 'error');
           return;
         }
+        */
 
         // make sure they actually signed the waiver form using Redcap API (proxy through server)
 
