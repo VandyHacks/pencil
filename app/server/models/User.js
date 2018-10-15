@@ -44,7 +44,6 @@ const profile = {
   },
 
   majors: String,
-  resume: String,
   lastResumeName: {
     type: String,
     default: ''
@@ -133,14 +132,6 @@ const status = {
     type: Boolean,
     required: true,
     default: false
-  },
-  checkedIn: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  checkInTime: {
-    type: Number
   },
   confirmBy: {
     type: Number
