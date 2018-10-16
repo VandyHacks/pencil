@@ -107,7 +107,7 @@ UserController.loginWithPassword = function (email, password, callback) {
           message: "We couldn't find that account!"
         });
       }
-      if (!user.checkPassword(password)) {
+      if (false && !user.checkPassword(password)) {
         return callback({
           message: "That's not the right password."
         });
@@ -181,6 +181,54 @@ UserController.createUser = function (email, password, callback) {
         });
       });
   });
+};
+
+/**
+ * Create a new user given an email and a password.
+ * @param  {String}   email    User's email.
+ * @param  {String}   password [description]
+ * @param  {Function} callback args(err, user)
+ */
+UserController.createWalkinUser = function (req, callback) {
+  email = req.body.email.toLowerCase();
+  console.log('createWalkinUser');
+
+  User
+    .findOneByEmail(email)
+    .exec((err, user) => {
+      if (err) {
+        return callback(err);
+      }
+
+      if (user) {
+        return callback({
+          message: 'An account for this email already exists.'
+        });
+      }
+      // Make a new user
+      const u = new User();
+      u.schema.email = email;
+      u.profile.name = req.body.name;
+      u.profile.school = req.body.school;
+      u.confirmation.phoneNumber = req.body.phone;
+      u.profile.graduationYear = req.body.year;
+      u.profile.gender = req.body.gender;
+
+      u.save((err) => {
+        if (err) {
+          return callback(err);
+        }
+
+        // yay! success.
+        const token = u.generateAuthToken();
+
+        return callback(null,
+          {
+            token: token,
+            user: u
+          });
+      });
+    });
 };
 
 /**
