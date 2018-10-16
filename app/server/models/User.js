@@ -44,7 +44,6 @@ const profile = {
   },
 
   majors: String,
-  resume: String,
   lastResumeName: {
     type: String,
     default: ''
@@ -71,6 +70,8 @@ const profile = {
 // Only after confirmed
 const confirmation = {
   phoneNumber: String,
+  smsPermission: Boolean,
+
   dietaryRestrictions: [String],
   shirtSize: {
     type: String,
@@ -131,14 +132,6 @@ const status = {
     type: Boolean,
     required: true,
     default: false
-  },
-  checkedIn: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  checkInTime: {
-    type: Number
   },
   confirmBy: {
     type: Number
@@ -337,9 +330,8 @@ schema.statics.getByToken = function (token, callback) {
 
 schema.statics.validateProfile = function (profile, cb) {
   return cb(!(
-    profile.name &&
-    profile.school &&
     profile.name.length > 0 &&
+    profile.adult &&
     profile.school.length > 0 &&
     ['2018', '2019', '2020', '2021', '2022'].indexOf(profile.graduationYear) > -1 &&
     ['M', 'F', 'O', 'N'].indexOf(profile.gender) > -1

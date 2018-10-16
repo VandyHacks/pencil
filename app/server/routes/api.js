@@ -333,7 +333,7 @@ module.exports = function (router) {
     });
   });
 
-    /**
+  /**
    * [OWNER/ADMIN]
    *
    * POST - Upload a resume for the specified user.
@@ -342,22 +342,6 @@ module.exports = function (router) {
     console.log('POST received');
     UserController.createWalkinUser(req, defaultResponse(req, res));
   });
-
-  // router.post('https://jsonplaceholder.typicode.com/users', function(req, res){
-  //   console.log(res);
-  //   User.createWalkinUser({
-  //     name: req.body.name,
-  //     school: req.body.school,
-  //     email: req.body.email,
-  //     phone: req.body.phone,
-  //     graduationYear: req.body.,
-  //     gender: req.body.gender
-
-  //   }, function(err, user) {
-  //     console.log(res);
-  //     res.redirect("/");
-  //   });
-  // });
 
   /**
    * Get a user's team member's names. Uses the code associated
