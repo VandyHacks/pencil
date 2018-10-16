@@ -29,9 +29,7 @@ angular.module('app')
         'Vegetarian': false,
         'Vegan': false,
         'Halal': false,
-        'Kosher': false,
-        'Gluten-free': false,
-        'Nut Allergy': false
+        'Gluten-free': false
       };
 
       if (user.confirmation.dietaryRestrictions) {
