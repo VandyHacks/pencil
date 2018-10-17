@@ -346,11 +346,17 @@ UserController.admitAll = function (searchText, callback) {
       if (err || !users) {
         return callback(err);
       }
-      users.forEach(u => UserController.admitUser(u._id, u, (err, data) => {
-        if (err) {
-          console.log(err);
+      users.forEach(u => {
+        // don't accept already accepted users
+        if (!u.status.completedProfile || u.status.admitted) {
+          return;
         }
-      }));
+        UserController.admitUser(u._id, u, (err, data) => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
       User.count(query).exec((err, count) => {
         if (err) {
           return callback(err);

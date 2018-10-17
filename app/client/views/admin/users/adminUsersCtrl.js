@@ -98,7 +98,7 @@ angular.module('app')
         });
       };
 
-      $scope.initiateAcceptAll = function (users) {
+      $scope.initiateAdmitAll = function (users) {
         const userEmailList = [];
         users.forEach(user => userEmailList.push(user.email));
         let userListString = '';
