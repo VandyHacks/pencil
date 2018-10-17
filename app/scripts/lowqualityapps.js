@@ -3,6 +3,8 @@ Gets emails of everyone that may have low quality applications
 
 */
 
+const { convertMongoDumpToArray } = require('./queryUtils');
+
 const FILENAME = './2018-10-15_users.json';
 
 // flags all submitted users that satisfy all following qualities
@@ -11,18 +13,8 @@ const config = {
   badEssayCharLimit: 20 // all essays w/ less than this char count will be flagged, set to -1 to disable
 };
 
-function convertMongoDumpToJSON(filepath) {
-  const fs = require('fs');
-  // Get content from file
-  const contents = fs.readFileSync(filepath).toString();
-  const delim = '{"_id"';
-  const arr = contents.split(delim).map(e => delim + e.trim());
-  arr.shift(); // remove first elem
-  return JSON.parse(`{ "data": [${arr.toString()}]}`).data;
-}
-
 // Define to JSON type
-const users = convertMongoDumpToJSON(FILENAME);
+const users = convertMongoDumpToArray(FILENAME);
 console.log(users.length + ' total users');
 
 // filter
