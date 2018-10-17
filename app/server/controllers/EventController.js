@@ -70,7 +70,9 @@ EventController.addAttendee = function (event, attendee, callback) {
     }, {
       new: true
     },
-    callback);
+    (err, res) => {
+      return err ? callback(err, res) : callback(null, attendee);
+    });
   });
 };
 
@@ -88,7 +90,9 @@ EventController.removeAttendee = (event, attendee, callback) => {
       attendees: { attendee }
     }
   },
-  callback);
+  (err, res) => {
+    return err ? callback(err, res) : callback(null, attendee);
+  });
 };
 
 /**
