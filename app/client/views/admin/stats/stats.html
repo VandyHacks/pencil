@@ -1,3 +1,36 @@
+<style>
+.stacked-bar-graph {
+  width: 100%;
+  height: 38px;
+  color:#414042;
+}
+.stacked-bar-graph > span {
+  display: inline-block;
+  height:100%;
+  box-sizing: border-box;
+  float: left;
+  font-weight: bold;
+  font-family: arial, sans-serif;
+  padding: 10px;
+}
+
+.bar-1 {
+  background: #A7A9AC;
+}
+.bar-2 {
+  background: #F7B334;
+}
+
+.bar-3 {
+  background: #208230;
+}
+
+.bar-4 {
+  background: #D23030;
+}
+</style>
+
+
 <div id="stats">
 
   <div class="ui green segment" ng-class="{'loading': loading}">
@@ -275,20 +308,20 @@
     <h3>Schools (top {{stats.demo.topSchools.length}})</h3>
     <div class="ui list">
       <div class="item" ng-repeat="school in stats.demo.topSchools | orderBy: '-count'">
-        <div>
-          <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.submitted * 100 | number: 1}}%)&emsp;
-          <div class="ui purple mini label">
+        <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.submitted * 100 | number: 1}}%)&emsp;
+        <div class="stacked-bar-graph">
+          <span style="width:{{100 * (school.stats.submitted - school.stats.admitted - school.stats.confirmed - school.stats.declined)/school.stats.submitted}}%" class="bar-1">
             Submitted: {{school.stats.submitted}}
-          </div>
-          <div class="ui pink mini label">
+          </span>
+          <span style="width:{{100 * (school.stats.admitted - school.stats.confirmed - school.stats.declined)/school.stats.submitted}}" class="bar-2">
             Admitted: {{school.stats.admitted}}
-          </div>
-          <div class="ui green mini label">
+          </span>
+          <span style="width:{{100 * school.stats.confirmed/school.stats.submitted}}%" class="bar-3">
             Confirmed: {{school.stats.confirmed}}
-          </div>
-          <div class="ui red mini label">
+          </span>
+          <span style="width:{{100 * school.stats.declined/school.stats.submitted}}%" class="bar-4">
             Declined: {{school.stats.declined}}
-          </div>
+          </span>
           <div class="ui divider"></div>
         </div>
       </div>

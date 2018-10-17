@@ -34,13 +34,17 @@ function writeFile(err, result) {
   });
 }
 
-function getAdmitted(startdate, enddate, callback) {
+/**
+ * Returns all admitted users after a certain date
+ * @param {String} startdate
+ * @param {Function} callback
+ */
+function getAdmitted(startdate, callback) {
   console.log('Executing...');
   const findQuery = {
     'status.admitted': true,
     'status.admittedOn': {
-      $gt: startdate,
-      $lt: enddate
+      $gt: startdate
     }
   };
   console.log(findQuery);
@@ -58,4 +62,4 @@ function getAdmitted(startdate, enddate, callback) {
 }
 
 // execute
-getAdmitted('1', '999999999999', writeFile);
+getAdmitted('1', writeFile);
