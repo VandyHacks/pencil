@@ -385,7 +385,7 @@ module.exports = function (router) {
   router.post('/users/:id/admit', isAdmin, (req, res) => {
     // Accept the hacker. Admin only
     const id = req.params.id;
-    const acceptAsMentor = req.query.acceptAsMentor;
+    const acceptAsMentor = req.query.mentor;
     const user = req.user;
     UserController.admitUser(id, user, acceptAsMentor, defaultResponse(req, res));
   });
