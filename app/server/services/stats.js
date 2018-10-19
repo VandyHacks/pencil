@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const async = require('async');
 const User = require('../models/User');
 
@@ -60,6 +59,9 @@ function calculateStats() {
 
     dietaryRestrictions: {},
 
+    smsPermission: 0,
+    lightningTalks: 0,
+
     volunteer: 0,
     volunteerSubmitted: 0,
     volunteerAdmitted: 0,
@@ -113,6 +115,12 @@ function calculateStats() {
 
         // Count declined
         newStats.declined += user.status.declined ? 1 : 0;
+
+        // Count sms permissions
+        newStats.smsPermission += user.confirmation.smsPermission ? 1 : 0;
+
+        // Count lightning talk volunteers
+        newStats.lightningTalks += user.confirmation.lightningTalker ? 1 : 0;
 
         // Count the number of people who need reimbursements
         newStats.reimbursementTotal += user.confirmation.needsReimbursement ? 1 : 0;
@@ -188,7 +196,7 @@ function calculateStats() {
       }, () => {
         // Transform dietary restrictions into a series of objects
         const restrictions = [];
-        _.keys(newStats.dietaryRestrictions)
+        Object.keys(newStats.dietaryRestrictions)
           .forEach((key) => {
             restrictions.push({
               name: key,
@@ -199,7 +207,7 @@ function calculateStats() {
 
         // Transform schools into an array of objects
         const schools = [];
-        _.keys(newStats.demo.schools)
+        Object.keys(newStats.demo.schools)
           .forEach((key) => {
             schools.push({
               email: key,
@@ -214,7 +222,7 @@ function calculateStats() {
 
         // Likewise, transform the teams into an array of objects
         // var teams = [];
-        // _.keys(newStats.teams)
+        // Object.keys(newStats.teams)
         //   .forEach(function(key){
         //     teams.push({
         //       name: key,

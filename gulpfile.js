@@ -23,7 +23,7 @@ gulp.task('default', () => {
 gulp.task('js', () => {
   if (process.env.NODE_ENV !== 'dev') {
     // Minify for non-development
-    gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
+    return gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
       .pipe(sourcemaps.init())
       .pipe(concat('app.js'))
       .pipe(ngAnnotate())
@@ -33,7 +33,7 @@ gulp.task('js', () => {
       .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest('app/client/build'));
   } else {
-    gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
+    return gulp.src(['app/client/src/**/*.js', 'app/client/views/**/*.js'])
       .pipe(sourcemaps.init())
       .pipe(concat('app.js'))
       .pipe(ngAnnotate())
@@ -45,32 +45,34 @@ gulp.task('js', () => {
 });
 
 gulp.task('sass', () => {
-  gulp.src('app/client/stylesheets/site.scss')
+  return gulp.src('app/client/stylesheets/site.scss')
     .pipe(sass())
     .on('error', sass.logError)
     .pipe(minifyCss())
     .pipe(gulp.dest('app/client/build'));
 });
 
-gulp.task('build', ['js', 'sass'], () => {
+gulp.task('build', gulp.series(gulp.parallel('js', 'sass'), (cb) => {
   // Yup, build the js and sass.
-});
+  return cb();
+}));
 
-gulp.task('watch', ['js', 'sass'], () => {
+gulp.task('watch', gulp.series(gulp.parallel('js', 'sass'), (cb) => {
   gulp
-    .watch('app/client/src/**/*.js', ['js']);
+    .watch('app/client/src/**/*.js', gulp.series('js'));
   gulp
-    .watch('app/client/views/**/*.js', ['js']);
+    .watch('app/client/views/**/*.js', gulp.series('js'));
   gulp
-    .watch('app/client/stylesheets/**/*.scss', ['sass']);
-});
+    .watch('app/client/stylesheets/**/*.scss', gulp.series('sass'));
+  return cb();
+}));
 
-gulp.task('server', ['watch'], () => {
-  nodemon({
+gulp.task('server', gulp.series('watch', () => {
+  return nodemon({
     script: 'app.js',
     env: { 'NODE_ENV': process.env.NODE_ENV || 'DEV' },
     watch: [
       'app/server'
     ]
   });
-});
+}));

@@ -240,6 +240,15 @@ angular.module('app')
                   type: 'maxLength',
                   value: 2500,
                   prompt: 'Your response to the optional prompt cannot be longer than 2500 characters.'
+                },
+                {
+                  type: 'minLength',
+                  value: 20,
+                  prompt: 'Please answer the essay question.'
+                },
+                {
+                  type: 'empty',
+                  prompt: 'Please answer the essay question.'
                 }
               ]
             },
