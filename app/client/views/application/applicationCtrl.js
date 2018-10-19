@@ -35,7 +35,7 @@ angular.module('app')
 
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
-      // populate ethnicities
+      // populate ethnicities w/ saved data
       const ethnicities = {
         'Asian or Asian-American': false,
         'Black, Afro-Caribbean, or African-American': false,
@@ -47,16 +47,12 @@ angular.module('app')
         'None of the above': false,
         'Prefer not to disclose': false
       };
-      if (profile.ethnicities) {
-        profile.ethnicities.forEach((e) => {
-          if (e in ethnicities) {
-            ethnicities[e] = true;
-          }
-        });
-      }
+      (profile.ethnicities || []).forEach((e) => {
+        ethnicities[e] = (e in ethnicities);
+      });
       $scope.ethnicities = ethnicities;
 
-      // populate mentor subjects
+      // populate mentor subjects w/ saved data
       const mentorSubjects = {
         'Git/Github': false,
         'Node': false,
@@ -68,16 +64,12 @@ angular.module('app')
         'APIs': false,
         'Front end development': false
       };
-      if (profile.mentor_application.mentorSubjects) {
-        profile.mentor_application.mentorSubjects.forEach((e) => {
-          if (e in mentorSubjects) {
-            mentorSubjects[e] = true;
-          }
-        });
-      }
+      (profile.mentor_application.mentorSubjects || []).forEach((e) => {
+        mentorSubjects[e] = (e in mentorSubjects);
+      });
       $scope.mentorSubjects = mentorSubjects;
 
-      // populate mentor shifts
+      // populate mentor shifts w/ saved data
       const mentorShifts = {
         'Friday night': false,
         'Saturday morning': false,
@@ -86,18 +78,18 @@ angular.module('app')
         'Saturday night': false,
         'Sunday morning': false
       };
-      if (profile.mentor_application.mentorShifts) {
-        profile.mentor_application.mentorShifts.forEach((e) => {
-          if (e in mentorShifts) {
-            mentorShifts[e] = true;
-          }
-        });
-      }
+      (profile.mentor_application.mentorShifts || []).forEach((e) => {
+        mentorShifts[e] = (e in mentorShifts);
+      });
       $scope.mentorShifts = mentorShifts;
 
       function _updateUser(e) {
         // Get the ethnicities as an array
         const convToArray = (checkboxList) => {
+          // should never have undefined input anyways
+          if (!checkboxList) {
+            return [];
+          }
           const arr = [];
           Object.keys(checkboxList).forEach((key) => {
             if (checkboxList[key]) {
@@ -108,8 +100,12 @@ angular.module('app')
         };
 
         $scope.user.profile.ethnicities = convToArray($scope.ethnicities);
-        $scope.user.profile.mentor_application.mentorSubjects = convToArray($scope.mentorSubjects);
-        $scope.user.profile.mentor_application.mentorShifts = convToArray($scope.mentorShifts);
+        $scope.user.profile.mentor_application = {
+          mentorSubjects: convToArray($scope.mentor_mentorSubjects),
+          mentorShifts: convToArray($scope.mentor_mentorShifts),
+          essay1: $scope.mentor_essay1,
+          essay2: $scope.mentor_essay2
+        };
 
         // Jank way to do data binding for semantic ui dropdown
         $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
@@ -387,29 +383,29 @@ angular.module('app')
               identifier: 'mentor',
               rules: []
             },
-            'mentor_essay1': {
+            mentor_essay1: {
               identifier: 'mentor_essay1',
               rules: []
             },
-            'mentor_essay2': {
+            mentor_essay2: {
               identifier: 'mentor_essay2',
               rules: []
             },
-            'mentor_mentorSubjects': {
+            mentor_mentorSubjects: {
               identifier: 'mentorSubjects',
               rules: [
                 {
                   type: 'mentorSubjectsChecked',
-                  prompt: 'Please select an ethnicity, or select "Prefer not to disclose".'
+                  prompt: 'Please select at least one subject to mentor in.'
                 }
               ]
             },
-            'mentor_mentorShifts': {
+            mentor_mentorShifts: {
               identifier: 'mentorShifts',
               rules: [
                 {
                   type: 'mentorShiftsChecked',
-                  prompt: 'Please select an ethnicity, or select "Prefer not to disclose".'
+                  prompt: 'Please select at least one mentor shift.'
                 }
               ]
             }
