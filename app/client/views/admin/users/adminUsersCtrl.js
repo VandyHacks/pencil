@@ -171,7 +171,7 @@ angular.module('app')
 
       function generateSections(user) {
         const address = user.confirmation.address;
-        return [
+        const res = [
           {
             name: 'Basic Info',
             fields: [
@@ -261,16 +261,16 @@ angular.module('app')
                 value: user.confirmation.lightningTalker
               }
             ]
-          }, {
+          }
+        ];
+
+        if (user.confirmation.needsReimbursement) {
+          res.push({
             name: 'Travel',
             fields: [
               {
-                name: 'Needs Reimbursement',
-                value: user.confirmation.needsReimbursement,
-                type: 'boolean'
-              }, {
                 name: 'Received Reimbursement',
-                value: user.confirmation.needsReimbursement && user.status.reimbursementGiven
+                value: user.status.reimbursementGiven
               }, {
                 name: 'Address',
                 value: address ? [
@@ -288,8 +288,33 @@ angular.module('app')
                 value: user.confirmation.notes
               }
             ]
-          }
-        ];
+          });
+        }
+
+        if (user.profile.mentor_application && user.profile.mentor_applied) {
+          res.push({
+            name: 'Mentor Application',
+            fields: [
+              {
+                name: 'Mentor Accepted',
+                value: user.profile.mentor_accepted
+              }, {
+                name: 'Mentor subjects',
+                value: user.profile.mentor_application.mentorSubjects.join(', ')
+              }, {
+                name: 'Teaching experience',
+                value: user.profile.mentor_application.essay1
+              }, {
+                name: 'Subject experience',
+                value: user.profile.mentor_application.essay2
+              }, {
+                name: 'Mentor shifts',
+                value: user.profile.mentor_application.mentorShifts.join(', ')
+              }
+            ]
+          });
+        }
+        return res;
       }
 
       $scope.selectUser = selectUser;
