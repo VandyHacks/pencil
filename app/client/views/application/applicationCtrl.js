@@ -33,9 +33,6 @@ angular.module('app')
 
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
-      // -------------------------------
-      // All this just for ethnicity checkboxes fml
-
       const ethnicities = {
         'Asian or Asian-American': false,
         'Black, Afro-Caribbean, or African-American': false,
@@ -57,6 +54,28 @@ angular.module('app')
       }
 
       $scope.ethnicities = ethnicities;
+
+      const mentorSubjects = {
+        'Git/Github': false,
+        'Node': false,
+        'Java': false,
+        'Python': false,
+        'Unity/VR': false,
+        'Android': false,
+        'iOS': false,
+        'APIs': false,
+        'Front end development': false
+      };
+
+      if ($scope.user.profile.mentor_application.mentorSubjects) {
+        $scope.user.profile.mentor_application.mentorSubjects.forEach((subj) => {
+          if (subj in mentorSubjects) {
+            mentorSubjects[subj] = true;
+          }
+        });
+      }
+
+      $scope.mentorSubjects = mentorSubjects;
 
       function _updateUser(e) {
         // Get the ethnicities as an array
