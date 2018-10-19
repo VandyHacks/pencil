@@ -31,8 +31,11 @@ angular.module('app')
       populateSchools();
       _setupForm();
 
+      const profile = $scope.user.profile;
+
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
+      // populate ethnicities
       const ethnicities = {
         'Asian or Asian-American': false,
         'Black, Afro-Caribbean, or African-American': false,
@@ -44,17 +47,16 @@ angular.module('app')
         'None of the above': false,
         'Prefer not to disclose': false
       };
-
-      if ($scope.user.profile.ethnicities) {
-        $scope.user.profile.ethnicities.forEach((ethnicity) => {
-          if (ethnicity in ethnicities) {
-            ethnicities[ethnicity] = true;
+      if (profile.ethnicities) {
+        profile.ethnicities.forEach((e) => {
+          if (e in ethnicities) {
+            ethnicities[e] = true;
           }
         });
       }
-
       $scope.ethnicities = ethnicities;
 
+      // populate mentor subjects
       const mentorSubjects = {
         'Git/Github': false,
         'Node': false,
@@ -66,26 +68,48 @@ angular.module('app')
         'APIs': false,
         'Front end development': false
       };
-
-      if ($scope.user.profile.mentor_application.mentorSubjects) {
-        $scope.user.profile.mentor_application.mentorSubjects.forEach((subj) => {
-          if (subj in mentorSubjects) {
-            mentorSubjects[subj] = true;
+      if (profile.mentor_application.mentorSubjects) {
+        profile.mentor_application.mentorSubjects.forEach((e) => {
+          if (e in mentorSubjects) {
+            mentorSubjects[e] = true;
           }
         });
       }
-
       $scope.mentorSubjects = mentorSubjects;
+
+      // populate mentor shifts
+      const mentorShifts = {
+        'Friday night': false,
+        'Saturday morning': false,
+        'Saturday afternoon': false,
+        'Saturday evening': false,
+        'Saturday night': false,
+        'Sunday morning': false
+      };
+      if (profile.mentor_application.mentorShifts) {
+        profile.mentor_application.mentorShifts.forEach((e) => {
+          if (e in mentorShifts) {
+            mentorShifts[e] = true;
+          }
+        });
+      }
+      $scope.mentorShifts = mentorShifts;
 
       function _updateUser(e) {
         // Get the ethnicities as an array
-        const ethnicities = [];
-        Object.keys($scope.ethnicities).forEach((key) => {
-          if ($scope.ethnicities[key]) {
-            ethnicities.push(key);
-          }
-        });
-        $scope.user.profile.ethnicities = ethnicities;
+        const convToArray = (checkboxList) => {
+          const arr = [];
+          Object.keys(checkboxList).forEach((key) => {
+            if (checkboxList[key]) {
+              arr.push(key);
+            }
+          });
+          return arr;
+        };
+
+        $scope.user.profile.ethnicities = convToArray($scope.ethnicities);
+        $scope.user.profile.mentor_application.mentorSubjects = convToArray($scope.mentorSubjects);
+        $scope.user.profile.mentor_application.mentorShifts = convToArray($scope.mentorShifts);
 
         // Jank way to do data binding for semantic ui dropdown
         $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
@@ -191,8 +215,14 @@ angular.module('app')
         updateDropzoneText(defaultMsg);
 
         // custom form validation rule
-        $.fn.form.settings.rules.ethnicityChecked = value => Object.values($scope.ethnicities).some(ethnicity => {
-          return ethnicity === true; // At least one must be checked
+        $.fn.form.settings.rules.ethnicityChecked = value => Object.values($scope.ethnicities).some(e => {
+          return e === true; // At least one must be checked
+        });
+        $.fn.form.settings.rules.mentorSubjectsChecked = value => Object.values($scope.mentorSubjects).some(e => {
+          return e === true; // At least one must be checked
+        });
+        $.fn.form.settings.rules.mentorShiftsChecked = value => Object.values($scope.mentorShifts).some(e => {
+          return e === true; // At least one must be checked
         });
         // Semantic-UI form validation
         // @ts-ignore
@@ -357,17 +387,31 @@ angular.module('app')
               identifier: 'mentor',
               rules: []
             },
-            'mentor_application.essay1': {
+            'mentor_essay1': {
               identifier: 'mentor_essay1',
               rules: []
             },
-            'mentor_application.essay2': {
+            'mentor_essay2': {
               identifier: 'mentor_essay2',
               rules: []
             },
-            'mentor_application.mentorSubjects': {
+            'mentor_mentorSubjects': {
               identifier: 'mentorSubjects',
-              rules: []
+              rules: [
+                {
+                  type: 'mentorSubjectsChecked',
+                  prompt: 'Please select an ethnicity, or select "Prefer not to disclose".'
+                }
+              ]
+            },
+            'mentor_mentorShifts': {
+              identifier: 'mentorShifts',
+              rules: [
+                {
+                  type: 'mentorShiftsChecked',
+                  prompt: 'Please select an ethnicity, or select "Prefer not to disclose".'
+                }
+              ]
             }
           }
         });

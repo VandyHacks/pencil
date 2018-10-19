@@ -76,7 +76,8 @@ const profile = {
   mentor_application: {
     mentorSubjects: [String],
     essay1: String,
-    essay2: String
+    essay2: String,
+    mentorShifts: [String]
 
   },
   signatureCodeOfConduct: String

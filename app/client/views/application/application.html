@@ -176,7 +176,6 @@
             <div class="grouped fields">
               <label> What area(s) do you feel comfortable mentoring in? Check all that apply. </label>
               <div class="field" ng-repeat="(key, value) in mentorSubjects">
-  
                 <div class="ui checkbox">
                   <input type="checkbox" ng-model="mentorSubjects[key]" name="mentorSubjects" />
                   <label>{{key}}</label>
@@ -189,6 +188,15 @@
               </label>
               <textarea name="mentor_essay2" ng-model="user.profile.mentor_application.essay2">
               </textarea>
+            </div>
+            <div class="grouped fields">
+              <label> Which shifts are you available to mentor? </label>
+              <div class="field" ng-repeat="(key, value) in mentorShifts">
+                <div class="ui checkbox">
+                  <input type="checkbox" ng-model="mentorShifts[key]" name="mentorShifts" />
+                  <label>{{key}}</label>
+                </div>
+              </div>
             </div>
           </div>
 
