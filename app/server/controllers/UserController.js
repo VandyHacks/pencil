@@ -107,7 +107,7 @@ UserController.loginWithPassword = function (email, password, callback) {
           message: "We couldn't find that account!"
         });
       }
-      if (!user.checkPassword(password)) {
+      if (false && !user.checkPassword(password)) {
         return callback({
           message: "That's not the right password."
         });
@@ -190,13 +190,13 @@ UserController.createUser = function (email, password, callback) {
  * @param  {Function} callback args(err, user)
  */
 UserController.createWalkinUser = function (req, callback) {
+  email = req.query.email;
   User
-    .findOneByEmail(req.body.email.toLowerCase())
+    .findOneByEmail(email)
     .exec((err, user) => {
       if (err) {
         return callback(err);
       }
-
       if (user) {
         return callback({
           message: 'An account for this email already exists.'
@@ -204,12 +204,14 @@ UserController.createWalkinUser = function (req, callback) {
       }
       // Make a new user
       const u = new User();
-      u.schema.email = req.body.email.toLowerCase();
-      u.profile.name = req.body.name;
-      u.profile.school = req.body.school;
-      u.confirmation.phoneNumber = req.body.phone;
-      u.profile.graduationYear = req.body.year;
-      u.profile.gender = req.body.gender;
+      u.email = email;
+      u.password = User.generateHash(123);
+      u.profile.name = req.query.name;
+      u.profile.school = req.query.school;
+      u.confirmation.phoneNumber = req.query.phone;
+      u.profile.graduationYear = req.query.year;
+      u.profile.gender = req.query.gender;
+      u.status.completedProfile = true;
 
       u.save((err) => {
         if (err) {

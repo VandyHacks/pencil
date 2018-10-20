@@ -340,6 +340,8 @@ module.exports = function (router) {
    */
   router.post('/walkin/profile', (req, res) => {
     console.log('POST received');
+    console.log(req.query);
+
     UserController.createWalkinUser(req, defaultResponse(req, res));
   });
 
@@ -359,6 +361,7 @@ module.exports = function (router) {
    * }
    */
   router.post('/users/:id/team', isOwnerOrAdmin, (req, res) => {
+    console.log('hello');
     const code = req.body.code;
     const id = req.params.id;
 
