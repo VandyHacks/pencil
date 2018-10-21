@@ -372,6 +372,7 @@ module.exports = function (router) {
     u.profile.year = req.body.year;
     u.confirmation.phoneNumber = req.body.phone;
     u.status.completedProfile = true;
+    u.profile.isWalkin = true;
 
     UserController.createWalkinUser(u, defaultResponse(req, res));
   });
