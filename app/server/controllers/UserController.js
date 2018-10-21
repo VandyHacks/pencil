@@ -184,6 +184,45 @@ UserController.createUser = function (email, password, callback) {
 };
 
 /**
+ * Create a new walkin user given an email and use information.
+ * @param  {String}   req    User's information.
+ * @param  {Function} callback args(err, user)
+ */
+UserController.createWalkinUser = function (req, callback) {
+   User
+    .findOneByEmail(req.query.email)
+    .exec((err, user) => {
+      if (err) {
+        return callback(err);
+      }
+      if (user) {
+        return callback({
+          message: 'An account for this email already exists.'
+        });
+      }
+      // Make a new user
+      const u = new User();
+      u.email = req.query.email;
+      u.password = User.generateHash(123);
+      u.profile.name = req.query.name;
+      u.profile.school = req.query.school;
+      u.confirmation.phoneNumber = req.query.phone;
+      u.profile.graduationYear = req.query.year;
+      u.profile.gender = req.query.gender;
+      u.status.completedProfile = true;
+       u.save((err) => {
+        if (err) {
+          return callback(err);
+        }
+        return callback(null,
+          {
+            user: u
+          });
+      });
+    });
+};
+
+/**
  * Returns the ID of the user corresponding to an NFC code
  * @param {String} nfcCode
  * @param {Function} callback

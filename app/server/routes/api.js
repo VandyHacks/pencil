@@ -355,6 +355,11 @@ module.exports = function (router) {
     UserController.createTeam(id, code, defaultResponse(req, res));
   });
 
+  router.post('/walkin/profile', (req, res) => {
+    console.log('POST received');
+    UserController.createWalkinUser(req, defaultResponse(req, res));
+  });
+
   /**
    * Update a teamcode. Join a team here.
    * {
