@@ -63,6 +63,10 @@ const profile = {
     required: false,
     default: false
   },
+  isWalkin: {
+    type: Boolean,
+    default: false
+  },
   signatureCodeOfConduct: String
 
 };

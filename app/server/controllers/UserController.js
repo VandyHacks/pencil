@@ -184,6 +184,32 @@ UserController.createUser = function (email, password, callback) {
 };
 
 /**
+ * Create a new walkin user given an email and use information.
+ * @param  {Object}   u    User object.
+ * @param  {Function} callback args(err, user)
+ */
+UserController.createWalkinUser = function (u, callback) {
+  User
+    .findOneByEmail(u.email)
+    .exec((err, user) => {
+      if (err) {
+        return callback(err);
+      }
+      if (user) {
+        return callback({
+          message: 'An account for this email already exists.'
+        });
+      }
+      u.save((err) => {
+        if (err) {
+          return callback(err);
+        }
+        return callback(null, { user: u });
+      });
+    });
+};
+
+/**
  * Returns the ID of the user corresponding to an NFC code
  * @param {String} nfcCode
  * @param {Function} callback
@@ -283,7 +309,7 @@ UserController.makeQuery = function (searchText, showUnsubmitted, showAdmitted) 
     // queries.push({ 'teamCode': re });
     queries.push({ 'profile.school': re });
     queries.push({ 'profile.graduationYear': re });
-    findQuery.$and = [ { $or: queries } ];
+    findQuery.$and = [{ $or: queries }];
   }
   if (showUnsubmitted === 'false') {
     findQuery.$and.push({ 'status.completedProfile': true });
