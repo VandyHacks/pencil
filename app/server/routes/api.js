@@ -364,15 +364,15 @@ module.exports = function (router) {
 
     // create a new user and updates its fields
     const u = new User();
-    u.email = req.query.email;
-    u.password = User.generateHash(123);
-    u.profile.name = req.query.name;
-    u.profile.school = req.query.school;
-    u.confirmation.phoneNumber = req.query.phone;
-    u.profile.graduationYear = req.query.year;
-    u.profile.gender = req.query.gender;
+    u.email = req.body.email;
+    u.password = User.generateHash(123345);
+    u.profile.gender = req.body.gender;
+    u.profile.name = req.body.name;
+    u.profile.school = req.body.school;
+    u.profile.year = req.body.year;
+    u.confirmation.phoneNumber = req.body.phone;
     u.status.completedProfile = true;
-
+    
     UserController.createWalkinUser(u, defaultResponse(req, res));
   });
 
