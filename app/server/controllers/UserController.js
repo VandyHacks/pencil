@@ -107,7 +107,7 @@ UserController.loginWithPassword = function (email, password, callback) {
           message: "We couldn't find that account!"
         });
       }
-      if (false && !user.checkPassword(password)) {
+      if (!user.checkPassword(password)) {
         return callback({
           message: "That's not the right password."
         });
@@ -190,9 +190,8 @@ UserController.createUser = function (email, password, callback) {
  * @param  {Function} callback args(err, user)
  */
 UserController.createWalkinUser = function (req, callback) {
-  email = req.query.email;
   User
-    .findOneByEmail(email)
+    .findOneByEmail(req.query.email)
     .exec((err, user) => {
       if (err) {
         return callback(err);
@@ -204,7 +203,7 @@ UserController.createWalkinUser = function (req, callback) {
       }
       // Make a new user
       const u = new User();
-      u.email = email;
+      u.email = req.query.email;
       u.password = User.generateHash(123);
       u.profile.name = req.query.name;
       u.profile.school = req.query.school;
