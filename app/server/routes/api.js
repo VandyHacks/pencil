@@ -3,6 +3,7 @@ const UserController = require('../controllers/UserController');
 const EventController = require('../controllers/EventController');
 const SettingsController = require('../controllers/SettingsController');
 
+const User = require('../models/User');
 const multer = require('multer');
 const uploadHelper = require('../services/uploadhelper');
 const cors = require('cors');
@@ -355,9 +356,24 @@ module.exports = function (router) {
     UserController.createTeam(id, code, defaultResponse(req, res));
   });
 
+  /**
+   * Create a walkin user and updates user's profile.
+   */
   router.post('/walkin/profile', (req, res) => {
     console.log('POST received');
-    UserController.createWalkinUser(req, defaultResponse(req, res));
+
+    // create a new user and updates its fields
+    const u = new User();
+    u.email = req.query.email;
+    u.password = User.generateHash(123);
+    u.profile.name = req.query.name;
+    u.profile.school = req.query.school;
+    u.confirmation.phoneNumber = req.query.phone;
+    u.profile.graduationYear = req.query.year;
+    u.profile.gender = req.query.gender;
+    u.status.completedProfile = true;
+
+    UserController.createWalkinUser(u, defaultResponse(req, res));
   });
 
   /**

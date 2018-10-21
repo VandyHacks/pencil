@@ -31,7 +31,6 @@ angular.module('app')
       populateSchools();
       _setupForm();
 
-
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
       // -------------------------------

@@ -185,40 +185,34 @@ UserController.createUser = function (email, password, callback) {
 
 /**
  * Create a new walkin user given an email and use information.
- * @param  {String}   req    User's information.
+ * @param  {Object}   u    User object.
  * @param  {Function} callback args(err, user)
  */
-UserController.createWalkinUser = function (req, callback) {
-  User
-    .findOneByEmail(req.query.email)
-    .exec((err, user) => {
-      if (err) {
+UserController.createWalkinUser = function (u, callback) {
+    // Check that there isn't a user with this email already.
+    canRegister(u.email, u.password, (err, valid) => {
+      if (err || !valid) {
         return callback(err);
       }
-      if (user) {
-        return callback({
-          message: 'An account for this email already exists.'
-        });
-      }
-      // Make a new user
-      const u = new User();
-      u.email = req.query.email;
-      u.password = User.generateHash(123);
-      u.profile.name = req.query.name;
-      u.profile.school = req.query.school;
-      u.confirmation.phoneNumber = req.query.phone;
-      u.profile.graduationYear = req.query.year;
-      u.profile.gender = req.query.gender;
-      u.status.completedProfile = true;
-      u.save((err) => {
-        if (err) {
-          return callback(err);
-        }
-        return callback(null,
-          {
-            user: u
+  
+      User
+        .findOneByEmail(u.email)
+        .exec((err, user) => {
+          if (err) {
+            return callback(err);
+          }
+          if (user) {
+            return callback({
+              message: 'An account for this email already exists.'
+            });
+          }
+          u.save((err) => {
+            if (err) {
+              return callback(err);
+            }
+            return callback(null, {user: u});
           });
-      });
+        });
     });
 };
 
@@ -322,7 +316,7 @@ UserController.makeQuery = function (searchText, showUnsubmitted, showAdmitted) 
     // queries.push({ 'teamCode': re });
     queries.push({ 'profile.school': re });
     queries.push({ 'profile.graduationYear': re });
-    findQuery.$and = [ { $or: queries } ];
+    findQuery.$and = [{ $or: queries }];
   }
   if (showUnsubmitted === 'false') {
     findQuery.$and.push({ 'status.completedProfile': true });
@@ -406,17 +400,17 @@ UserController.updateProfileById = function (id, profile, callback) {
       _id: id,
       verified: true
     },
-    {
-      $set: {
-        'lastUpdated': Date.now(),
-        'profile': profile,
-        'status.completedProfile': true
-      }
-    },
-    {
-      new: true
-    },
-    callback);
+      {
+        $set: {
+          'lastUpdated': Date.now(),
+          'profile': profile,
+          'status.completedProfile': true
+        }
+      },
+      {
+        new: true
+      },
+      callback);
   });
 };
 
@@ -487,19 +481,19 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
       'status.admitted': true,
       'status.declined': { $ne: true }
     },
-    {
-      $set: {
-        'lastUpdated': Date.now(),
-        'confirmation': confirmation,
-        'status.confirmed': true
-      }
-    }, {
-      new: true
-    },
-    (err, user) => {
-      if (err) callback(err);
-      callback(null, user);
-    });
+      {
+        $set: {
+          'lastUpdated': Date.now(),
+          'confirmation': confirmation,
+          'status.confirmed': true
+        }
+      }, {
+        new: true
+      },
+      (err, user) => {
+        if (err) callback(err);
+        callback(null, user);
+      });
   });
 };
 
@@ -517,16 +511,16 @@ UserController.declineById = function (id, callback) {
     'status.admitted': true,
     'status.declined': false
   },
-  {
-    $set: {
-      'lastUpdated': Date.now(),
-      'status.confirmed': false,
-      'status.declined': true
-    }
-  }, {
-    new: true
-  },
-  callback);
+    {
+      $set: {
+        'lastUpdated': Date.now(),
+        'status.confirmed': false,
+        'status.declined': true
+      }
+    }, {
+      new: true
+    },
+    callback);
 };
 
 /**
@@ -540,13 +534,13 @@ UserController.verifyByToken = function (token, callback) {
     User.findOneAndUpdate({
       email: new RegExp('^' + email + '$', 'i')
     }, {
-      $set: {
-        'verified': true
-      }
-    }, {
-      new: true
-    },
-    callback);
+        $set: {
+          'verified': true
+        }
+      }, {
+        new: true
+      },
+      callback);
   });
 };
 
@@ -616,13 +610,13 @@ UserController.createTeam = function (id, code, callback) {
         _id: id,
         verified: true
       }, {
-        $set: {
-          teamCode: code
-        }
-      }, {
-        new: true
-      },
-      callback);
+          $set: {
+            teamCode: code
+          }
+        }, {
+          new: true
+        },
+        callback);
     });
 };
 
@@ -671,13 +665,13 @@ UserController.joinTeam = function (id, code, callback) {
         _id: id,
         verified: true
       }, {
-        $set: {
-          teamCode: code
-        }
-      }, {
-        new: true
-      },
-      callback);
+          $set: {
+            teamCode: code
+          }
+        }, {
+          new: true
+        },
+        callback);
     });
 };
 
@@ -690,13 +684,13 @@ UserController.leaveTeam = function (id, callback) {
   User.findOneAndUpdate({
     _id: id
   }, {
-    $set: {
-      teamCode: null
-    }
-  }, {
-    new: true
-  },
-  callback);
+      $set: {
+        teamCode: null
+      }
+    }, {
+      new: true
+    },
+    callback);
 };
 
 /**
@@ -782,19 +776,19 @@ UserController.resetPassword = function (token, password, callback) {
       .findOneAndUpdate({
         _id: id
       }, {
-        $set: {
-          password: User.generateHash(password)
-        }
-      }, (err, user) => {
-        if (err || !user) {
-          return callback(err);
-        }
+          $set: {
+            password: User.generateHash(password)
+          }
+        }, (err, user) => {
+          if (err || !user) {
+            return callback(err);
+          }
 
-        Mailer.sendPasswordChangedEmail(user.email);
-        return callback(null, {
-          message: 'Password successfully reset!'
+          Mailer.sendPasswordChangedEmail(user.email);
+          return callback(null, {
+            message: 'Password successfully reset!'
+          });
         });
-      });
   });
 };
 
@@ -815,16 +809,16 @@ UserController.admitUser = function (id, user, callback) {
         'status.completedProfile': true,
         verified: true
       }, {
-        $set: {
-          'status.admitted': true,
-          'status.admittedBy': user.email,
-          'status.admittedOn': Date.now(),
-          'status.confirmBy': times.timeConfirm
-        }
-      }, {
-        new: true
-      },
-      callback);
+          $set: {
+            'status.admitted': true,
+            'status.admittedBy': user.email,
+            'status.admittedOn': Date.now(),
+            'status.confirmBy': times.timeConfirm
+          }
+        }, {
+          new: true
+        },
+        callback);
   });
 };
 
@@ -861,13 +855,13 @@ UserController.setNFC = function (id, code, callback) {
     _id: id,
     verified: true
   }, {
-    $push: {
-      NFC_codes: code
-    }
-  }, {
-    new: true
-  },
-  callback);
+      $push: {
+        NFC_codes: code
+      }
+    }, {
+      new: true
+    },
+    callback);
 };
 
 module.exports = UserController;
