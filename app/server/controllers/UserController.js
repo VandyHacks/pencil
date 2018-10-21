@@ -12,6 +12,20 @@ const maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
 const minPasswordLength = 6;
 const maxPasswordLength = 60;
 
+function checkValidRegistrationTime(times, callback) {
+  const now = Date.now();
+  if (now < times.timeOpen) {
+    return callback({
+      message: 'Registration opens in ' + moment(times.timeOpen).fromNow() + '!'
+    });
+  }
+  if (now > times.timeClose) {
+    return callback({
+      message: 'Sorry, registration is closed.'
+    });
+  }
+}
+
 /**
  * Determine whether or not a user can register.
  * @param  {String}   email    Email of the user
@@ -30,20 +44,7 @@ function canRegister(email, password, callback) {
     if (err) {
       callback(err);
     }
-
-    const now = Date.now();
-
-    if (now < times.timeOpen) {
-      return callback({
-        message: 'Registration opens in ' + moment(times.timeOpen).fromNow() + '!'
-      });
-    }
-
-    if (now > times.timeClose) {
-      return callback({
-        message: 'Sorry, registration is closed.'
-      });
-    }
+    checkValidRegistrationTime(times, callback);
 
     // Check for emails.
     Settings.getWhitelistedEmails((err, emails) => {
@@ -88,7 +89,7 @@ UserController.loginWithPassword = function (email, password, callback) {
     });
   }
 
-  if (!validator.isEmail(email)) {
+  if (!email || typeof email !== 'string' || !validator.isEmail(email)) {
     return callback({
       message: 'Invalid email'
     });
@@ -155,30 +156,29 @@ UserController.createUser = function (email, password, callback) {
           return callback({
             message: 'An account for this email already exists.'
           });
-        } else {
-          // Make a new user
-          const u = new User();
-          u.email = email;
-          u.password = User.generateHash(password);
-          u.save((err) => {
-            if (err) {
-              return callback(err);
-            }
-
-            // yay! success.
-            const token = u.generateAuthToken();
-
-            // Send over a verification email
-            const verificationToken = u.generateEmailVerificationToken();
-            Mailer.sendVerificationEmail(email, verificationToken);
-
-            return callback(null,
-              {
-                token: token,
-                user: u
-              });
-          });
         }
+        // Make a new user
+        const u = new User();
+        u.email = email;
+        u.password = User.generateHash(password);
+        u.save((err) => {
+          if (err) {
+            return callback(err);
+          }
+
+          // yay! success.
+          const token = u.generateAuthToken();
+
+          // Send over a verification email
+          const verificationToken = u.generateEmailVerificationToken();
+          Mailer.sendVerificationEmail(email, verificationToken);
+
+          return callback(null,
+            {
+              token: token,
+              user: u
+            });
+        });
       });
   });
 };
@@ -303,6 +303,17 @@ UserController.admitAll = function (searchText, callback) {
       if (err || !users) {
         return callback(err);
       }
+      users.forEach(u => {
+        // don't accept already accepted users
+        if (!u.status.completedProfile || u.status.admitted) {
+          return;
+        }
+        UserController.admitUser(u._id, u, (err, data) => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
       User.count(query).exec((err, count) => {
         if (err) {
           return callback(err);
@@ -344,20 +355,7 @@ UserController.updateProfileById = function (id, profile, callback) {
       if (err) {
         callback(err);
       }
-
-      const now = Date.now();
-
-      if (now < times.timeOpen) {
-        return callback({
-          message: 'Registration opens in ' + moment(times.timeOpen).fromNow() + '!'
-        });
-      }
-
-      if (now > times.timeClose) {
-        return callback({
-          message: 'Sorry, registration is closed.'
-        });
-      }
+      checkValidRegistrationTime(times, callback);
     });
 
     // kinda hacky
@@ -401,20 +399,7 @@ UserController.updateLastResumeNameById = function (id, newResumeName, callback)
     if (err) {
       callback(err);
     }
-
-    const now = Date.now();
-
-    if (now < times.timeOpen) {
-      return callback({
-        message: 'Registration opens in ' + moment(times.timeOpen).fromNow() + '!'
-      });
-    }
-
-    if (now > times.timeClose) {
-      return callback({
-        message: 'Sorry, registration is closed.'
-      });
-    }
+    checkValidRegistrationTime(times, callback);
   });
 
   console.log(`Updating lastResumeName of ${id} to ${newResumeName}`);

@@ -17,7 +17,10 @@ angular.module('app')
 
       _setupForm();
 
-      $scope.fileName = user._id + '_' + user.profile.name.split(' ').join('_');
+      const name = user.profile && user.profile.name ? user.profile.name : '';
+      $scope.fileName = user._id + '_' + name.split(' ').join('_');
+
+      $scope.waiverLinkClicked = false;
 
       // -------------------------------
       // All this just for dietary restriction checkboxes fml
@@ -26,9 +29,7 @@ angular.module('app')
         'Vegetarian': false,
         'Vegan': false,
         'Halal': false,
-        'Kosher': false,
-        'Gluten-free': false,
-        'Nut Allergy': false
+        'Gluten-free': false
       };
 
       if (user.confirmation.dietaryRestrictions) {
@@ -54,25 +55,73 @@ angular.module('app')
         });
         confirmation.dietaryRestrictions = drs;
 
+        function normalizePhoneNumber(phoneNumberString) {
+          const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+          const match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+          if (match) {
+            const intlCode = (match[1] ? '+1 ' : '');
+            return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+          }
+          return null;
+        }
+        const normalizedNum = normalizePhoneNumber($('#phonenum')[0].value.trim());
+        // quick valid phonenum check: correct # of digits, contains no letters
+        if (!normalizedNum) {
+          sweetAlert('Uh oh!', 'Please enter a valid phone number.', 'error');
+          return;
+        }
+        console.log(normalizedNum);
+
+        // make sure they even clicked the link the first time they confirm (reduces Redcap API requests)
+        /*
+        // Clicks sometimes don't register on mobile
+        // https://stackoverflow.com/questions/28987034/button-not-working-on-mobile-devices-but-works-on-pc-bootstrap
+        if (!$scope.waiverLinkClicked && !user.status.confirmed) {
+          sweetAlert('Uh oh!', 'Please sign the waiver form!', 'error');
+          return;
+        }
+        */
+
+        // make sure they actually signed the waiver form using Redcap API (proxy through server)
+
         UserService
-          .updateConfirmation(user._id, confirmation)
+          .checkSignedWaiver()
           .success((data) => {
-            sweetAlert({
-              title: 'Woo!',
-              text: "You're confirmed!",
-              type: 'success',
-              confirmButtonColor: '#e76482'
-            }, () => {
-              $state.go('app.dashboard');
-            });
+            // if signed form, proceed
+            UserService
+              .updateConfirmation(user._id, confirmation)
+              .success((data) => {
+                sweetAlert({
+                  title: 'Woo!',
+                  text: "You're confirmed!",
+                  type: 'success',
+                  confirmButtonColor: '#e76482'
+                }, () => {
+                  $state.go('app.dashboard');
+                });
+              })
+              .error((res) => {
+                sweetAlert('Uh oh!', 'Something went wrong during confirmation.', 'error');
+              });
           })
           .error((res) => {
-            sweetAlert('Uh oh!', 'Something went wrong.', 'error');
+            // if didn't sign form or filled out wrongly
+            sweetAlert('Uh oh!', 'Please sign the waiver form completely and use your school email.', 'error');
           });
       }
 
       function _setupForm() {
+        $('#waiverlink').click(() => {
+          $scope.waiverLinkClicked = true;
+          console.log('clicked');
+          return true; // act normal
+        });
+
+        // default sms permission
+        $scope.user.confirmation.smsPermission = true;
+
         // Semantic-UI form validation
+        // @ts-ignore
         $('.ui.form').form({
           fields: {
             phone: {
@@ -83,6 +132,10 @@ angular.module('app')
                   prompt: 'Please enter a phone number.'
                 }
               ]
+            },
+            smsPermission: {
+              identifier: 'smsPermission',
+              rules: []
             },
             shirt: {
               identifier: 'shirt',
@@ -133,14 +186,28 @@ angular.module('app')
                 }
               ]
             },
+            waiversigned: {
+              identifier: 'waiversigned',
+              rules: [
+                {
+                  type: 'checked',
+                  prompt: 'Please confirm that you have signed the waiver form.'
+                }
+              ]
+            },
+            lightningTalker: {
+              identifier: 'lightningTalker',
+              optional: true,
+              rules: []
+            },
             notes: {
               identifier: 'notes',
               optional: true,
               rules: [
                 {
                   type: 'maxLength',
-                  value: 2500,
-                  prompt: 'Your additional notes cannot be longer than 2500 characters.'
+                  value: 500,
+                  prompt: 'Your additional notes cannot be longer than 500 characters.'
                 }
               ]
             }

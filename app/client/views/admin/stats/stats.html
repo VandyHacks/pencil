@@ -72,16 +72,6 @@
           </div>
         </div>
 
-        <div class="item">
-          <i class="green flag icon"></i>
-          <div class="content">
-            <strong>
-              Checked In
-            </strong> :
-            {{stats.checkedIn}}
-          </div>
-        </div>
-
         <div class="ui divider"></div>
 
         <div class="item">
@@ -89,13 +79,13 @@
           <div class="content">
             <strong>
               Unisex shirt sizes:
-            </strong> :
-            XS ({{stats.shirtSizes['XS']}})
-            S ({{stats.shirtSizes['S']}})
-            M ({{stats.shirtSizes['M']}})
-            L ({{stats.shirtSizes['L']}})
-            XL ({{stats.shirtSizes['XL']}})
-            XXL ({{stats.shirtSizes['XXL']}})
+            </strong>
+            XS ({{stats.shirtSizes['XS']}})&emsp;
+            S ({{stats.shirtSizes['S']}})&emsp;
+            M ({{stats.shirtSizes['M']}})&emsp;
+            L ({{stats.shirtSizes['L']}})&emsp;
+            XL ({{stats.shirtSizes['XL']}})&emsp;
+            XXL ({{stats.shirtSizes['XXL']}})&emsp;
           </div>
         </div>
 
@@ -104,15 +94,35 @@
           <div class="content">
             <strong>
               Women's shirt sizes:
-            </strong> :
-            XS ({{stats.shirtSizes['WXS']}})
-            S ({{stats.shirtSizes['WS']}})
-            M ({{stats.shirtSizes['WM']}})
-            L ({{stats.shirtSizes['WL']}})
-            XL ({{stats.shirtSizes['WXL']}})
-            XXL ({{stats.shirtSizes['WXXL']}})
+            </strong>
+            XS ({{stats.shirtSizes['WXS']}})&emsp;
+            S ({{stats.shirtSizes['WS']}})&emsp;
+            M ({{stats.shirtSizes['WM']}})&emsp;
+            L ({{stats.shirtSizes['WL']}})&emsp;
+            XL ({{stats.shirtSizes['WXL']}})&emsp;
+            XXL ({{stats.shirtSizes['WXXL']}})&emsp;
           </div>
         </div>
+
+        <div class="ui divider"></div>
+          <div class="item">
+            <i class="phone icon"></i>
+            <div class="content">
+              <strong>
+                SMS permission:
+              </strong>{{stats.smsPermission}}
+            </div>
+          </div>
+          
+        <div class="ui divider"></div>
+          <div class="item">
+            <i class="lightning icon"></i>
+            <div class="content">
+              <strong>
+                Lightning talk volunteers:
+              </strong>{{stats.lightningTalks}}
+            </div>
+          </div>
 
         <div class="ui divider"></div>
 
@@ -266,7 +276,7 @@
     <div class="ui list">
       <div class="item" ng-repeat="school in stats.demo.topSchools | orderBy: '-count'">
         <div>
-          <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.submitted * 100 | number: 1}}%)
+          <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.submitted * 100 | number: 1}}%)&emsp;
           <div class="ui purple mini label">
             Submitted: {{school.stats.submitted}}
           </div>

@@ -4,7 +4,7 @@
     <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#222a53">
+    <meta name="theme-color" content="#07889b">
     <title>VandyHacks V</title>
 
     <script src="plugins/jquery/dist/jquery.min.js"></script>
@@ -18,10 +18,17 @@
     <script src="plugins/raven-js/dist/raven.min.js"></script>
     <script src="plugins/raven-js/dist/plugins/angular.min.js"></script>
     <script>
-      Raven
-        .config('https://a987cc875bda41b6a6fceb76eda529a1@sentry.io/201945')
-        .addPlugin(Raven.Plugins.Angular)
-        .install();
+        Raven
+          .config('https://a987cc875bda41b6a6fceb76eda529a1@sentry.io/201945', {
+            shouldSendCallback: function () {
+              // only enable Sentry logging in Prod.
+              const report = window.location.hostname.endsWith('vandyhacks.org');
+              return report;
+            }
+          })
+          .addPlugin(Raven.Plugins.Angular)
+          .install();
+        console.log(`Sentry is ${Raven.isSetup() ? '' : 'not'} enabled.`);
     </script>
 
     <!-- Angular app -->
@@ -58,25 +65,6 @@
       ga('send', 'pageview');
 
     </script>
-
-    <!-- Facebook Conversion Code for Registrations -->
-    <!--     
-    <script>(function() {
-    var _fbq = window._fbq || (window._fbq = []);
-    if (!_fbq.loaded) {
-    var fbds = document.createElement('script');
-    fbds.async = true;
-    fbds.src = '//connect.facebook.net/en_US/fbds.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fbds, s);
-    _fbq.loaded = true;
-    }
-    })();
-    window._fbq = window._fbq || [];
-    window._fbq.push(['track', '6027741035004', {'value':'0.01','currency':'USD'}]);
-    </script>
-    <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6027741035004&amp;cd[value]=0.01&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
-    -->
 
   </head>
   <body>

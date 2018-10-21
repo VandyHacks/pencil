@@ -11,7 +11,9 @@ angular.module('app')
 
       $scope.EVENT_INFO = EVENT_INFO;
 
-      $scope.pastConfirmation = Utils.isAfter(user.status.confirmBy);
+      if (user && user.status) {
+        $scope.pastConfirmation = Utils.isAfter(user.status.confirmBy);
+      }
 
       $scope.logout = function () {
         AuthService.logout();
