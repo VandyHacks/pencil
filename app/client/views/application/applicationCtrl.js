@@ -83,6 +83,9 @@ angular.module('app')
       });
       $scope.mentorShifts = mentorShifts;
 
+      $scope.mentor_essay1 = $scope.user.profile.mentor_application.essay1;
+      $scope.mentor_essay2 = $scope.user.profile.mentor_application.essay2;
+
       function _updateUser(e) {
         // Get the ethnicities as an array
         const convToArray = (checkboxList) => {
@@ -101,8 +104,8 @@ angular.module('app')
 
         $scope.user.profile.ethnicities = convToArray($scope.ethnicities);
         $scope.user.profile.mentor_application = {
-          mentorSubjects: convToArray($scope.mentor_mentorSubjects),
-          mentorShifts: convToArray($scope.mentor_mentorShifts),
+          mentorSubjects: convToArray($scope.mentorSubjects),
+          mentorShifts: convToArray($scope.mentorShifts),
           essay1: $scope.mentor_essay1,
           essay2: $scope.mentor_essay2
         };
@@ -391,7 +394,7 @@ angular.module('app')
               identifier: 'mentor_essay2',
               rules: []
             },
-            mentor_mentorSubjects: {
+            mentorSubjects: {
               identifier: 'mentorSubjects',
               rules: [
                 {
@@ -400,7 +403,7 @@ angular.module('app')
                 }
               ]
             },
-            mentor_mentorShifts: {
+            mentorShifts: {
               identifier: 'mentorShifts',
               rules: [
                 {
