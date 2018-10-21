@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
   // scared of using type, bc covering or something
   eventType: {
     type: String,
-    enum: ['Meal', 'Tech Talk', 'Competition', 'Hackathon', 'Sesh'], // hackathon for the event itself
+    enum: ['CheckIn', 'Meal', 'Tech Talk', 'Fun', 'Ceremony', 'Misc.'],
     required: true,
     default: 'Sesh'
   },
