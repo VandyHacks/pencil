@@ -189,7 +189,7 @@ UserController.createUser = function (email, password, callback) {
  * @param  {Function} callback args(err, user)
  */
 UserController.createWalkinUser = function (req, callback) {
-   User
+  User
     .findOneByEmail(req.query.email)
     .exec((err, user) => {
       if (err) {
@@ -210,7 +210,7 @@ UserController.createWalkinUser = function (req, callback) {
       u.profile.graduationYear = req.query.year;
       u.profile.gender = req.query.gender;
       u.status.completedProfile = true;
-       u.save((err) => {
+      u.save((err) => {
         if (err) {
           return callback(err);
         }
