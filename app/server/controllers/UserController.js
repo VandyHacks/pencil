@@ -189,31 +189,24 @@ UserController.createUser = function (email, password, callback) {
  * @param  {Function} callback args(err, user)
  */
 UserController.createWalkinUser = function (u, callback) {
-  // Check that there isn't a user with this email already.
-  canRegister(u.email, u.password, (err, valid) => {
-    if (err || !valid) {
-      return callback(err);
-    }
-
-    User
-      .findOneByEmail(u.email)
-      .exec((err, user) => {
+  User
+    .findOneByEmail(u.email)
+    .exec((err, user) => {
+      if (err) {
+        return callback(err);
+      }
+      if (user) {
+        return callback({
+          message: 'An account for this email already exists.'
+        });
+      }
+      u.save((err) => {
         if (err) {
           return callback(err);
         }
-        if (user) {
-          return callback({
-            message: 'An account for this email already exists.'
-          });
-        }
-        u.save((err) => {
-          if (err) {
-            return callback(err);
-          }
-          return callback(null, { user: u });
-        });
+        return callback(null, { user: u });
       });
-  });
+    });
 };
 
 /**
