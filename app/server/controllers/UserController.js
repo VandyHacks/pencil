@@ -221,12 +221,12 @@ UserController.getIDfromNFC = function (nfcCode, callback) {
       return callback(err, null);
     }
     if (!data) {
-      return callback({ error: 'No users found.' }, null);
+      return callback({ message: 'No users found.' }, null);
     }
     // actually find who had that wristband last (currently)
     const users = data.filter(user => user.NFC_codes[user.NFC_codes.length - 1] === nfcCode);
     if (users.length === 0) {
-      return callback({ error: 'No users found.' }, null);
+      return callback({ message: 'No users found.' }, null);
     }
     const result = { id: users[0].id };
     return callback(err, result);
@@ -845,12 +845,13 @@ UserController.setNFC = function (id, code, callback) {
   }
 
   // check NFC band isn't already assigned to someone else before assigning
-  this.getIDfromNFC(code, (err, id) => {
+  this.getIDfromNFC(code, (err, user) => {
     if (err) {
-      return callback(err);
+      // this means no existing user w/ nfc code, so we continue, and assign code to new user, as planned
+      console.log(`Assigning new NFC code ${code} to User ${id}`);
     }
-    if (id) {
-      return callback({ message: `This NFC code has already been assigned to User #${id}`, id: id });
+    if (user) {
+      return callback({ message: `This NFC code has already been assigned to User ${user.id}`, id: id });
     }
     User.findOneAndUpdate({
       _id: id,
