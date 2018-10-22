@@ -184,6 +184,32 @@ UserController.createUser = function (email, password, callback) {
 };
 
 /**
+ * Create a new walkin user given an email and use information.
+ * @param  {Object}   u    User object.
+ * @param  {Function} callback args(err, user)
+ */
+UserController.createWalkinUser = function (u, callback) {
+  User
+    .findOneByEmail(u.email)
+    .exec((err, user) => {
+      if (err) {
+        return callback(err);
+      }
+      if (user) {
+        return callback({
+          message: 'An account for this email already exists.'
+        });
+      }
+      u.save((err) => {
+        if (err) {
+          return callback(err);
+        }
+        return callback(null, { user: u });
+      });
+    });
+};
+
+/**
  * Returns the ID of the user corresponding to an NFC code
  * @param {String} nfcCode
  * @param {Function} callback
@@ -195,12 +221,12 @@ UserController.getIDfromNFC = function (nfcCode, callback) {
       return callback(err, null);
     }
     if (!data) {
-      return callback({ error: 'No users found.' }, null);
+      return callback({ message: 'No users found.' }, null);
     }
     // actually find who had that wristband last (currently)
     const users = data.filter(user => user.NFC_codes[user.NFC_codes.length - 1] === nfcCode);
     if (users.length === 0) {
-      return callback({ error: 'No users found.' }, null);
+      return callback({ message: 'No users found.' }, null);
     }
     const result = { id: users[0].id };
     return callback(err, result);
@@ -283,7 +309,7 @@ UserController.makeQuery = function (searchText, showUnsubmitted, showAdmitted) 
     // queries.push({ 'teamCode': re });
     queries.push({ 'profile.school': re });
     queries.push({ 'profile.graduationYear': re });
-    findQuery.$and = [ { $or: queries } ];
+    findQuery.$and = [{ $or: queries }];
   }
   if (showUnsubmitted === 'false') {
     findQuery.$and.push({ 'status.completedProfile': true });
@@ -819,17 +845,27 @@ UserController.setNFC = function (id, code, callback) {
     });
   }
 
-  User.findOneAndUpdate({
-    _id: id,
-    verified: true
-  }, {
-    $push: {
-      NFC_codes: code
+  // check NFC band isn't already assigned to someone else before assigning
+  this.getIDfromNFC(code, (err, user) => {
+    if (err) {
+      // this means no existing user w/ nfc code, so we continue, and assign code to new user, as planned
+      console.log(`Assigning new NFC code ${code} to ${id}`);
     }
-  }, {
-    new: true
-  },
-  callback);
+    if (user) {
+      return callback({ message: `This NFC code has already been assigned to ${user.id}`, id: id });
+    }
+    User.findOneAndUpdate({
+      _id: id,
+      verified: true
+    }, {
+      $push: {
+        NFC_codes: code
+      }
+    }, {
+      new: true
+    },
+    callback);
+  });
 };
 
 module.exports = UserController;

@@ -63,6 +63,10 @@ const profile = {
     required: false,
     default: false
   },
+  isWalkin: {
+    type: Boolean,
+    default: false
+  },
   mentor_applied: {
     type: Boolean,
     required: false,
@@ -78,7 +82,6 @@ const profile = {
     essay1: String,
     essay2: String,
     mentorShifts: [String]
-
   },
   signatureCodeOfConduct: String
 

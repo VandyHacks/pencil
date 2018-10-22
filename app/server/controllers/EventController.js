@@ -47,7 +47,7 @@ EventController.createEvent = (name, open, eventType, callback) => {
 
 /**
  * Set user as attending the event
- * @param  {String}   id       Event id
+ * @param  {String}   event    Event id
  * @param  {String}   attendee User id
  * @param  {Function} callback args(err, event)
  */
@@ -61,24 +61,37 @@ EventController.addAttendee = function (event, attendee, callback) {
       return callback({ message: 'Not a valid ID' });
     }
 
-    Event.update({
+    // check if user is already checked into that event
+    Event.findOne({
       _id: event, open: true
-    }, {
-      $push: {
-        attendees: { attendee }
+    }, (err, event) => {
+      if (err) {
+        return callback(err);
       }
-    }, {
-      new: true
-    },
-    (err, res) => {
-      return err ? callback(err, res) : callback(null, attendee);
+      const ids = event.attendees.map(e => e.attendee.toString());
+      if (ids.indexOf(attendee) > -1) {
+        return callback({ message: 'User already checked in to this event.', id: attendee });
+      }
+      // if not already in event, add to event
+      Event.update({
+        _id: event, open: true
+      }, {
+        $push: {
+          attendees: { attendee }
+        }
+      }, {
+        new: true
+      },
+      (err, res) => {
+        return err ? callback(err, res) : callback(null, attendee);
+      });
     });
   });
 };
 
 /**
  * Set user as not attending the event
- * @param  {String}   id       Event id
+ * @param  {String}   event    Event id
  * @param  {String}   attendee User id
  * @param  {Function} callback args(err, event)
  */
@@ -161,40 +174,6 @@ EventController.getAttendeeDump = (id, callback) => {
   Event.findById(id)
     .populate('attendees.attendee')
     .exec(callback);
-};
-
-EventController.admittedToEvent = (event, user, callback) => {
-  Event.findById(event, (err, event) => {
-    if (err) {
-      return callback(err);
-    }
-
-    if (!event) {
-      return callback({ message: 'Not a valid event' });
-    }
-
-    const admitted = event.attendees.some(attendee => {
-      console.log(attendee);
-      console.log('user ' + user);
-      console.log('attendee type ' + typeof attendee.attendee);
-
-      return attendee.attendee.toString() === user;
-    });
-
-    UserController.getById(user, (err, model) => {
-      if (err) {
-        return callback(err);
-      }
-
-      if (!model) {
-        return callback({ message: 'Not a valid user' });
-      }
-
-      const modelCopy = JSON.parse(JSON.stringify(model));
-      modelCopy.admittedToEvent = admitted;
-      return callback(null, modelCopy);
-    });
-  });
 };
 
 module.exports = EventController;
