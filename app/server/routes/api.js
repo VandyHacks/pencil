@@ -418,7 +418,7 @@ module.exports = function (router) {
   });
 
   /**
-   * Associates a NFC code for a User. ADMIN ONLY
+   * Associates a NFC code for a User (pairing). ADMIN ONLY
    * {
    *   user: [String]
    * }
@@ -428,7 +428,6 @@ module.exports = function (router) {
     const id = req.params.id;
     const code = req.body.code;
 
-    // Should we record what admin set the code?
     UserController.setNFC(id, code, defaultResponse(req, res));
   });
 

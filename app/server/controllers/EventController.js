@@ -69,7 +69,7 @@ EventController.addAttendee = function (event, attendee, callback) {
       }
       const ids = event.attendees.map(e => e.attendee.toString());
       if (ids.indexOf(attendee) > -1) {
-        return callback('User already checked in to this event.');
+        return callback({ message: 'User already checked in to this event.', id: attendee });
       }
       // if not already in event, add to event
       Event.update({
