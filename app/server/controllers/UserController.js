@@ -807,7 +807,7 @@ UserController.admitUser = function (id, user, admitAsMentor, callback) {
           'status.admittedBy': user.email,
           'status.admittedOn': Date.now(),
           'status.confirmBy': times.timeConfirm,
-          'mentor_accepted': admitAsMentor
+          'profile.mentor_accepted': admitAsMentor
         }
       }, {
         new: true
