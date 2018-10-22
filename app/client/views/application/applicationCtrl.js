@@ -83,9 +83,6 @@ angular.module('app')
       });
       $scope.mentorShifts = mentorShifts;
 
-      $scope.mentor_essay1 = $scope.user.profile.mentor_application.essay1;
-      $scope.mentor_essay2 = $scope.user.profile.mentor_application.essay2;
-
       function _updateUser(e) {
         // Get the ethnicities as an array
         const convToArray = (checkboxList) => {
@@ -103,12 +100,8 @@ angular.module('app')
         };
 
         $scope.user.profile.ethnicities = convToArray($scope.ethnicities);
-        $scope.user.profile.mentor_application = {
-          mentorSubjects: convToArray($scope.mentorSubjects),
-          mentorShifts: convToArray($scope.mentorShifts),
-          essay1: $scope.mentor_essay1,
-          essay2: $scope.mentor_essay2
-        };
+        $scope.user.profile.mentor_application.mentorSubjects = convToArray($scope.mentorSubjects);
+        $scope.user.profile.mentor_application.mentorShifts = convToArray($scope.mentorShifts);
 
         // Jank way to do data binding for semantic ui dropdown
         $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
