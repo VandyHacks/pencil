@@ -844,17 +844,26 @@ UserController.setNFC = function (id, code, callback) {
     });
   }
 
-  User.findOneAndUpdate({
-    _id: id,
-    verified: true
-  }, {
-    $push: {
-      NFC_codes: code
+  // check NFC band isn't already assigned to someone else before assigning
+  this.getIDfromNFC(code, (err, id) => {
+    if (err) {
+      return callback(err);
     }
-  }, {
-    new: true
-  },
-  callback);
+    if (id) {
+      return callback({ message: `This NFC code has already been assigned to User #${id}`, id: id });
+    }
+    User.findOneAndUpdate({
+      _id: id,
+      verified: true
+    }, {
+      $push: {
+        NFC_codes: code
+      }
+    }, {
+      new: true
+    },
+    callback);
+  });
 };
 
 module.exports = UserController;

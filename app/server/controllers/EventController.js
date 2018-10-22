@@ -61,6 +61,7 @@ EventController.addAttendee = function (event, attendee, callback) {
       return callback({ message: 'Not a valid ID' });
     }
 
+    // check if user is already checked into that event
     Event.findOne({
       _id: event, open: true
     }, (err, event) => {
