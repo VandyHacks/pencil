@@ -238,6 +238,15 @@
       </div>
     </div>
     <div class="ui divider"></div>
+    <h4>
+      Ethnicities:
+    </h4>
+    <div class="item" ng-repeat="e in stats.ethnicities | orderBy: '-count'">
+      <div>
+        {{e.name}}: {{e.count}} ({{e.count / stats.submitted * 100 | number: 1}}%)
+      </div>
+    </div>
+    <div class="ui divider"></div>
     <div class="ui list">
       <div class="item">
         <strong>Fresh:</strong> {{stats.demo.year['2022']}} ({{stats.demo.year['2022'] / stats.submitted * 100 | number:

@@ -58,6 +58,7 @@ function calculateStats() {
     },
 
     dietaryRestrictions: {},
+    ethnicities: {},
 
     smsPermission: 0,
     lightningTalks: 0,
@@ -184,11 +185,21 @@ function calculateStats() {
 
         // Dietary restrictions
         if (user.confirmation.dietaryRestrictions) {
-          user.confirmation.dietaryRestrictions.forEach((restriction) => {
-            if (!newStats.dietaryRestrictions[restriction]) {
-              newStats.dietaryRestrictions[restriction] = 0;
+          user.confirmation.dietaryRestrictions.forEach(e => {
+            if (!newStats.dietaryRestrictions[e]) {
+              newStats.dietaryRestrictions[e] = 0;
             }
-            newStats.dietaryRestrictions[restriction] += 1;
+            newStats.dietaryRestrictions[e] += 1;
+          });
+        }
+
+        // Ethnicities
+        if (user.profile.ethnicities) {
+          user.profile.ethnicities.forEach(e => {
+            if (!newStats.ethnicities[e]) {
+              newStats.ethnicities[e] = 0;
+            }
+            newStats.ethnicities[e] += 1;
           });
         }
 
@@ -204,6 +215,17 @@ function calculateStats() {
             });
           });
         newStats.dietaryRestrictions = restrictions;
+
+        // Transform ethnicities into series of objects
+        const ethnicities = [];
+        Object.keys(newStats.ethnicities)
+          .forEach((key) => {
+            ethnicities.push({
+              name: key,
+              count: newStats.ethnicities[key]
+            });
+          });
+        newStats.ethnicities = ethnicities;
 
         // Transform schools into an array of objects
         const schools = [];
