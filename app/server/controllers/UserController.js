@@ -848,10 +848,10 @@ UserController.setNFC = function (id, code, callback) {
   this.getIDfromNFC(code, (err, user) => {
     if (err) {
       // this means no existing user w/ nfc code, so we continue, and assign code to new user, as planned
-      console.log(`Assigning new NFC code ${code} to User ${id}`);
+      console.log(`Assigning new NFC code ${code} to ${id}`);
     }
     if (user) {
-      return callback({ message: `This NFC code has already been assigned to User ${user.id}`, id: id });
+      return callback({ message: `This NFC code has already been assigned to ${user.id}`, id: id });
     }
     User.findOneAndUpdate({
       _id: id,

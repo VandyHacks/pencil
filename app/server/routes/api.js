@@ -359,8 +359,8 @@ module.exports = function (router) {
   /**
    * Create a walkin user and updates user's profile.
    */
-  router.post('/walkin/profile', (req, res) => {
-    console.log('POST received');
+  router.post('/walkin/profile', isValidSecret, (req, res) => {
+    console.log('Creating new walk-in user.');
 
     // create a new user and updates its fields
     const u = new User();
@@ -379,9 +379,6 @@ module.exports = function (router) {
 
   /**
    * Update a teamcode. Join a team here.
-   * {
-   *   code: STRING
-   * }
    */
   router.put('/users/:id/team', isOwnerOrAdmin, (req, res) => {
     const code = req.body.code;
@@ -401,8 +398,6 @@ module.exports = function (router) {
 
   /**
    * Admit a user. ADMIN ONLY
-   *
-   * Also attaches the user who did the admitting, for liabaility.
    */
   router.post('/users/:id/admit', isAdmin, (req, res) => {
     // Accept the hacker. Admin only
@@ -411,6 +406,7 @@ module.exports = function (router) {
     UserController.admitUser(id, user, defaultResponse(req, res));
   });
 
+  // admits all users fitting query
   router.post('/users/admitall', isAdmin, (req, res) => {
     const query = req.body.querytext;
     console.log('Admitting all users, query= ' + query);
@@ -419,9 +415,6 @@ module.exports = function (router) {
 
   /**
    * Associates a NFC code for a User (pairing). ADMIN ONLY
-   * {
-   *   user: [String]
-   * }
    */
   router.options('/users/:id/NFC', cors(corsOpts)); // for CORS preflight
   router.put('/users/:id/NFC', cors(corsOpts), isValidSecret, (req, res) => {
@@ -451,9 +444,6 @@ module.exports = function (router) {
 
   /**
    * Update the acceptance text.
-   * body: {
-   *   text: String
-   * }
    */
   router.put('/settings/waitlist', isAdmin, (req, res) => {
     const text = req.body.text;
@@ -462,9 +452,6 @@ module.exports = function (router) {
 
   /**
    * Update the acceptance text.
-   * body: {
-   *   text: String
-   * }
    */
   router.put('/settings/acceptance', isAdmin, (req, res) => {
     const text = req.body.text;
@@ -473,9 +460,6 @@ module.exports = function (router) {
 
   /**
    * Update the confirmation text.
-   * body: {
-   *   text: String
-   * }
    */
   router.put('/settings/confirmation', isAdmin, (req, res) => {
     const text = req.body.text;
