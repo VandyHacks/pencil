@@ -619,15 +619,6 @@ module.exports = function (router) {
   });
 
   /**
-   * Check whether a given user is admitted an event
-   */
-  router.options('/events/:eventid/admitted/:attendeeid', cors(corsOpts)); // for CORS preflight
-  router.get('/events/:eventid/admitted/:attendeeid', cors(corsOpts), isValidSecret, (req, res) => {
-    const { eventid, attendeeid } = req.params;
-    doEventAction(eventid, attendeeid, req.query.type, EventController.admittedToEvent, defaultResponse(req, res));
-  });
-
-  /**
    * Change open status of event
    */
   router.put('/events/:eventid/open', isAdmin, (req, res) => {

@@ -175,38 +175,4 @@ EventController.getAttendeeDump = (id, callback) => {
     .exec(callback);
 };
 
-EventController.admittedToEvent = (event, user, callback) => {
-  Event.findById(event, (err, event) => {
-    if (err) {
-      return callback(err);
-    }
-
-    if (!event) {
-      return callback({ message: 'Not a valid event' });
-    }
-
-    const admitted = event.attendees.some(attendee => {
-      console.log(attendee);
-      console.log('user ' + user);
-      console.log('attendee type ' + typeof attendee.attendee);
-
-      return attendee.attendee.toString() === user;
-    });
-
-    UserController.getById(user, (err, model) => {
-      if (err) {
-        return callback(err);
-      }
-
-      if (!model) {
-        return callback({ message: 'Not a valid user' });
-      }
-
-      const modelCopy = JSON.parse(JSON.stringify(model));
-      modelCopy.admittedToEvent = admitted;
-      return callback(null, modelCopy);
-    });
-  });
-};
-
 module.exports = EventController;
