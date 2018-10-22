@@ -47,7 +47,7 @@ EventController.createEvent = (name, open, eventType, callback) => {
 
 /**
  * Set user as attending the event
- * @param  {String}   id       Event id
+ * @param  {String}   event    Event id
  * @param  {String}   attendee User id
  * @param  {Function} callback args(err, event)
  */
@@ -61,24 +61,36 @@ EventController.addAttendee = function (event, attendee, callback) {
       return callback({ message: 'Not a valid ID' });
     }
 
-    Event.update({
+    Event.findOne({
       _id: event, open: true
-    }, {
-      $push: {
-        attendees: { attendee }
+    }, (err, event) => {
+      if (err) {
+        return callback(err);
       }
-    }, {
-      new: true
-    },
-    (err, res) => {
-      return err ? callback(err, res) : callback(null, attendee);
+      const ids = event.attendees.map(e => e.attendee.toString());
+      if (ids.indexOf(attendee) > -1) {
+        return callback('User already checked in to this event.');
+      }
+      // if not already in event, add to event
+      Event.update({
+        _id: event, open: true
+      }, {
+        $push: {
+          attendees: { attendee }
+        }
+      }, {
+        new: true
+      },
+      (err, res) => {
+        return err ? callback(err, res) : callback(null, attendee);
+      });
     });
   });
 };
 
 /**
  * Set user as not attending the event
- * @param  {String}   id       Event id
+ * @param  {String}   event    Event id
  * @param  {String}   attendee User id
  * @param  {Function} callback args(err, event)
  */
