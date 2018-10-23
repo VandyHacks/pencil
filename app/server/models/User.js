@@ -78,10 +78,22 @@ const profile = {
     default: false
   },
   mentor_application: {
-    mentorSubjects: [String],
-    essay1: String,
-    essay2: String,
-    mentorShifts: [String]
+    mentorSubjects: {
+      type: [String],
+      default: []
+    },
+    essay1: {
+      type: String,
+      default: []
+    },
+    essay2: {
+      type: String,
+      default: []
+    },
+    mentorShifts: {
+      type: [String],
+      default: []
+    }
   },
   signatureCodeOfConduct: String
 
