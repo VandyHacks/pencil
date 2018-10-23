@@ -84,11 +84,11 @@ const profile = {
     },
     essay1: {
       type: String,
-      default: []
+      default: ''
     },
     essay2: {
       type: String,
-      default: []
+      default: ''
     },
     mentorShifts: {
       type: [String],
