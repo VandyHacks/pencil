@@ -206,6 +206,7 @@ angular.module('app')
         });
         updateDropzoneText(defaultMsg);
 
+        // 10/22/18 - these rules don't actually work lol
         // custom form validation rule
         $.fn.form.settings.rules.ethnicityChecked = value => Object.values($scope.ethnicities).some(e => {
           return e === true; // At least one must be checked
