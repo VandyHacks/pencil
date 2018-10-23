@@ -68,6 +68,9 @@ function calculateStats() {
     volunteerAdmitted: 0,
     volunteerConfirmed: 0,
 
+    mentorSubmitted: 0,
+    mentorAdmitted: 0,
+
     reimbursementTotal: 0,
     reimbursementMissing: 0,
 
@@ -182,6 +185,9 @@ function calculateStats() {
           newStats.volunteerAdmitted += user.status.admitted ? 1 : 0;
           newStats.volunteerConfirmed += isConfirmed ? 1 : 0;
         }
+
+        if (user.profile.mentor_applied) { newStats.mentorSubmitted += 1; }
+        if (user.profile.mentor_accepted) { newStats.mentorAdmitted += 1; }
 
         // Dietary restrictions
         if (user.confirmation.dietaryRestrictions) {

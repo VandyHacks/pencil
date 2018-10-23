@@ -67,6 +67,22 @@ const profile = {
     type: Boolean,
     default: false
   },
+  mentor_applied: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  mentor_accepted: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  mentor_application: {
+    mentorSubjects: [String],
+    essay1: String,
+    essay2: String,
+    mentorShifts: [String]
+  },
   signatureCodeOfConduct: String
 
 };

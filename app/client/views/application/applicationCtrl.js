@@ -31,11 +31,11 @@ angular.module('app')
       populateSchools();
       _setupForm();
 
+      const profile = $scope.user.profile;
+
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
-      // -------------------------------
-      // All this just for ethnicity checkboxes fml
-
+      // populate ethnicities w/ saved data
       const ethnicities = {
         'Asian or Asian-American': false,
         'Black, Afro-Caribbean, or African-American': false,
@@ -47,26 +47,61 @@ angular.module('app')
         'None of the above': false,
         'Prefer not to disclose': false
       };
-
-      if ($scope.user.profile.ethnicities) {
-        $scope.user.profile.ethnicities.forEach((ethnicity) => {
-          if (ethnicity in ethnicities) {
-            ethnicities[ethnicity] = true;
-          }
-        });
-      }
-
+      (profile.ethnicities || []).forEach((e) => {
+        ethnicities[e] = (e in ethnicities);
+      });
       $scope.ethnicities = ethnicities;
+
+      // populate mentor subjects w/ saved data
+      const mentorSubjects = {
+        'Git/Github': false,
+        'Node': false,
+        'Java': false,
+        'Python': false,
+        'Unity/VR': false,
+        'Android': false,
+        'iOS': false,
+        'APIs': false,
+        'Front end development': false
+      };
+      (profile.mentor_application.mentorSubjects || []).forEach((e) => {
+        mentorSubjects[e] = (e in mentorSubjects);
+      });
+      $scope.mentorSubjects = mentorSubjects;
+
+      // populate mentor shifts w/ saved data
+      const mentorShifts = {
+        'Friday night': false,
+        'Saturday morning': false,
+        'Saturday afternoon': false,
+        'Saturday evening': false,
+        'Saturday night': false,
+        'Sunday morning': false
+      };
+      (profile.mentor_application.mentorShifts || []).forEach((e) => {
+        mentorShifts[e] = (e in mentorShifts);
+      });
+      $scope.mentorShifts = mentorShifts;
 
       function _updateUser(e) {
         // Get the ethnicities as an array
-        const ethnicities = [];
-        Object.keys($scope.ethnicities).forEach((key) => {
-          if ($scope.ethnicities[key]) {
-            ethnicities.push(key);
+        const convToArray = (checkboxList) => {
+          // should never have undefined input anyways
+          if (!checkboxList) {
+            return [];
           }
-        });
-        $scope.user.profile.ethnicities = ethnicities;
+          const arr = [];
+          Object.keys(checkboxList).forEach((key) => {
+            if (checkboxList[key]) {
+              arr.push(key);
+            }
+          });
+          return arr;
+        };
+
+        $scope.user.profile.ethnicities = convToArray($scope.ethnicities);
+        $scope.user.profile.mentor_application.mentorSubjects = convToArray($scope.mentorSubjects);
+        $scope.user.profile.mentor_application.mentorShifts = convToArray($scope.mentorShifts);
 
         // Jank way to do data binding for semantic ui dropdown
         $scope.user.profile.majors = $('#majorsDropdown').dropdown('get value');
@@ -171,9 +206,16 @@ angular.module('app')
         });
         updateDropzoneText(defaultMsg);
 
+        // 10/22/18 - these rules don't actually work lol
         // custom form validation rule
-        $.fn.form.settings.rules.ethnicityChecked = value => Object.values($scope.ethnicities).some(ethnicity => {
-          return ethnicity === true; // At least one must be checked
+        $.fn.form.settings.rules.ethnicityChecked = value => Object.values($scope.ethnicities).some(e => {
+          return e === true; // At least one must be checked
+        });
+        $.fn.form.settings.rules.mentorSubjectsChecked = value => Object.values($scope.mentorSubjects).some(e => {
+          return e === true; // At least one must be checked
+        });
+        $.fn.form.settings.rules.mentorShiftsChecked = value => Object.values($scope.mentorShifts).some(e => {
+          return e === true; // At least one must be checked
         });
         // Semantic-UI form validation
         // @ts-ignore
@@ -332,10 +374,35 @@ angular.module('app')
             },
             volunteer: {
               identifier: 'volunteer',
+              rules: []
+            },
+            mentor_applied: {
+              identifier: 'mentor',
+              rules: []
+            },
+            mentor_essay1: {
+              identifier: 'mentor_essay1',
+              rules: []
+            },
+            mentor_essay2: {
+              identifier: 'mentor_essay2',
+              rules: []
+            },
+            mentorSubjects: {
+              identifier: 'mentorSubjects',
               rules: [
                 {
-                  type: 'checked',
-                  prompt: 'You have volunteered.'
+                  type: 'mentorSubjectsChecked',
+                  prompt: 'Please select at least one subject to mentor in.'
+                }
+              ]
+            },
+            mentorShifts: {
+              identifier: 'mentorShifts',
+              rules: [
+                {
+                  type: 'mentorShiftsChecked',
+                  prompt: 'Please select at least one mentor shift.'
                 }
               ]
             }
