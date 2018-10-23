@@ -64,9 +64,11 @@ angular.module('app')
         'APIs': false,
         'Front end development': false
       };
-      (profile.mentor_application.mentorSubjects || []).forEach((e) => {
-        mentorSubjects[e] = (e in mentorSubjects);
-      });
+      if (profile.mentor_application) {
+        (profile.mentor_application.mentorSubjects || []).forEach((e) => {
+          mentorSubjects[e] = (e in mentorSubjects);
+        });
+      }
       $scope.mentorSubjects = mentorSubjects;
 
       // populate mentor shifts w/ saved data
@@ -78,9 +80,11 @@ angular.module('app')
         'Saturday night': false,
         'Sunday morning': false
       };
-      (profile.mentor_application.mentorShifts || []).forEach((e) => {
-        mentorShifts[e] = (e in mentorShifts);
-      });
+      if (profile.mentor_application) {
+        (profile.mentor_application.mentorShifts || []).forEach((e) => {
+          mentorShifts[e] = (e in mentorShifts);
+        });
+      }
       $scope.mentorShifts = mentorShifts;
 
       function _updateUser(e) {
