@@ -47,11 +47,11 @@ EventController.createEvent = (name, open, eventType, callback) => {
 
 /**
  * Set user as attending the event
- * @param  {String}   event    Event id
+ * @param  {String}   EVENT_ID    Event id
  * @param  {String}   attendee User id
  * @param  {Function} callback args(err, event)
  */
-EventController.addAttendee = function (event, attendee, callback) {
+EventController.addAttendee = function (EVENT_ID, attendee, callback) {
   UserController.getById(attendee, (err, user) => {
     if (err) {
       return callback(err);
@@ -63,7 +63,7 @@ EventController.addAttendee = function (event, attendee, callback) {
 
     // check if user is already checked into that event
     Event.findOne({
-      _id: event, open: true
+      _id: EVENT_ID, open: true
     }, (err, event) => {
       if (err) {
         return callback(err);
@@ -74,7 +74,7 @@ EventController.addAttendee = function (event, attendee, callback) {
       }
       // if not already in event, add to event
       Event.update({
-        _id: event, open: true
+        _id: EVENT_ID, open: true
       }, {
         $push: {
           attendees: { attendee }
