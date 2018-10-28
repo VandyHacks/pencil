@@ -359,8 +359,8 @@ module.exports = function (router) {
   /**
    * Create a walkin user and updates user's profile.
    */
-  router.options('/walkin/profile', cors());
-  router.post('/walkin/profile', cors(), isValidSecret, (req, res) => {
+  router.options('/walkin/profile', cors(corsOpts));
+  router.post('/walkin/profile', cors(corsOpts), isValidSecret, (req, res) => {
     console.log('Creating new walk-in user.');
 
     // create a new user and updates its fields
