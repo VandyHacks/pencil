@@ -1,6 +1,5 @@
 const UserController = require('../controllers/UserController');
 const cors = require('cors');
-const corsOpts = require('./cors');
 
 module.exports = function (router) {
   // ---------------------------------------------
@@ -154,8 +153,8 @@ module.exports = function (router) {
   /**
    * Verify an apicode before checking attendees into an event
    */
-  router.options('/eventcode', cors(corsOpts));
-  router.post('/eventcode', cors(corsOpts), (req, res, next) => {
+  router.options('/eventcode', cors());
+  router.post('/eventcode', cors(), (req, res, next) => {
     const token = req.body.token;
     console.log(req.body);
     console.log('token: ' + token);
