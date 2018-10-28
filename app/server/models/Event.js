@@ -17,7 +17,7 @@ const schema = new mongoose.Schema({
     type: String,
     enum: ['CheckIn', 'Meal', 'Tech Talk', 'Fun', 'Ceremony', 'Misc.'],
     required: true,
-    default: 'Sesh'
+    default: 'Misc.'
   },
 
   attendees: [{

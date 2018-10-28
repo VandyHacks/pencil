@@ -69,8 +69,10 @@ EventController.addAttendee = function (EVENT_ID, attendee, callback) {
         return callback(err);
       }
       const ids = event.attendees.map(e => e.attendee.toString());
+      console.log(event);
       if (event.type !== 'Meal' && // prevent multiple attendance, EXCEPT for meals (so we can track who gets seconds)
         ids.indexOf(attendee) > -1) {
+        console.log('User already checked in to event.');
         return callback({ message: 'User already checked in to this event.', id: attendee });
       }
       // if not already in event, add to event
