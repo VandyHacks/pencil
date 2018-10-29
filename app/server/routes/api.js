@@ -152,8 +152,6 @@ module.exports = function (router) {
   });
 
   /**
-   * [ADMIN ONLY]
-   *
    * GET - Get all users, with condensed information
    * Used for NFC front-end site, to reduce frequent server requests
    */
@@ -171,7 +169,7 @@ module.exports = function (router) {
       }
       const statusOf = user => {
         const status = user.status;
-        let result = (status.completedProfile ? '' : 'Not ') + 'submitted.';
+        let result = (status.completedProfile ? '' : 'Not ') + 'Submitted.';
         if (status.admitted) {
           result = 'Admitted.';
         }
@@ -183,16 +181,45 @@ module.exports = function (router) {
         }
         return result;
       };
-      const usermap = (arr) => {
-        return arr.map(user => ({
+      data.users = await data.users.map(user => (
+        {
           name: user.profile.name || 'Unknown',
           school: user.profile.school || 'Unknown',
           email: user.email || 'Unknown',
           id: user.id,
           status: statusOf(user)
         }));
-      };
-      data.users = await usermap(data.users);
+      defaultResponse(req, res)(null, data);
+    };
+    // get all submitted users
+    UserController.getAll(true, addFields);
+  });
+
+  /**
+   * GET - Get all user phone numbers that are able for SMS notifs
+   * Used for NFC front-end site, to reduce frequent server requests
+   */
+  router.options('/users/phoneNums', cors(corsOpts)); // for CORS preflight
+  router.get('/users/phoneNums', cors(corsOpts), isValidSecret, (req, res) => {
+    const addFields = async function (err, data) {
+      if (err) {
+        defaultResponse(req, res)(err);
+        return;
+      }
+      data = await JSON.parse(JSON.stringify(data));
+      if (!data || !data.users) {
+        defaultResponse(req, res)({ message: 'No users found.' });
+        return;
+      }
+      const filteredUsers = await data.users.filter(
+        user => user.confirmed && // only get confirmed
+                user.confirmation.smsPermission); // only get phone numbers w/ permission
+      data.users = await filteredUsers.map(user => (
+        {
+          email: user.email || 'Unknown',
+          phoneNumber: user.confirmation.phoneNumber,
+          id: user.id
+        }));
       defaultResponse(req, res)(null, data);
     };
     // get all submitted users
