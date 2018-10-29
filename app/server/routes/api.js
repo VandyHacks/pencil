@@ -222,7 +222,7 @@ module.exports = function (router) {
         return null;
       };
       const filteredUsers = await data.users.filter(
-        user => user.confirmed && // only get confirmed
+        user => user.confirmation && // note: walkin are not confirmed but still have phone nums
                 user.confirmation.smsPermission); // only get phone numbers w/ permission
       data.users = await filteredUsers.map(user => (
         {
@@ -242,7 +242,7 @@ module.exports = function (router) {
         return defaultResponse(req, res)(err, null);
       }
       // 1. get first instance of check-in event, get all attendees
-      return EventController.getAttendees(events[0]._id, addFields);
+      return EventController.getAttendeePhoneNumbers(events[0]._id, addFields);
     });
   });
 

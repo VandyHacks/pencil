@@ -169,6 +169,17 @@ EventController.getAttendees = (id, callback) => {
 };
 
 /**
+ * Get attendees for event
+ * @param  {String}   id       Event id
+ * @param  {Function} callback args(err, users)
+ */
+EventController.getAttendeePhoneNumbers = (id, callback) => {
+  Event.findById(id)
+    .populate('attendees.attendee', 'profile.name email confirmation.smsPermission confirmation.phoneNumber')
+    .exec(callback);
+};
+
+/**
  * Get attendees for event, all data included
  * @param  {String}   id       Event id
  * @param  {Function} callback args(err, users)
