@@ -169,12 +169,27 @@ module.exports = function (router) {
         defaultResponse(req, res)({ message: 'No users found.' });
         return;
       }
+      const statusOf = user => {
+        const status = user.status;
+        let result = (status.completedProfile ? '' : 'Not ') + 'submitted.';
+        if (status.admitted) {
+          result = 'Admitted.';
+        }
+        if (status.confirmed) {
+          result = 'Confirmed.';
+        }
+        if (status.declined) {
+          result = 'Declined.';
+        }
+        return result;
+      };
       const usermap = (arr) => {
         return arr.map(user => ({
           name: user.profile.name || 'Unknown',
           school: user.profile.school || 'Unknown',
           email: user.email || 'Unknown',
-          id: user.id
+          id: user.id,
+          status: statusOf(user)
         }));
       };
       data.users = await usermap(data.users);
