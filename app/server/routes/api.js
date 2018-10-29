@@ -211,13 +211,22 @@ module.exports = function (router) {
         defaultResponse(req, res)({ message: 'No users found.' });
         return;
       }
+      const normalizePhoneNumber = phoneNumberString => {
+        const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+        const match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+          const intlCode = (match[1] ? '+1 ' : '');
+          return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+        }
+        return null;
+      };
       const filteredUsers = await data.users.filter(
         user => user.confirmed && // only get confirmed
                 user.confirmation.smsPermission); // only get phone numbers w/ permission
       data.users = await filteredUsers.map(user => (
         {
           email: user.email || 'Unknown',
-          phoneNumber: user.confirmation.phoneNumber,
+          phoneNumber: normalizePhoneNumber(user.confirmation.phoneNumber.trim()) || 'Bad format.',
           id: user.id
         }));
       defaultResponse(req, res)(null, data);
