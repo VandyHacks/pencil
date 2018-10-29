@@ -130,7 +130,7 @@ EventController.setOpen = (id, open, callback) => {
 };
 
 /**
- * Get all events' info, not attendees for lazy loading (probably unnessary)
+ * Get all events' info, not attendees for lazy loading (probably unnecessary)
  * @param  {Function} callback args(err, event)
  */
 EventController.getEvents = (callback) => {

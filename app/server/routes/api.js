@@ -201,6 +201,7 @@ module.exports = function (router) {
    */
   router.options('/users/phoneNums', cors(corsOpts)); // for CORS preflight
   router.get('/users/phoneNums', cors(corsOpts), isValidSecret, (req, res) => {
+    // callback handler
     const addFields = async function (err, data) {
       if (err) {
         defaultResponse(req, res)(err);
@@ -231,8 +232,18 @@ module.exports = function (router) {
         }));
       defaultResponse(req, res)(null, data);
     };
-    // get all submitted users
-    UserController.getAll(true, addFields);
+    // get all checked-in users
+    EventController.getEvents((err, events) => {
+      if (err) {
+        return defaultResponse(req, res)(err, null);
+      }
+      events = events.filter(e => e.type === 'CheckIn');
+      if (events.length === 0) {
+        return defaultResponse(req, res)(err, null);
+      }
+      // 1. get first instance of check-in event, get all attendees
+      return EventController.getAttendees(events[0]._id, addFields);
+    });
   });
 
   /**
