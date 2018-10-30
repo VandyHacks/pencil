@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
   eventType: {
     type: String,
     // don't rename these, other places in code depend on exact spelling
-    enum: ['CheckIn', 'Meal', 'Tech Talk', 'Fun', 'Ceremony', 'Misc.'],
+    enum: ['Bus', 'CheckIn', 'Ceremony', 'Meal', 'Tech Talk', 'Fun', 'Misc.'],
     required: true,
     default: 'Misc.'
   },
