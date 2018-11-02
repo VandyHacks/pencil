@@ -187,7 +187,8 @@ module.exports = function (router) {
           school: user.profile.school || 'Unknown',
           email: user.email || 'Unknown',
           id: user.id,
-          status: statusOf(user)
+          status: statusOf(user),
+          hasBusTicket: user.status.hasBusTicket
         }));
       defaultResponse(req, res)(null, data);
     };
