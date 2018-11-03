@@ -208,7 +208,9 @@ module.exports = function (router) {
         defaultResponse(req, res)(err);
         return;
       }
-      data = await JSON.parse(JSON.stringify(data));
+      // data = await JSON.parse(JSON.stringify(data));
+      console.log(data);
+      data.users = data.attendees;
       if (!data || !data.users) {
         defaultResponse(req, res)({ message: 'No users found.' });
         return;
