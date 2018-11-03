@@ -238,7 +238,7 @@ module.exports = function (router) {
       if (err) {
         return defaultResponse(req, res)(err, null);
       }
-      events = events.filter(e => e.type === 'CheckIn');
+      events = events.filter(e => e.eventType === 'CheckIn');
       if (events.length === 0) {
         return defaultResponse(req, res)(err, null);
       }
